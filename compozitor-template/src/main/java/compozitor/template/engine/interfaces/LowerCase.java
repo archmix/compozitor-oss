@@ -1,0 +1,15 @@
+package compozitor.template.engine.interfaces;
+
+import compozitor.template.directive.interfaces.ValueDirective;
+
+class LowerCase extends ValueDirective {
+	@Override
+	public String getName() {
+		return "lowercase";
+	}
+
+	@Override
+	public String toString(Object value) {
+		return value.toString().toLowerCase();
+	}
+}

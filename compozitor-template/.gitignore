@@ -1,0 +1,14 @@
+dependency-reduced-pom.xml
+
+.project
+.classpath
+.factorypath
+.editorConfig
+.settings/
+.idea
+
+.apt_generated/
+.apt_generated_tests/
+
+.vertx/
+target/

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>tech.mrbraz</groupId>
+	<artifactId>compozitor-oss</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>compozitor-template</module>
+		<module>compozitor-generator</module>
+	</modules>
+
+	<properties>
+		<javaVersion>1.8</javaVersion>
+		<velocityVersion>1.7</velocityVersion>
+		<lombokVersion>1.18.6</lombokVersion>
+		<junitVersion>4.11</junitVersion>
+		<mockitoVersion>1.10.8</mockitoVersion>
+
+		<maven.surefire.report.pluginVersion>2.18.1</maven.surefire.report.pluginVersion>
+		<maven.failsafe.pluginVersion>2.18.1</maven.failsafe.pluginVersion>
+		<maven.javadoc.pluginVersion>2.10.1</maven.javadoc.pluginVersion>
+		<maven.surefire.pluginVersion>2.18.1</maven.surefire.pluginVersion>
+		<maven.compiler.pluginVersion>3.2</maven.compiler.pluginVersion>
+		<maven.resources.pluginVersion>2.7</maven.resources.pluginVersion>
+		<maven.dependency.pluginVersion>2.10</maven.dependency.pluginVersion>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombokVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>${velocityVersion}</version>
+			</dependency>
+
+			<!-- TEST -->
+			<dependency>
+				<groupId>io.vertx</groupId>
+				<artifactId>vertx-unit</artifactId>
+				<version>${vertxVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockitoVersion}</version>
+				1
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junitVersion}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.pluginVersion}</version>
+					<configuration>
+						<source>${javaVersion}</source>
+						<target>${javaVersion}</target>
+						<compilerArgs>
+							<arg>-Acodetrans.output=${project.basedir}/src/main</arg>
+						</compilerArgs>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven.resources.pluginVersion}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven.dependency.pluginVersion}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.pluginVersion}</version>
+					<configuration>
+						<includes>
+							<include>**/*Test*.java</include>
+						</includes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${maven.failsafe.pluginVersion}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
