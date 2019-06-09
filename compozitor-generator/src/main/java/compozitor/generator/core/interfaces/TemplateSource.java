@@ -1,14 +1,14 @@
-package compozitor.generator.engine.interfaces;
+package compozitor.generator.core.interfaces;
 
 import java.io.InputStream;
 
 import org.apache.velocity.VelocityContext;
 
-import compozitor.template.engine.infra.StringInputStream;
-import compozitor.template.engine.interfaces.Template;
-import compozitor.template.engine.interfaces.TemplateBuilder;
-import compozitor.template.engine.interfaces.VelocityContextBuilder;
-import compozitor.template.engine.interfaces.TemplateBuilder.TemplateProxy;
+import compozitor.template.core.infra.StringInputStream;
+import compozitor.template.core.interfaces.Template;
+import compozitor.template.core.interfaces.TemplateBuilder;
+import compozitor.template.core.interfaces.VelocityContextBuilder;
+import compozitor.template.core.interfaces.TemplateBuilder.TemplateProxy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

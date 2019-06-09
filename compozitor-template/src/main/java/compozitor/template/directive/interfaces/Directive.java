@@ -16,9 +16,9 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 
-import compozitor.template.engine.interfaces.TemplateBuilder;
-import compozitor.template.engine.interfaces.TemplateEngineBuilder;
-import compozitor.template.engine.interfaces.TemplateBuilder.TemplateProxy;
+import compozitor.template.core.interfaces.TemplateBuilder;
+import compozitor.template.core.interfaces.TemplateEngineBuilder;
+import compozitor.template.core.interfaces.TemplateBuilder.TemplateProxy;
 
 public abstract class Directive extends org.apache.velocity.runtime.directive.Directive {
 	public static final String DIRECTIVE_FILE_EXTENSION = ".cdf";

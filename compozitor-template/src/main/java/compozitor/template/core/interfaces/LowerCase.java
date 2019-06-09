@@ -1,15 +1,15 @@
-package compozitor.template.engine.interfaces;
+package compozitor.template.core.interfaces;
 
 import compozitor.template.directive.interfaces.ValueDirective;
 
-class TrimAll extends ValueDirective {
+class LowerCase extends ValueDirective {
 	@Override
 	public String getName() {
-		return "trimAll";
+		return "lowercase";
 	}
 
 	@Override
 	public String toString(Object value) {
-		return value.toString().replaceAll(" ", "");
+		return value.toString().toLowerCase();
 	}
 }

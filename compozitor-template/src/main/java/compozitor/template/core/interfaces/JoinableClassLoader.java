@@ -1,4 +1,4 @@
-package compozitor.template.engine.interfaces;
+package compozitor.template.core.interfaces;
 
 import java.util.HashSet;
 import java.util.Set;

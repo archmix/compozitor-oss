@@ -1,4 +1,4 @@
-package compozitor.template.engine.infra;
+package compozitor.template.core.infra;
 
 import java.io.InputStream;
 

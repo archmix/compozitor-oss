@@ -1,17 +1,17 @@
-package compozitor.template.engine.interfaces;
+package compozitor.template.core.interfaces;
 
 import org.apache.commons.lang.StringUtils;
 
 import compozitor.template.directive.interfaces.ValueDirective;
 
-class Capitalize extends ValueDirective {
+class Uncapitalize extends ValueDirective {
 	@Override
 	public String getName() {
-		return "capitalize";
+		return "uncapitalize";
 	}
 
 	@Override
 	public String toString(Object value) {
-		return StringUtils.capitalize(value.toString());
+		return StringUtils.uncapitalize(value.toString());
 	}
 }

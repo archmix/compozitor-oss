@@ -1,6 +1,6 @@
-package compozitor.template.engine.interfaces;
+package compozitor.template.core.interfaces;
 
-import compozitor.template.engine.interfaces.VelocityContextBuilder.KeyValue;
+import compozitor.template.core.interfaces.VelocityContextBuilder.KeyValue;
 import lombok.Getter;
 import lombok.Setter;
 

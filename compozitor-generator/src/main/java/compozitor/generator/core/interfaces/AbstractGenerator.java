@@ -1,14 +1,14 @@
-package compozitor.generator.engine.interfaces;
+package compozitor.generator.core.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.velocity.VelocityContext;
 
-import compozitor.template.engine.interfaces.Template;
-import compozitor.template.engine.interfaces.TemplateBuilder;
-import compozitor.template.engine.interfaces.TemplateBuilder.TemplateProxy;
-import compozitor.template.engine.interfaces.VelocityContextBuilder;
+import compozitor.template.core.interfaces.Template;
+import compozitor.template.core.interfaces.TemplateBuilder;
+import compozitor.template.core.interfaces.VelocityContextBuilder;
+import compozitor.template.core.interfaces.TemplateBuilder.TemplateProxy;
 
 public abstract class AbstractGenerator<T> {
 	

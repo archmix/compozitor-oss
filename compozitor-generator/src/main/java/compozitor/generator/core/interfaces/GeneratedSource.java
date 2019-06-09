@@ -1,4 +1,4 @@
-package compozitor.generator.engine.interfaces;
+package compozitor.generator.core.interfaces;
 
 import java.io.InputStream;
 

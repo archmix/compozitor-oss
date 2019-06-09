@@ -1,4 +1,4 @@
-package compozitor.template.engine.interfaces;
+package compozitor.template.core.interfaces;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -14,7 +14,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 
-import compozitor.template.engine.infra.StringInputStream;
+import compozitor.template.core.infra.StringInputStream;
 
 public class TemplateBuilder {
 	private final Template target;
