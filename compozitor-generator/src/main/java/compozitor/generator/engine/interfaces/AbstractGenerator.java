@@ -8,6 +8,7 @@ import org.apache.velocity.VelocityContext;
 import compozitor.template.engine.interfaces.Template;
 import compozitor.template.engine.interfaces.TemplateBuilder;
 import compozitor.template.engine.interfaces.TemplateBuilder.TemplateProxy;
+import compozitor.template.engine.interfaces.VelocityContextBuilder;
 
 public abstract class AbstractGenerator<T> {
 	

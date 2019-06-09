@@ -7,6 +7,7 @@ import org.apache.velocity.VelocityContext;
 import compozitor.template.engine.infra.StringInputStream;
 import compozitor.template.engine.interfaces.Template;
 import compozitor.template.engine.interfaces.TemplateBuilder;
+import compozitor.template.engine.interfaces.VelocityContextBuilder;
 import compozitor.template.engine.interfaces.TemplateBuilder.TemplateProxy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

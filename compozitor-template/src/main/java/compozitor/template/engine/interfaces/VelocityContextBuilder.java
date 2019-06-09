@@ -1,4 +1,4 @@
-package compozitor.generator.engine.interfaces;
+package compozitor.template.engine.interfaces;
 
 import org.apache.velocity.VelocityContext;
 
