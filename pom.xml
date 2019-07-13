@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-	  <module>compozitor-engine</module>
+		<module>compozitor-engine</module>
 		<module>compozitor-generator</module>
 		<module>compozitor-template</module>
 	</modules>
@@ -35,22 +35,22 @@
 
 	<dependencyManagement>
 		<dependencies>
-		  <dependency>
-		    <artifactId>compozitor-engine</artifactId>
-		    <groupId>compozitor</groupId>
-		    <version>0.0.1-SNAPSHOT</version>
-		  </dependency>
-		  <dependency>
-        <artifactId>compozitor-generator</artifactId>
-        <groupId>compozitor</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <artifactId>compozitor-template</artifactId>
-        <groupId>compozitor</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-      </dependency>
-		  
+			<dependency>
+				<artifactId>compozitor-engine</artifactId>
+				<groupId>compozitor</groupId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<artifactId>compozitor-generator</artifactId>
+				<groupId>compozitor</groupId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<artifactId>compozitor-template</artifactId>
+				<groupId>compozitor</groupId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
@@ -107,6 +107,39 @@
 				</plugin>
 
 				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+					<configuration>
+						<tagNameFormat>v@{project.version}</tagNameFormat>
+					</configuration>
+				</plugin>
+
+				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven.surefire.pluginVersion}</version>
 					<configuration>
@@ -140,11 +173,13 @@
 	<distributionManagement>
 		<repository>
 			<id>compozitor-oss</id>
+			<name>compozitor-oss</name>
 			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/release/;publish=1</url>
 		</repository>
 		<snapshotRepository>
-      <id>compozitor-oss</id>
-      <url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/snapshot/;publish=1</url>
+			<id>compozitor-oss</id>
+			<name>compozitor-oss</name>
+			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/snapshot/;publish=1</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
