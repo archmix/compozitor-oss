@@ -35,6 +35,22 @@
 
 	<dependencyManagement>
 		<dependencies>
+		  <dependency>
+		    <artifactId>compozitor-engine</artifactId>
+		    <groupId>compozitor</groupId>
+		    <version>0.0.1-SNAPSHOT</version>
+		  </dependency>
+		  <dependency>
+        <artifactId>compozitor-generator</artifactId>
+        <groupId>compozitor</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <artifactId>compozitor-template</artifactId>
+        <groupId>compozitor</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+		  
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
