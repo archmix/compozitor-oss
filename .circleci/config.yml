@@ -29,9 +29,15 @@ jobs:
   deploy:
     docker: 
       - image: ubuntu:14.04
+      
+    working_directory: ~/repo
+    
     steps:
+      - add_ssh_keys
+      
       - run:
-          command: ./deploy.sh
+          command: |
+             deploy.sh
 
 workflows:
   version: 2
