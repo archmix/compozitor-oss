@@ -31,7 +31,7 @@ jobs:
       - image: ubuntu:14.04
     steps:
       - run:
-          command: ./.circleci/deploy.sh
+          command: deploy.sh
 
 workflows:
   version: 2
