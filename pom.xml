@@ -119,4 +119,21 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<scm>
+		<connection>scm:git:ssh://github.com/mrbraztech/compozitor-oss.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/mrbraztech/compozitor-oss.git</developerConnection>
+		<url>https://github.com/mrbraztech/compozitor-oss</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>compozitor-oss</id>
+			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/release/;publish=1</url>
+		</repository>
+		<snapshotRepository>
+      <id>compozitor-oss</id>
+      <url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/snapshot/;publish=1</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
