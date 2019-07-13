@@ -174,12 +174,12 @@
 		<repository>
 			<id>compozitor-oss</id>
 			<name>compozitor-oss</name>
-			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/release/;publish=1</url>
+			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/release/</url>
 		</repository>
 		<snapshotRepository>
 			<id>compozitor-oss</id>
 			<name>compozitor-oss</name>
-			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/snapshot/;publish=1</url>
+			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
