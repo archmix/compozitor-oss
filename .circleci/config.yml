@@ -40,4 +40,4 @@ jobs:
       - run: mvn integration-test
       
       # run deploy to bintray
-      - run: mvn -s .circleci.settings.xml -DskipTests deploy
+      - run: mvn -e -s .circleci.settings.xml -DskipTests deploy
