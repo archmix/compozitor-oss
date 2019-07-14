@@ -18,6 +18,6 @@ rm -rf compozitor-template/maven-repo
 
 git add .
 git commit -m "Deploy artifact to github"
-git push origin maven-repo
+git push origin gh-pages
 
 git checkout master
