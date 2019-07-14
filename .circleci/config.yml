@@ -42,9 +42,7 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
       
-      - run:
-          command: |
-             deploy.sh
+      - run: ./deploy.sh
 
 workflows:
   version: 2
