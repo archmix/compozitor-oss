@@ -174,12 +174,12 @@
 		<repository>
 			<id>compozitor-oss</id>
 			<name>compozitor-oss</name>
-			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/release/</url>
+			<url>file://${project.basedir}/maven-repo</url>
 		</repository>
 		<snapshotRepository>
 			<id>compozitor-oss</id>
 			<name>compozitor-oss</name>
-			<url>https://api.bintray.com/maven/mrbraztech/compozitor-oss/snapshot/</url>
+      <url>file://${project.basedir}/maven-repo</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
