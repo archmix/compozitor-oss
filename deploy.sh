@@ -1,8 +1,8 @@
 git config user.email "braz@mrbraz.tech"
 git config user.name "Braz"
 
-git checkout -b maven-repo
-git pull origin maven-repo
+git checkout -b gh-pages
+git pull origin gh-pages
 git merge master
 
 mvn -DskipTests deploy
