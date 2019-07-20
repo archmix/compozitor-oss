@@ -6,10 +6,8 @@ import java.util.Set;
 class JoinableClassLoader extends ClassLoader {
 	private Set<ClassLoader> classLoaders = new HashSet<>();
 
-	private static final JoinableClassLoader current = new JoinableClassLoader();
-
-	public static JoinableClassLoader current() {
-		return current;
+	public static JoinableClassLoader create() {
+		return new JoinableClassLoader();
 	}
 
 	public JoinableClassLoader join(ClassLoader classLoader) {

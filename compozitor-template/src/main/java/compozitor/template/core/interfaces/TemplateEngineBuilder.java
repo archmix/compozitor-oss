@@ -1,6 +1,5 @@
 package compozitor.template.core.interfaces;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,6 +13,9 @@ import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
+
+import compozitor.template.core.infra.S3Resource;
+import compozitor.template.core.infra.S3ResourceLoader;
 
 @SuppressWarnings("unchecked")
 public class TemplateEngineBuilder {
@@ -40,17 +42,24 @@ public class TemplateEngineBuilder {
 		this.withDirectives(Capitalize.class, LowerCase.class, TrimAll.class, Uncapitalize.class, UpperCase.class);
 	}
 	
-	public TemplateEngineBuilder withClasspathTemplateRoot(){
+	public TemplateEngineBuilder withClasspathTemplateLoader(){
 		this.target.addProperty(RuntimeConstants.RESOURCE_LOADER, "cp");
 		this.target.addProperty("cp.resource.loader.class", ClasspathResourceLoader.class.getName());
 		return this;
 	}
 	
-	public TemplateEngineBuilder withTemplateRoot(Path location){
+	public TemplateEngineBuilder withPathTemplateLoader(Path location){
 		this.target.addProperty(RuntimeConstants.RESOURCE_LOADER, "file");
 		this.target.addProperty("file.resource.loader.class", FileResourceLoader.class.getName());
 		this.target.addProperty("file.resource.loader.path", location.toString());
 		this.target.addProperty("file.resource.loader.cache", "false");
+		return this;
+	}
+	
+	public TemplateEngineBuilder withS3TemplateLoader(S3Bucket s3Bucket) {
+		this.target.addProperty(RuntimeConstants.RESOURCE_LOADER, S3Resource.resourceName());
+		this.target.addProperty(S3Resource.loader.propertyKey(), S3ResourceLoader.class.getName());
+		this.target.addProperty(S3Resource.bucket.propertyKey(), s3Bucket.name());
 		return this;
 	}
 
@@ -64,8 +73,8 @@ public class TemplateEngineBuilder {
 		return this.withDirectives(Arrays.asList(directives));
 	}
 
-	public TemplateEngineBuilder withDirectivePath(File path) {
-		this.target.addProperty(USERDIRECTIVE_TEMPLATES_LOCATION, path.getAbsolutePath());
+	public TemplateEngineBuilder withDirectivePath(Path path) {
+		this.target.addProperty(USERDIRECTIVE_TEMPLATES_LOCATION, path.toString());
 		return this;
 	}
 
@@ -78,8 +87,9 @@ public class TemplateEngineBuilder {
 		ClassLoader loader = thread.getContextClassLoader();
 		
 		try {
-			JoinableClassLoader.current().join(loader).join(this.getClass().getClassLoader());
-			thread.setContextClassLoader(JoinableClassLoader.current());
+			//This is needed for OSGI environments
+			JoinableClassLoader joinedClassLoader = JoinableClassLoader.create().join(loader).join(this.getClass().getClassLoader());
+			thread.setContextClassLoader(joinedClassLoader);
 
 			this.target.init();
 		} finally {
