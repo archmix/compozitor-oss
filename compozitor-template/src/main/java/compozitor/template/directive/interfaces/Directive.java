@@ -16,9 +16,10 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 
+import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
+import compozitor.template.core.interfaces.TemplateContext;
 import compozitor.template.core.interfaces.TemplateEngineBuilder;
-import compozitor.template.core.interfaces.TemplateBuilder.TemplateProxy;
 
 public abstract class Directive extends org.apache.velocity.runtime.directive.Directive {
 	public static final String DIRECTIVE_FILE_EXTENSION = ".cdf";
@@ -71,8 +72,8 @@ public abstract class Directive extends org.apache.velocity.runtime.directive.Di
 		try {
 			byte[] sourceBytes = Files.readAllBytes(this.source.toPath());
 			InputStream loader = new ByteArrayInputStream(sourceBytes);
-			TemplateProxy directive = TemplateBuilder.create(this.getName()).withResourceLoader(loader).build();
-			directive.merge(context, writer);
+			Template directive = TemplateBuilder.create(this.getName()).withResourceLoader(loader).build();
+			directive.merge(TemplateContext.valueOf(context), writer);
 			return true;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

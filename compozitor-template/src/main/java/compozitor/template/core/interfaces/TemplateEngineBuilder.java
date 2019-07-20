@@ -21,11 +21,13 @@ import compozitor.template.core.infra.S3ResourceLoader;
 public class TemplateEngineBuilder {
 	public static final String USERDIRECTIVE_TEMPLATES_LOCATION = "userdirective.templates.location";
 
-	private static final TemplateEngineBuilder current = new TemplateEngineBuilder();
-
 	private final RuntimeServices target;
 
 	private final Set<Class<? extends Directive>> allDirectives = new HashSet<>();
+	
+	public static TemplateEngineBuilder create() {
+		return new TemplateEngineBuilder();
+	}
 
 	private TemplateEngineBuilder() {
 		this.target = RuntimeSingleton.getRuntimeServices();
@@ -78,11 +80,7 @@ public class TemplateEngineBuilder {
 		return this;
 	}
 
-	public static TemplateEngineBuilder current() {
-		return current;
-	}
-
-	public RuntimeServices build() {
+	public TemplateEngine build() {
 		Thread thread = Thread.currentThread();
 		ClassLoader loader = thread.getContextClassLoader();
 		
@@ -96,7 +94,7 @@ public class TemplateEngineBuilder {
 			thread.setContextClassLoader(loader);
 		}
 
-		return this.target;
+		return new TemplateEngine(this.target);
 	}
 
 	public Iterable<Class<? extends Directive>> directives() {

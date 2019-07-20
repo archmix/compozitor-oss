@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GeneratedSource {
+public class GeneratedCode {
 	private InputStream content;
 
 	private String fileName;

@@ -1,23 +1,29 @@
 package compozitor.template.core.interfaces;
 
-import compozitor.template.core.interfaces.VelocityContextBuilder.KeyValue;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.Writer;
 
-@Setter
-@Getter
+import compozitor.template.core.infra.StringInputStream;
+
 public class Template {
-	private String code;
-	private String name;
-	private String namespace;
-	private String generator;
-	private String file;
-	private String criteria;
-	private Boolean enabled;
-	private Boolean resource;
-	private Boolean testArtifact;
-	
-	public KeyValue toKeyValue() {
-		return KeyValue.of("Template", this);
+	private final org.apache.velocity.Template template;
+
+	public Template(org.apache.velocity.Template template) {
+		this.template = template;
+	}
+
+	public void merge(TemplateContext context, Writer writer) {
+		this.template.merge(context.getVelocityContext(), writer);
+	}
+
+	public String mergeToString(TemplateContext context) {
+		StringWriter writer = new StringWriter();
+		this.template.merge(context.getVelocityContext(), writer);
+		return writer.toString();
+	}
+
+	public InputStream mergeToStream(TemplateContext context) {
+		return new StringInputStream(this.mergeToString(context));
 	}
 }

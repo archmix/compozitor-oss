@@ -4,32 +4,29 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 
 import org.apache.commons.collections.ExtendedProperties;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 
 import compozitor.template.core.infra.StringInputStream;
 
 public class TemplateBuilder {
-	private final Template target;
+	private static final TemplateEngine templateEngine = TemplateEngineBuilder.create().build();
+	private final org.apache.velocity.Template target;
 
 	private TemplateBuilder(String name) {
-		this.target = new Template();
+		this.target = new org.apache.velocity.Template();
+		this.target.setRuntimeServices(templateEngine.getRuntimeServices());
 		this.target.setName(name);
-		this.target.setRuntimeServices(TemplateEngineBuilder.current().build());
 	}
 
 	public static TemplateBuilder create(String templateName) {
 		return new TemplateBuilder(templateName);
 	}
 
-	public TemplateResourceBuilder withResourceLoader(File file) {
+	public TemplateBuilder withResourceLoader(File file) {
 		try {
 			byte[] fileBytes = Files.readAllBytes(file.toPath());
 			InputStream inputStream = new ByteArrayInputStream(fileBytes);
@@ -39,50 +36,25 @@ public class TemplateBuilder {
 		}
 	}
 
-	public TemplateResourceBuilder withResourceLoader(String loader) {
+	public TemplateBuilder withResourceLoader(String loader) {
 		return withResourceLoader(new StringInputStream(loader));
 	}
 
-	public TemplateResourceBuilder withResourceLoader(byte[] bytes) {
+	public TemplateBuilder withResourceLoader(byte[] bytes) {
 		return withResourceLoader(new ByteArrayInputStream(bytes));
 	}
 
-	public TemplateResourceBuilder withResourceLoader(InputStream inputStream) {
+	public TemplateBuilder withResourceLoader(InputStream inputStream) {
 		this.target.setResourceLoader(new InputStreamLoader(inputStream));
-		return new TemplateResourceBuilder();
+		return this;
 	}
-
-	public class TemplateResourceBuilder {
-
-		public TemplateProxy build() {
-			try {
-				TemplateBuilder.this.target.process();
-				return new TemplateProxy(TemplateBuilder.this.target);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
-	public static class TemplateProxy {
-		private final Template template;
-
-		public TemplateProxy(Template template) {
-			this.template = template;
-		}
-
-		public void merge(VelocityContext context, Writer writer) {
-			this.template.merge(context, writer);
-		}
-
-		public String mergeToString(VelocityContext context) {
-			StringWriter writer = new StringWriter();
-			this.template.merge(context, writer);
-			return writer.toString();
-		}
-
-		public InputStream mergeToStream(VelocityContext context) {
-			return new StringInputStream(this.mergeToString(context));
+	
+	public Template build() {
+		try {
+			this.target.process();
+			return new Template(this.target);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

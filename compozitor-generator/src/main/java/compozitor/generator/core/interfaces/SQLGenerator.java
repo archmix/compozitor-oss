@@ -1,16 +1,16 @@
 package compozitor.generator.core.interfaces;
 
-public class SQLGeneratorBase {
+public class SQLGenerator {
 
 	public static final String COMMA = ", ";
 
-	private static SQLGeneratorBase current = new SQLGeneratorBase();
+	private static SQLGenerator current = new SQLGenerator();
 
-	protected SQLGeneratorBase() {
+	protected SQLGenerator() {
 		super();
 	}
 
-	public static SQLGeneratorBase current() {
+	public static SQLGenerator current() {
 		return current;
 	}
 
@@ -22,7 +22,7 @@ public class SQLGeneratorBase {
 		SQL.append(entity).append(" (");
 
 		for (String column : columns) {
-			SQL.append(column).append(SQLGeneratorBase.COMMA);
+			SQL.append(column).append(SQLGenerator.COMMA);
 		}
 
 		this.parse(SQL);
@@ -66,7 +66,7 @@ public class SQLGeneratorBase {
 		SQL.append(entity).append(" SET ");
 
 		for (String column : columns) {
-			SQL.append(column).append(" = ?").append(SQLGeneratorBase.COMMA);
+			SQL.append(column).append(" = ?").append(SQLGenerator.COMMA);
 		}
 
 		this.parse(SQL);
@@ -102,7 +102,7 @@ public class SQLGeneratorBase {
 		SQL = new StringBuffer("SELECT ");
 
 		for (String column : columns) {
-			SQL.append(column).append(SQLGeneratorBase.COMMA);
+			SQL.append(column).append(SQLGenerator.COMMA);
 		}
 
 		this.parse(SQL);
@@ -154,7 +154,7 @@ public class SQLGeneratorBase {
 	}
 
 	private void parse(StringBuffer SQL) {
-		this.remove(SQL, SQLGeneratorBase.COMMA);
+		this.remove(SQL, SQLGenerator.COMMA);
 	}
 
 	private void remove(StringBuffer SQL, String value) {
