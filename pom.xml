@@ -10,13 +10,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<modules>
-		<module>compozitor-engine</module>
-		<module>compozitor-generator</module>
-		<module>compozitor-template</module>
-	</modules>
-
 	<properties>
+	  <compozitorVersion>${project.version}</compozitorVersion>
 		<javaVersion>1.8</javaVersion>
 		<velocityVersion>1.7</velocityVersion>
 		<autoServiceVersion>1.0-rc5</autoServiceVersion>
@@ -34,24 +29,36 @@
 		<maven.resources.pluginVersion>2.7</maven.resources.pluginVersion>
 		<maven.dependency.pluginVersion>2.10</maven.dependency.pluginVersion>
 	</properties>
+	
+	<modules>
+    <module>compozitor-engine</module>
+    <module>compozitor-generator</module>
+    <module>compozitor-processor</module>
+    <module>compozitor-template</module>
+  </modules>
 
 	<dependencyManagement>
 		<dependencies>
 			<!-- COMPOZITOR -->
 			<dependency>
+        <artifactId>compozitor-processor</artifactId>
+        <groupId>compozitor</groupId>
+        <version>${compozitorVersion}</version>
+      </dependency>
+			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>compozitor</groupId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-generator</artifactId>
 				<groupId>compozitor</groupId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-template</artifactId>
 				<groupId>compozitor</groupId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 
 			<!-- LOMBOK -->
