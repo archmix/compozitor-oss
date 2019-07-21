@@ -13,8 +13,6 @@ jobs:
       - checkout
 
       - run: mvn clean package
-
-      - run: mvn integration-test
       
   deploy:
     docker: 

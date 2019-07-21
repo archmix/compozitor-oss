@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-	  <compozitorVersion>${project.version}</compozitorVersion>
+		<compozitorVersion>${project.version}</compozitorVersion>
 		<javaVersion>1.8</javaVersion>
 		<velocityVersion>1.7</velocityVersion>
 		<autoServiceVersion>1.0-rc5</autoServiceVersion>
@@ -24,27 +24,27 @@
 		<maven.surefire.report.pluginVersion>2.18.1</maven.surefire.report.pluginVersion>
 		<maven.failsafe.pluginVersion>2.18.1</maven.failsafe.pluginVersion>
 		<maven.javadoc.pluginVersion>2.10.1</maven.javadoc.pluginVersion>
-		<maven.surefire.pluginVersion>2.18.1</maven.surefire.pluginVersion>
+		<maven.surefire.pluginVersion>2.22.1</maven.surefire.pluginVersion>
 		<maven.compiler.pluginVersion>3.2</maven.compiler.pluginVersion>
 		<maven.resources.pluginVersion>2.7</maven.resources.pluginVersion>
 		<maven.dependency.pluginVersion>2.10</maven.dependency.pluginVersion>
 	</properties>
-	
+
 	<modules>
-    <module>compozitor-engine</module>
-    <module>compozitor-generator</module>
-    <module>compozitor-processor</module>
-    <module>compozitor-template</module>
-  </modules>
+		<module>compozitor-engine</module>
+		<module>compozitor-generator</module>
+		<module>compozitor-processor</module>
+		<module>compozitor-template</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
 			<!-- COMPOZITOR -->
 			<dependency>
-        <artifactId>compozitor-processor</artifactId>
-        <groupId>compozitor</groupId>
-        <version>${compozitorVersion}</version>
-      </dependency>
+				<artifactId>compozitor-processor</artifactId>
+				<groupId>compozitor</groupId>
+				<version>${compozitorVersion}</version>
+			</dependency>
 			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>compozitor</groupId>
@@ -156,6 +156,15 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.pluginVersion}</version>
+					<configuration>
+						<useSystemClassLoader>false</useSystemClassLoader>
+					</configuration>
 				</plugin>
 
 				<plugin>
