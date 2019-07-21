@@ -24,6 +24,8 @@
 		<junitVersion>4.11</junitVersion>
 		<mockitoVersion>1.10.8</mockitoVersion>
 		<awsVersion>1.11.594</awsVersion>
+		<compileTestingVersion>0.18</compileTestingVersion>
+
 		<maven.surefire.report.pluginVersion>2.18.1</maven.surefire.report.pluginVersion>
 		<maven.failsafe.pluginVersion>2.18.1</maven.failsafe.pluginVersion>
 		<maven.javadoc.pluginVersion>2.10.1</maven.javadoc.pluginVersion>
@@ -51,34 +53,40 @@
 				<groupId>compozitor</groupId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
-			
-      <!-- LOMBOK -->
+
+			<!-- LOMBOK -->
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombokVersion}</version>
 			</dependency>
-			
+
 			<!-- VELOCITY -->
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
 				<version>${velocityVersion}</version>
 			</dependency>
-			
+
 			<!-- AWS -->
-      <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk-s3</artifactId>
-        <version>${awsVersion}</version>
-      </dependency>
-      
-      <!-- GOOGLE -->
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-s3</artifactId>
+				<version>${awsVersion}</version>
+			</dependency>
+
+			<!-- GOOGLE -->
 			<dependency>
 				<groupId>com.google.auto.service</groupId>
 				<artifactId>auto-service</artifactId>
 				<version>${autoServiceVersion}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.testing.compile</groupId>
+				<artifactId>compile-testing</artifactId>
+				<version>${compileTestingVersion}</version>
+			</dependency>
+
 
 			<!-- TEST -->
 			<dependency>
