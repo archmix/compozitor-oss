@@ -9,11 +9,11 @@ import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
 import compozitor.processor.core.interfaces.TypeModel;
 
-@SupportedAnnotationTypes("compozitor.processor.core.test.TypeAnnotation")
-public class TypeProcessor extends CompozitorProcessor {
+@SupportedAnnotationTypes("compozitor.processor.core.test.MethodAnnotation")
+public class MethodProcessor extends CompozitorProcessor {
 	@Override
 	protected void process(TypeModel model) {
-		Assert.assertNotNull(model);
+		Assert.fail();
 	}
 
 	@Override
@@ -23,6 +23,6 @@ public class TypeProcessor extends CompozitorProcessor {
 
 	@Override
 	protected void process(MethodModel model) {
-		Assert.fail();
+		Assert.assertNotNull(model);
 	}
 }

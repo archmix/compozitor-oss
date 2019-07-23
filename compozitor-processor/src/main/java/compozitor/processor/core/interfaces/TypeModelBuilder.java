@@ -20,12 +20,16 @@ class TypeModelBuilder {
 
 	public TypeModel build(TypeMirror type) {
 		Types types = this.environment.getTypeUtils();
+		Elements elements = this.environment.getElementUtils();
 		
 		if(type instanceof PrimitiveType) {
 			return this.build(types.boxedClass((PrimitiveType) type));
 		}
 		
 		Element element = types.asElement(type);
+		if(type.getKind().equals(TypeKind.VOID)) {
+			element = elements.getTypeElement("java.lang.Void");
+		}
 		
 		if(element instanceof TypeParameterElement) {
 			return this.build((TypeParameterElement) element);

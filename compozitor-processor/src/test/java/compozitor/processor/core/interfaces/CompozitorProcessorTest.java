@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import com.google.testing.compile.JavaFileObjects;
 
+import compozitor.processor.core.application.FieldProcessor;
+import compozitor.processor.core.application.MethodProcessor;
 import compozitor.processor.core.application.TypeProcessor;
 
 public class CompozitorProcessorTest {
@@ -16,5 +18,19 @@ public class CompozitorProcessorTest {
 		JavaFileObject modelSource = JavaFileObjects.forResource("compozitor/processor/core/test/TypeModel.java");
 
 		javac().withProcessors(new TypeProcessor()).compile(modelSource);
+	}
+	
+	@Test
+	public void givenTypeModelAnnotatedWithFieldAnnotationWhenCompileThenProcessType() {
+		JavaFileObject modelSource = JavaFileObjects.forResource("compozitor/processor/core/test/TypeModel.java");
+
+		javac().withProcessors(new FieldProcessor()).compile(modelSource);
+	}
+	
+	@Test
+	public void givenTypeModelAnnotatedWithMethodAnnotationWhenCompileThenProcessType() {
+		JavaFileObject modelSource = JavaFileObjects.forResource("compozitor/processor/core/test/TypeModel.java");
+
+		javac().withProcessors(new MethodProcessor()).compile(modelSource);
 	}
 }
