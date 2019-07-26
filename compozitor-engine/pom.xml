@@ -16,6 +16,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>compozitor</groupId>
+			<artifactId>compozitor-generator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>

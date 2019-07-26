@@ -44,21 +44,25 @@
 				<artifactId>compozitor-processor</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${compozitorVersion}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${compozitorVersion}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-generator</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${compozitorVersion}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-template</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${compozitorVersion}</version>
+				<optional>true</optional>
 			</dependency>
 
 			<!-- LOMBOK -->
@@ -66,6 +70,7 @@
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombokVersion}</version>
+				<optional>true</optional>
 			</dependency>
 
 			<!-- VELOCITY -->
@@ -73,6 +78,7 @@
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
 				<version>${velocityVersion}</version>
+				<optional>true</optional>
 			</dependency>
 
 			<!-- AWS -->
@@ -80,6 +86,7 @@
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-s3</artifactId>
 				<version>${awsVersion}</version>
+				<optional>true</optional>
 			</dependency>
 
 			<!-- GOOGLE -->
@@ -87,24 +94,27 @@
 				<groupId>com.google.auto.service</groupId>
 				<artifactId>auto-service</artifactId>
 				<version>${autoServiceVersion}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<groupId>com.google.testing.compile</groupId>
 				<artifactId>compile-testing</artifactId>
 				<version>${compileTestingVersion}</version>
+				<optional>true</optional>
 			</dependency>
-
 
 			<!-- TEST -->
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>${mockitoVersion}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junitVersion}</version>
+				<optional>true</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

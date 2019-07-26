@@ -12,7 +12,7 @@ public class TemplateContext {
 		this(new VelocityContext());
 	}
 	
-	public TemplateContext(VelocityContext context) {
+	TemplateContext(VelocityContext context) {
 		this.context = context;
 	}
 

@@ -10,9 +10,9 @@ import compozitor.template.core.interfaces.TemplateContext;
 public class CodeGenerator<T> {
 	
 	public final List<GeneratedCode> execute(GeneratorContext context, MetamodelRepository<T> repository) {
-		TemplateMetadata templateMetadata = context.getTemplateMetadata();
+		TemplateMetadata templateMetadata = context.getMetadata();
 		Template template = templateMetadata.getTemplate();
-		TemplateContext templateContext = context.getTemplateContext();
+		TemplateContext templateContext = context.getContext();
 		
 		List<GeneratedCode> list = new ArrayList<>();
 		
