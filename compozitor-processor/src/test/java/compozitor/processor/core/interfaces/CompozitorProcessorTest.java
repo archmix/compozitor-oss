@@ -1,12 +1,10 @@
 package compozitor.processor.core.interfaces;
 
-import static com.google.testing.compile.Compiler.javac;
-
-import javax.tools.JavaFileObject;
-
+import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.testing.compile.JavaFileObjects;
+import com.google.testing.compile.Compilation;
+import com.google.testing.compile.Compilation.Status;
 
 import compozitor.processor.core.application.FieldProcessor;
 import compozitor.processor.core.application.MethodProcessor;
@@ -15,22 +13,22 @@ import compozitor.processor.core.application.TypeProcessor;
 public class CompozitorProcessorTest {
 	@Test
 	public void givenTypeModelAnnotatedWithTypeAnnotationWhenCompileThenProcessType() {
-		JavaFileObject modelSource = JavaFileObjects.forResource("compozitor/processor/core/test/TypeModel.java");
-
-		javac().withProcessors(new TypeProcessor()).compile(modelSource);
+		Compilation compilation = CompilationBuilder.create().withJavaSource("compozitor/processor/core/test/TypeModel.java")
+				.withProcessors(new TypeProcessor()).build();
+		Assert.assertEquals(Status.SUCCESS, compilation.status());
 	}
 	
 	@Test
 	public void givenTypeModelAnnotatedWithFieldAnnotationWhenCompileThenProcessType() {
-		JavaFileObject modelSource = JavaFileObjects.forResource("compozitor/processor/core/test/TypeModel.java");
-
-		javac().withProcessors(new FieldProcessor()).compile(modelSource);
+		Compilation compilation = CompilationBuilder.create().withJavaSource("compozitor/processor/core/test/TypeModel.java")
+				.withProcessors(new FieldProcessor()).build();
+		Assert.assertEquals(Status.SUCCESS, compilation.status());
 	}
 	
 	@Test
 	public void givenTypeModelAnnotatedWithMethodAnnotationWhenCompileThenProcessType() {
-		JavaFileObject modelSource = JavaFileObjects.forResource("compozitor/processor/core/test/TypeModel.java");
-
-		javac().withProcessors(new MethodProcessor()).compile(modelSource);
+		Compilation compilation = CompilationBuilder.create().withJavaSource("compozitor/processor/core/test/TypeModel.java")
+				.withProcessors(new MethodProcessor()).build();
+		Assert.assertEquals(Status.SUCCESS, compilation.status());
 	}
 }

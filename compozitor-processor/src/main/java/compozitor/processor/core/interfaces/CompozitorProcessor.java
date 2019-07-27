@@ -21,14 +21,20 @@ public class CompozitorProcessor extends AbstractProcessor {
 
 	@Override
 	public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
-		annotations.forEach(annotation ->{
-			Messager messager = processingEnv.getMessager();
-			messager.printMessage(Kind.NOTE, "Processing elements for annotation", annotation);
-			roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element ->{
-				this.process(annotation, element);
+		Messager messager = processingEnv.getMessager();
+		
+		try {
+			annotations.forEach(annotation ->{
+				messager.printMessage(Kind.NOTE, "Processing elements for annotation", annotation);
+				roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element ->{
+					this.process(annotation, element);
+				});
+				messager.printMessage(Kind.NOTE, "All elements processed for annotation", annotation);
 			});
-			messager.printMessage(Kind.NOTE, "All elements processed for annotation", annotation);
-		});
+		} catch(RuntimeException ex) {
+			ex.printStackTrace();
+			messager.printMessage(Kind.ERROR, ex.getMessage());
+		}
 		
 		return annotations.size() > 0;
 	}

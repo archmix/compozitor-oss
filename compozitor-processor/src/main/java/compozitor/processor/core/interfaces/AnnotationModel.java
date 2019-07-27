@@ -6,7 +6,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.type.TypeMirror;
 
 public class AnnotationModel extends Model<AnnotationMirror> {
 
@@ -25,7 +24,30 @@ public class AnnotationModel extends Model<AnnotationMirror> {
 		return null;
 	}
 	
-	public boolean instanceOf(TypeMirror type) {
-		return this.types.isAssignable(this.element.getAnnotationType(), type);
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}
+		
+		if(obj instanceof TypeModel) {
+			TypeModel type = (TypeModel) obj;
+			return this.types.isSameType(this.element.getAnnotationType(), type.element.asType());
+		}
+		
+		if(obj instanceof AnnotationModel) {
+			AnnotationModel annotation = (AnnotationModel) obj;
+			return this.types.isSameType(this.element.getAnnotationType(), annotation.element.getAnnotationType());
+		}
+		
+		return super.equals(obj);
+	}
+	
+	public boolean instanceOf(AnnotationModel annotation) {
+		return this.types.isAssignable(this.element.getAnnotationType(), annotation.element.getAnnotationType());
+	}
+	
+	public boolean instanceOf(TypeModel type) {
+		return this.types.isAssignable(this.element.getAnnotationType(), type.element.asType());
 	}
 }

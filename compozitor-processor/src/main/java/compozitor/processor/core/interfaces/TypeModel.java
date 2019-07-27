@@ -16,6 +16,9 @@ public class TypeModel extends AssignableModel<TypeElement> {
 
 	@Getter
 	private final String name;
+	
+	@Getter
+	private final String qualifiedName;
 
 	@Getter
 	private final TypeModel superType;
@@ -37,6 +40,7 @@ public class TypeModel extends AssignableModel<TypeElement> {
 		this.annotations = annotations;
 		this.modifiers = modifiers;
 		this.name = element.getSimpleName().toString();
+		this.qualifiedName = element.getQualifiedName().toString();
 		this.superType = superType;
 		this.interfaces = interfaces;
 		this.fields = fields;

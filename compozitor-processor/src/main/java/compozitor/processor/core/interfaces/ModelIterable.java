@@ -20,4 +20,8 @@ class ModelIterable<M> implements Iterable<M> {
 	void add(M model) {
 		this.models.add(model);
 	}
+	
+	public boolean contains(M model) {
+		return this.models.contains(model);
+	}
 }

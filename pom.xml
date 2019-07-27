@@ -46,6 +46,13 @@
 				<optional>true</optional>
 			</dependency>
 			<dependency>
+        <artifactId>compozitor-processor</artifactId>
+        <groupId>compozitor</groupId>
+        <version>${compozitorVersion}</version>
+        <type>test-jar</type>
+        <optional>true</optional>
+      </dependency>
+			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${compozitorVersion}</version>
