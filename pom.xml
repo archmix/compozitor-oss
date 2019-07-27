@@ -21,10 +21,9 @@
 		<awsVersion>1.11.594</awsVersion>
 		<compileTestingVersion>0.18</compileTestingVersion>
 
-		<maven.surefire.report.pluginVersion>2.22.2</maven.surefire.report.pluginVersion>
 		<maven.failsafe.pluginVersion>2.18.1</maven.failsafe.pluginVersion>
 		<maven.javadoc.pluginVersion>2.10.1</maven.javadoc.pluginVersion>
-		<maven.surefire.pluginVersion>2.22.1</maven.surefire.pluginVersion>
+		<maven.surefire.pluginVersion>2.22.2</maven.surefire.pluginVersion>
 		<maven.compiler.pluginVersion>3.2</maven.compiler.pluginVersion>
 		<maven.resources.pluginVersion>2.7</maven.resources.pluginVersion>
 		<maven.dependency.pluginVersion>2.10</maven.dependency.pluginVersion>
