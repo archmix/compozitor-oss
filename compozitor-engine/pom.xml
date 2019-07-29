@@ -16,9 +16,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>compozitor</groupId>
 			<artifactId>compozitor-generator</artifactId>
+			<groupId>compozitor</groupId>
 		</dependency>
+		<dependency>
+      <artifactId>compozitor-processor</artifactId>
+      <groupId>compozitor</groupId>
+    </dependency>
+    
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

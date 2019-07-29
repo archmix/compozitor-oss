@@ -2,7 +2,7 @@ package compozitor.template.core.interfaces;
 
 import compozitor.template.directive.interfaces.ValueDirective;
 
-class LowerCase extends ValueDirective {
+public class LowerCase extends ValueDirective {
 	@Override
 	public String getName() {
 		return "lowercase";

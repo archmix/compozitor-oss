@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
@@ -13,17 +12,16 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
 
-import com.google.auto.service.AutoService;
-
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@AutoService(Processor.class)
-public class CompozitorProcessor extends AbstractProcessor {
+public abstract class AnnotationProcessor extends AbstractProcessor {
 
 	@Override
 	public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
 		Messager messager = processingEnv.getMessager();
 		
 		try {
+			this.preProcess();
+			
 			annotations.forEach(annotation ->{
 				messager.printMessage(Kind.NOTE, "Processing elements for annotation", annotation);
 				roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element ->{
@@ -31,6 +29,8 @@ public class CompozitorProcessor extends AbstractProcessor {
 				});
 				messager.printMessage(Kind.NOTE, "All elements processed for annotation", annotation);
 			});
+			
+			this.postProcess();
 		} catch(RuntimeException ex) {
 			ex.printStackTrace();
 			messager.printMessage(Kind.ERROR, ex.getMessage());
@@ -64,6 +64,14 @@ public class CompozitorProcessor extends AbstractProcessor {
 			this.process(model);
 			return;
 		}
+	}
+	
+	protected void preProcess() {
+		return;
+	}
+	
+	protected void postProcess() {
+		return;
 	}
 	
 	protected void process(TypeModel model) {

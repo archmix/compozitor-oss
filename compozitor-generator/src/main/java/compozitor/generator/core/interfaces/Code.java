@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 class Code {
 	private final TemplateMetadata metadata;
 
+	private final TemplateContext context;
+	
 	private InputStream content;
 
 	public String getResourceName() {
@@ -30,36 +32,35 @@ class Code {
 	}
 
 	public GeneratedCode toGeneratedCode() {
+		String namespace = this.getNamespace();
+		String fileName = this.toFileName();
+		String qualifiedName = new StringBuilder(namespace).append(".").append(fileName).toString();
+		
 		GeneratedCode generatedCode = new GeneratedCode();
 		generatedCode.setContent(this.content);
-		generatedCode.setFileName(this.toFileName());
-		generatedCode.setPath(this.toPath());
+		generatedCode.setFileName(fileName);
+		generatedCode.setQualifiedName(qualifiedName);
+		generatedCode.setPath(namespace.replace('.', '/'));
 		generatedCode.setResource(this.metadata.getResource());
 		generatedCode.setTestArtifact(this.metadata.getTestArtifact());
 		
 		return generatedCode;
 	}
 
-	private String toPath() {
-		return this.getNamespace().replace('.', '/');
-	}
-
 	public String getNamespace() {
-		TemplateContext context = TemplateContext.create();
 		context.add(this.metadata.toContextData()).add(toTemplateContextData());
 
 		return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
 	}
 
 	private String toFileName() {
-		TemplateContext context = TemplateContext.create();
 		context.add(this.metadata.toContextData()).add(toTemplateContextData());
 
 		return this.getTemplate(this.metadata.getFileName()).mergeToString(context);
 	}
 
 	private Template getTemplate(String attribute) {
-		return TemplateBuilder.create("Source").withResourceLoader(new StringInputStream(attribute)).build();
+		return TemplateBuilder.create("Code").withResourceLoader(new StringInputStream(attribute)).build();
 	}
 	
 	public TemplateContextData toTemplateContextData() {

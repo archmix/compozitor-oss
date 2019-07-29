@@ -15,15 +15,15 @@ public class CodeGenerator<T> {
 		TemplateContext templateContext = context.getContext();
 		
 		List<GeneratedCode> list = new ArrayList<>();
+		Code code = new Code(templateMetadata, templateContext);
 		
-		for (T metamodel : repository.list()) {
+		for (T metamodel : repository) {
 			templateContext.add(repository.toTemplateContextData(metamodel));
 			
 			if(!this.accept(templateMetadata, templateContext)){
 				continue;
 			}
 			
-			Code code = new Code(templateMetadata);
 			templateContext.add(code.toTemplateContextData());
 			code.setContent(template.mergeToStream(templateContext));
 

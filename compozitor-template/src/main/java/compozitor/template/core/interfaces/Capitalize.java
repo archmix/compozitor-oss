@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import compozitor.template.directive.interfaces.ValueDirective;
 
-class Capitalize extends ValueDirective {
+public class Capitalize extends ValueDirective {
 	@Override
 	public String getName() {
 		return "capitalize";

@@ -14,6 +14,8 @@ public class GeneratedCode {
 
 	private String path;
 
+	private String qualifiedName;
+	
 	private Boolean resource;
 	
 	private Boolean testArtifact;

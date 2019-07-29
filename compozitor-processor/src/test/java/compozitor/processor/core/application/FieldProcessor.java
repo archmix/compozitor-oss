@@ -4,13 +4,13 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 
 import org.junit.Assert;
 
-import compozitor.processor.core.interfaces.CompozitorProcessor;
+import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
 import compozitor.processor.core.interfaces.TypeModel;
 
 @SupportedAnnotationTypes("compozitor.processor.core.test.FieldAnnotation")
-public class FieldProcessor extends CompozitorProcessor {
+public class FieldProcessor extends AnnotationProcessor {
 	@Override
 	protected void process(TypeModel model) {
 		Assert.fail();
