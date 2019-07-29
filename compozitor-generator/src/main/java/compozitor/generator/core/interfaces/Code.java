@@ -10,7 +10,7 @@ import compozitor.template.core.interfaces.TemplateContextData;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class Code {
+public class Code {
 	private final TemplateMetadata metadata;
 
 	private final TemplateContext context;
@@ -18,13 +18,14 @@ class Code {
 	private InputStream content;
 
 	public String getResourceName() {
-		try {
-			String fileName = this.toFileName();
-
-			return fileName.substring(0, fileName.indexOf("."));
-		} catch (Exception e) {
-			return null;
+		String fileName = this.toFileName();
+		
+		int dotIndex = fileName.indexOf(".");
+		if(dotIndex > -1) {
+			return fileName.substring(0, dotIndex);
 		}
+		
+		return fileName;
 	}
 
 	public void setContent(InputStream content) {
