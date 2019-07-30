@@ -19,3 +19,8 @@ rm -rf compozitor-processor/maven-repo
 cp -r compozitor-template/maven-repo/ ./
 rm -rf compozitor-template/maven-repo
 
+git add .
+git commit -m "Deploy artifact to github"
+git push origin gh-pages
+
+git checkout master
