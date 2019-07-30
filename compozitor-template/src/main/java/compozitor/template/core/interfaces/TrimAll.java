@@ -1,7 +1,5 @@
 package compozitor.template.core.interfaces;
 
-import compozitor.template.directive.interfaces.ValueDirective;
-
 public class TrimAll extends ValueDirective {
 	@Override
 	public String getName() {

@@ -1,9 +1,10 @@
-package compozitor.template.core.interfaces;
+package compozitor.template.core.infra;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
-class JoinableClassLoader extends ClassLoader {
+public class JoinableClassLoader extends ClassLoader {
 	private Set<ClassLoader> classLoaders = new HashSet<>();
 
 	public static JoinableClassLoader create() {
@@ -30,5 +31,17 @@ class JoinableClassLoader extends ClassLoader {
 		}
 
 		return clazz;
+	}
+	
+	@Override
+	public URL getResource(String name) {
+		for(ClassLoader classLoader : this.classLoaders) {
+			URL resource = classLoader.getResource(name);
+			if(resource != null) {
+				return resource;
+			}
+		}
+		
+		return this.getClass().getResource(name);
 	}
 }

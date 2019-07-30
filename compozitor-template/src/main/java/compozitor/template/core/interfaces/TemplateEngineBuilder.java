@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.velocity.app.event.implement.IncludeRelativePath;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -14,12 +16,20 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 
+import compozitor.template.core.infra.JoinableClassLoader;
+import compozitor.template.core.infra.MacrosLoader;
 import compozitor.template.core.infra.S3Resource;
 import compozitor.template.core.infra.S3ResourceLoader;
 
 @SuppressWarnings("unchecked")
 public class TemplateEngineBuilder {
+	private static final String USER_DIRECTIVE = "userdirective";
+
 	public static final String USERDIRECTIVE_TEMPLATES_LOCATION = "userdirective.templates.location";
+	
+	public static final String VELOCIMACRO_LOCATION = "velocimacro.library";
+	
+	public static final String VELOCIMACRO_ALLOW_INLINE_TEMPLATE = "velocimacro.permissions.allow.inline";
 
 	private final RuntimeServices target;
 
@@ -40,8 +50,10 @@ public class TemplateEngineBuilder {
 		this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
 		this.target.addProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, IncludeRelativePath.class.getName());
 		this.target.addProperty("runtime.log.logsystem.log4j.logger", "root" );
-
-		this.withDirectives(Capitalize.class, LowerCase.class, TrimAll.class, Uncapitalize.class, UpperCase.class);
+		
+		this.target.addProperty(VELOCIMACRO_ALLOW_INLINE_TEMPLATE, "false");
+		
+		this.withDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class, Uncapitalize.class, UpperCase.class);
 	}
 	
 	public TemplateEngineBuilder withClasspathTemplateLoader(){
@@ -67,7 +79,7 @@ public class TemplateEngineBuilder {
 
 	public TemplateEngineBuilder withDirectives(Collection<Class<? extends Directive>> directives) {
 		this.allDirectives.addAll(directives);
-		this.target.addProperty("userdirective", this.toUserDirectiveValue());
+		this.target.addProperty(USER_DIRECTIVE, this.toUserDirectiveValue());
 		return this;
 	}
 
@@ -77,6 +89,14 @@ public class TemplateEngineBuilder {
 
 	public TemplateEngineBuilder withDirectivePath(Path path) {
 		this.target.addProperty(USERDIRECTIVE_TEMPLATES_LOCATION, path.toString());
+		return this;
+	}
+	
+	public TemplateEngineBuilder withMacrosPath(Path path) {
+		Stream<String> macroFiles = MacrosLoader.create().list(path);
+		
+		this.target.addProperty(VELOCIMACRO_LOCATION, macroFiles.collect(Collectors.joining(",")));
+		
 		return this;
 	}
 

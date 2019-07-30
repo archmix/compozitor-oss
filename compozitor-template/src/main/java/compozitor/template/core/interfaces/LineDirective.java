@@ -1,4 +1,4 @@
-package compozitor.template.directive.interfaces;
+package compozitor.template.core.interfaces;
 
 public abstract class LineDirective extends Directive {
 	public int getType() {

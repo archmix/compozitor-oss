@@ -23,7 +23,11 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
 	public ProcessorEngine() {
 		this.engine = CodeEngine.create();
 		this.context = EngineContext.create();
-		this.templateEngine = TemplateEngineBuilder.create().withClasspathTemplateLoader().build();
+		this.templateEngine = this.init(TemplateEngineBuilder.create().withClasspathTemplateLoader());
+	}
+
+	protected TemplateEngine init(TemplateEngineBuilder builder) {
+		return builder.build();
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package compozitor.template.directive.interfaces;
+package compozitor.template.core.interfaces;
 
 import java.util.List;
 

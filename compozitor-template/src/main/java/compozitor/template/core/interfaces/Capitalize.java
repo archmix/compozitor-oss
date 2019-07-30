@@ -2,8 +2,6 @@ package compozitor.template.core.interfaces;
 
 import org.apache.commons.lang.StringUtils;
 
-import compozitor.template.directive.interfaces.ValueDirective;
-
 public class Capitalize extends ValueDirective {
 	@Override
 	public String getName() {
