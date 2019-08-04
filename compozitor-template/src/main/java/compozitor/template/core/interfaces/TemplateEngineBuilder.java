@@ -51,7 +51,7 @@ public class TemplateEngineBuilder {
 		this.target.addProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, IncludeRelativePath.class.getName());
 		this.target.addProperty("runtime.log.logsystem.log4j.logger", "root" );
 		
-		this.target.addProperty(VELOCIMACRO_ALLOW_INLINE_TEMPLATE, "false");
+		this.target.setProperty(VELOCIMACRO_ALLOW_INLINE_TEMPLATE, "true");
 		
 		this.withDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class, Uncapitalize.class, UpperCase.class);
 	}
@@ -88,14 +88,14 @@ public class TemplateEngineBuilder {
 	}
 
 	public TemplateEngineBuilder withDirectivePath(Path path) {
-		this.target.addProperty(USERDIRECTIVE_TEMPLATES_LOCATION, path.toString());
+		this.target.setProperty(USERDIRECTIVE_TEMPLATES_LOCATION, path.toString());
 		return this;
 	}
 	
 	public TemplateEngineBuilder withMacrosPath(Path path) {
 		Stream<String> macroFiles = MacrosLoader.create().list(path);
 		
-		this.target.addProperty(VELOCIMACRO_LOCATION, macroFiles.collect(Collectors.joining(",")));
+		this.target.setProperty(VELOCIMACRO_LOCATION, macroFiles.collect(Collectors.joining(",")));
 		
 		return this;
 	}

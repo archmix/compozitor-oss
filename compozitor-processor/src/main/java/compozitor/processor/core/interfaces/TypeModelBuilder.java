@@ -2,6 +2,7 @@ package compozitor.processor.core.interfaces;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.PrimitiveType;
@@ -78,7 +79,7 @@ class TypeModelBuilder {
 		Fields fields = new Fields(environment);
 		Methods methods = new Methods(environment);
 		
-		if(!packageModel.getName().startsWith("java")) {
+		if(!packageModel.getName().startsWith("java") && !type.getKind().equals(ElementKind.ANNOTATION_TYPE)) {
 			this.buildFields(fields, type);
 			this.buildMethods(methods, type);
 		}

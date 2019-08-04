@@ -1,7 +1,12 @@
 package compozitor.template.core.infra;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class JoinableClassLoader extends ClassLoader {
@@ -43,5 +48,19 @@ public class JoinableClassLoader extends ClassLoader {
 		}
 		
 		return this.getClass().getResource(name);
+	}
+	
+	@Override
+	protected Enumeration<URL> findResources(String name) throws IOException {
+		List<URL> resources = new ArrayList<>();
+		
+		for(ClassLoader classLoader : this.classLoaders) {
+			Enumeration<URL> found = classLoader.getResources(name);
+			while(found.hasMoreElements()) {
+				resources.add(found.nextElement());
+			}
+		}
+		
+		return Collections.enumeration(resources);
 	}
 }

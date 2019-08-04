@@ -13,8 +13,12 @@ public class GeneratedCode {
 	private String fileName;
 
 	private String path;
+	
+	private String namespace;
 
 	private String qualifiedName;
+	
+	private String simpleName;
 	
 	private Boolean resource;
 	

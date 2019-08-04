@@ -11,7 +11,7 @@ class FieldModelBuilder {
 	private final ProcessingEnvironment environment;
 
 	private final TypeModelBuilder typeBuilder;
-
+	
 	FieldModelBuilder(ProcessingEnvironment environment) {
 		this.environment = environment;
 		this.typeBuilder = new TypeModelBuilder(environment);
@@ -26,7 +26,7 @@ class FieldModelBuilder {
 		TypeModel type = this.typeBuilder.build(element.asType());
 
 		Modifiers modifiers = new Modifiers(element.getModifiers());
-
+		
 		return new FieldModel(this.environment, element, annotations, modifiers, type);
 	}
 }

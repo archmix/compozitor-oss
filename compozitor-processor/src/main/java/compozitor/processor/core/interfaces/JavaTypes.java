@@ -32,6 +32,11 @@ public class JavaTypes {
 		return this.builder.build(element);
 	}
 	
+	public TypeModel getAnnotationType(String name) {
+		TypeElement element = this.element(name);
+		return this.builder.build(element);
+	}
+	
 	private TypeElement element(String name) {
 		TypeElement element = this.cache.get(name);
 		if(element == null) {

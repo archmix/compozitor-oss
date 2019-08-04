@@ -19,10 +19,8 @@ public class CodeEngine<T> {
 		context.apply((repository, template) ->{
 			GeneratorContext generatorContext = GeneratorContext.create(template);
 			
-			repository.forEach(data ->{
-				this.generator.execute(generatorContext, repository).forEach(code ->{
-					listener.accept(code);
-				});
+			this.generator.execute(generatorContext, repository).forEach(code ->{
+				listener.accept(code);
 			});
 		});
 	}

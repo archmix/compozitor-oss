@@ -42,6 +42,8 @@ public class Code {
 		generatedCode.setFileName(fileName);
 		generatedCode.setQualifiedName(qualifiedName);
 		generatedCode.setPath(namespace.replace('.', '/'));
+		generatedCode.setNamespace(namespace);
+		generatedCode.setSimpleName(this.getResourceName());
 		generatedCode.setResource(this.metadata.getResource());
 		generatedCode.setTestArtifact(this.metadata.getTestArtifact());
 		
