@@ -8,26 +8,26 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 class ModelIterable<M> implements Iterable<M> {
-	private List<M> models = new ArrayList<>();
+  private List<M> models = new ArrayList<>();
 
-	@Override
-	public Iterator<M> iterator() {
-		return this.models.iterator();
-	}
+  @Override
+  public Iterator<M> iterator() {
+    return this.models.iterator();
+  }
 
-	public Stream<M> stream() {
-		return this.models.stream();
-	}
+  public Stream<M> stream() {
+    return this.models.stream();
+  }
 
-	void add(M model) {
-		this.models.add(model);
-	}
+  void add(M model) {
+    this.models.add(model);
+  }
 
-	public boolean contains(M model) {
-		return this.models.contains(model);
-	}
+  public boolean contains(M model) {
+    return this.models.contains(model);
+  }
 
-	public Optional<M> get(Predicate<M> predicate) {
-		return this.stream().filter(predicate).findFirst();
-	}
+  public Optional<M> get(Predicate<M> predicate) {
+    return this.stream().filter(predicate).findFirst();
+  }
 }

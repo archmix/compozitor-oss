@@ -1,7 +1,6 @@
 package compozitor.generator.core.interfaces;
 
 import java.io.InputStream;
-
 import compozitor.template.core.infra.StringInputStream;
 import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
@@ -11,62 +10,63 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Code {
-	private final TemplateMetadata metadata;
+  private final TemplateMetadata metadata;
 
-	private final TemplateContext context;
-	
-	private InputStream content;
+  private final TemplateContext context;
 
-	public String getResourceName() {
-		String fileName = this.toFileName();
-		
-		int dotIndex = fileName.indexOf(".");
-		if(dotIndex > -1) {
-			return fileName.substring(0, dotIndex);
-		}
-		
-		return fileName;
-	}
+  private InputStream content;
 
-	public void setContent(InputStream content) {
-		this.content = content;
-	}
+  public String getResourceName() {
+    String fileName = this.toFileName();
 
-	public GeneratedCode toGeneratedCode() {
-		String namespace = this.getNamespace();
-		String fileName = this.toFileName();
-		String qualifiedName = new StringBuilder(namespace).append(".").append(fileName).toString();
-		
-		GeneratedCode generatedCode = new GeneratedCode();
-		generatedCode.setContent(this.content);
-		generatedCode.setFileName(fileName);
-		generatedCode.setQualifiedName(qualifiedName);
-		generatedCode.setPath(namespace.replace('.', '/'));
-		generatedCode.setNamespace(namespace);
-		generatedCode.setSimpleName(this.getResourceName());
-		generatedCode.setResource(this.metadata.getResource());
-		generatedCode.setTestArtifact(this.metadata.getTestArtifact());
-		
-		return generatedCode;
-	}
+    int dotIndex = fileName.indexOf(".");
+    if (dotIndex > -1) {
+      return fileName.substring(0, dotIndex);
+    }
 
-	public String getNamespace() {
-		context.add(this.metadata.toContextData()).add(toTemplateContextData());
+    return fileName;
+  }
 
-		return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
-	}
+  public void setContent(InputStream content) {
+    this.content = content;
+  }
 
-	private String toFileName() {
-		context.add(this.metadata.toContextData()).add(toTemplateContextData());
+  public GeneratedCode toGeneratedCode() {
+    String namespace = this.getNamespace();
+    String fileName = this.toFileName();
+    String qualifiedName = new StringBuilder(namespace).append(".").append(fileName).toString();
 
-		return this.getTemplate(this.metadata.getFileName()).mergeToString(context);
-	}
+    GeneratedCode generatedCode = new GeneratedCode();
+    generatedCode.setContent(this.content);
+    generatedCode.setFileName(fileName);
+    generatedCode.setQualifiedName(qualifiedName);
+    generatedCode.setPath(namespace.replace('.', '/'));
+    generatedCode.setNamespace(namespace);
+    generatedCode.setSimpleName(this.getResourceName());
+    generatedCode.setResource(this.metadata.getResource());
+    generatedCode.setTestArtifact(this.metadata.getTestArtifact());
 
-	private Template getTemplate(String attribute) {
-		return TemplateBuilder.create("Code").withResourceLoader(new StringInputStream(attribute)).build();
-	}
-	
-	public TemplateContextData toTemplateContextData() {
-		return TemplateContextData.of("Code", this);
-	}
+    return generatedCode;
+  }
+
+  public String getNamespace() {
+    context.add(this.metadata.toContextData()).add(toTemplateContextData());
+
+    return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
+  }
+
+  private String toFileName() {
+    context.add(this.metadata.toContextData()).add(toTemplateContextData());
+
+    return this.getTemplate(this.metadata.getFileName()).mergeToString(context);
+  }
+
+  private Template getTemplate(String attribute) {
+    return TemplateBuilder.create("Code").withResourceLoader(new StringInputStream(attribute))
+        .build();
+  }
+
+  public TemplateContextData toTemplateContextData() {
+    return TemplateContextData.of("Code", this);
+  }
 }

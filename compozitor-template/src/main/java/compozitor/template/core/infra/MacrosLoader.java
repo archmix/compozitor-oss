@@ -14,53 +14,53 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class MacrosLoader {
-	private JoinableClassLoader classLoader;
+  private JoinableClassLoader classLoader;
 
-	MacrosLoader() {
-		this.classLoader = new JoinableClassLoader().join(this.getClass().getClassLoader())
-				.join(Thread.currentThread().getContextClassLoader());
-	}
-	
-	public static MacrosLoader create() {
-		return new MacrosLoader();
-	}
+  MacrosLoader() {
+    this.classLoader = new JoinableClassLoader().join(this.getClass().getClassLoader())
+        .join(Thread.currentThread().getContextClassLoader());
+  }
 
-	public Stream<String> list(Path path) {
-		File directory = path.toFile();
-		if(directory.exists()) {
-			return listFromDirectory(path).map(it -> it.getFileName().toString());
-		}
-		
-		Set<String> resources = new HashSet<>();
-		
-		try {
-			String resourceName = path.toString();
-			if(resourceName.startsWith("/")) {
-				resourceName = resourceName.replaceFirst("/", "");
-			}
-			
-			Enumeration<URL> urls = this.classLoader.getResources(resourceName);
-			while(urls.hasMoreElements()) {
-				try (InputStream classPath = urls.nextElement().openStream();
-						BufferedReader reader = new BufferedReader(new InputStreamReader(classPath))) {
-		
-					String resource = null;
-					while ((resource = reader.readLine()) != null) {
-						resources.add(new File(path.toString(), resource).toString());
-					}
-				}
-			}
-			return resources.stream();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	private Stream<Path> listFromDirectory(Path path) {
-		try {
-			return Files.list(path);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+  public static MacrosLoader create() {
+    return new MacrosLoader();
+  }
+
+  public Stream<String> list(Path path) {
+    File directory = path.toFile();
+    if (directory.exists()) {
+      return listFromDirectory(path).map(it -> it.getFileName().toString());
+    }
+
+    Set<String> resources = new HashSet<>();
+
+    try {
+      String resourceName = path.toString();
+      if (resourceName.startsWith("/")) {
+        resourceName = resourceName.replaceFirst("/", "");
+      }
+
+      Enumeration<URL> urls = this.classLoader.getResources(resourceName);
+      while (urls.hasMoreElements()) {
+        try (InputStream classPath = urls.nextElement().openStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(classPath))) {
+
+          String resource = null;
+          while ((resource = reader.readLine()) != null) {
+            resources.add(new File(path.toString(), resource).toString());
+          }
+        }
+      }
+      return resources.stream();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private Stream<Path> listFromDirectory(Path path) {
+    try {
+      return Files.list(path);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

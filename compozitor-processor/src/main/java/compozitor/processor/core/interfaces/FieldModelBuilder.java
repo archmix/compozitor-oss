@@ -2,31 +2,30 @@ package compozitor.processor.core.interfaces;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.VariableElement;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class FieldModelBuilder {
-	private final ProcessingEnvironment environment;
+  private final ProcessingEnvironment environment;
 
-	private final TypeModelBuilder typeBuilder;
-	
-	FieldModelBuilder(ProcessingEnvironment environment) {
-		this.environment = environment;
-		this.typeBuilder = new TypeModelBuilder(environment);
-	}
+  private final TypeModelBuilder typeBuilder;
 
-	public FieldModel build(VariableElement element) {
+  FieldModelBuilder(ProcessingEnvironment environment) {
+    this.environment = environment;
+    this.typeBuilder = new TypeModelBuilder(environment);
+  }
 
-		Annotations annotations = new Annotations(environment);
+  public FieldModel build(VariableElement element) {
 
-		element.getAnnotationMirrors().forEach(annotations::add);
+    Annotations annotations = new Annotations(environment);
 
-		TypeModel type = this.typeBuilder.build(element.asType());
+    element.getAnnotationMirrors().forEach(annotations::add);
 
-		Modifiers modifiers = new Modifiers(element.getModifiers());
-		
-		return new FieldModel(this.environment, element, annotations, modifiers, type);
-	}
+    TypeModel type = this.typeBuilder.build(element.asType());
+
+    Modifiers modifiers = new Modifiers(element.getModifiers());
+
+    return new FieldModel(this.environment, element, annotations, modifiers, type);
+  }
 }
