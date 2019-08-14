@@ -3,6 +3,10 @@ package compozitor.engine.core.interfaces;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.FilerException;
 import javax.tools.FileObject;
@@ -62,10 +66,17 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
   public void setHandler(StateHandler handler) {
     this.stateHandler = handler;
   }
+  
+  @Override
+  public final Set<String> getSupportedAnnotationTypes() {
+    return new HashSet<String>(Arrays.asList(this.getTargetAnnotation().getCanonicalName()));
+  }
 
   protected final Template getTemplate(String resourceName) {
     return this.templateEngine.getTemplate(resourceName);
   }
+  
+  protected abstract Class<? extends Annotation> getTargetAnnotation();
 
   protected abstract void load(EngineContext<T> context);
 }

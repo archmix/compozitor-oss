@@ -4,6 +4,7 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
@@ -61,6 +62,16 @@ public abstract class AnnotationProcessor extends AbstractProcessor {
       this.process(model);
       return;
     }
+  }
+  
+  @Override
+  public final SourceVersion getSupportedSourceVersion() {
+    return SourceVersion.latestSupported();
+  }
+  
+  @Override
+  public final Set<String> getSupportedOptions() {
+    return super.getSupportedOptions();
   }
 
   protected void preProcess() {
