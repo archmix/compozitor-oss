@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.FilerException;
 import javax.tools.FileObject;
-import javax.tools.StandardLocation;
 import com.google.common.io.CharStreams;
 import compozitor.generator.core.interfaces.GeneratedCode;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
@@ -47,16 +47,15 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
     try {
       String sourceCode = CharStreams.toString(new InputStreamReader(code.getContent()));
 
-      FileObject sourceFile = filer.getResource(StandardLocation.SOURCE_OUTPUT, code.getNamespace(),
-          code.getSimpleName());
+      FileObject sourceFile = filer.createSourceFile(code.getQualifiedName());
 
       try (Writer writer = sourceFile.openWriter()) {
         writer.write(sourceCode);
       }
+    } catch (FilerException fe) {
+      this.stateHandler.accept(fe);
     } catch (IOException e) {
       throw new RuntimeException(e);
-    } catch (IllegalStateException ise) {
-      this.stateHandler.accept(ise);
     }
   }
 
