@@ -47,8 +47,6 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
     try {
       String sourceCode = CharStreams.toString(new InputStreamReader(code.getContent()));
 
-      System.out.println(sourceCode);
-
       FileObject sourceFile = filer.getResource(StandardLocation.SOURCE_OUTPUT, code.getNamespace(),
           code.getSimpleName());
 
