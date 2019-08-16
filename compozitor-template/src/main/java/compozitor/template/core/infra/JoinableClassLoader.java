@@ -10,7 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 public class JoinableClassLoader extends ClassLoader {
-  private Set<ClassLoader> classLoaders = new HashSet<>();
+  private final Set<ClassLoader> classLoaders;
+  
+  public JoinableClassLoader() {
+    this.classLoaders = new HashSet<>();
+    this.classLoaders.add(Thread.currentThread().getContextClassLoader());
+  }
 
   public static JoinableClassLoader create() {
     return new JoinableClassLoader();

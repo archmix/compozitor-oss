@@ -17,8 +17,7 @@ public class MacrosLoader {
   private JoinableClassLoader classLoader;
 
   MacrosLoader() {
-    this.classLoader = new JoinableClassLoader().join(this.getClass().getClassLoader())
-        .join(Thread.currentThread().getContextClassLoader());
+    this.classLoader = JoinableClassLoader.create().join(this.getClass().getClassLoader());
   }
 
   public static MacrosLoader create() {
