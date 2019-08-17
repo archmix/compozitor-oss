@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import compozitor.generator.core.interfaces.MetamodelRepository;
 import compozitor.generator.core.interfaces.TemplateMetadata;
+import compozitor.template.core.interfaces.TemplateContextData;
 
-public class EngineContext<T> {
+public class EngineContext<T extends TemplateContextData<T>> {
   private final Map<EngineType, MetamodelRepository<T>> metadata;
 
   private final Map<EngineType, TemplateMetadata> templates;
@@ -16,7 +17,7 @@ public class EngineContext<T> {
     this.templates = new HashMap<>();
   }
 
-  public static <T> EngineContext<T> create() {
+  public static <T extends TemplateContextData<T>> EngineContext<T> create() {
     return new EngineContext<>();
   }
 

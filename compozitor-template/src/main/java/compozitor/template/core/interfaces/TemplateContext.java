@@ -23,14 +23,19 @@ public class TemplateContext {
     return new TemplateContext(context);
   }
 
-  public TemplateContext add(TemplateContextData... entries) {
-    for (TemplateContextData entry : this.iterable(entries)) {
-      this.context.put(entry.key(), entry.value());
+  public TemplateContext add(String key, Object value) {
+    this.context.put(key, value);
+    return this;
+  }
+  
+  public TemplateContext add(TemplateContextData<?>... entries) {
+    for (TemplateContextData<?> entry : this.iterable(entries)) {
+      this.context.put(entry.key(), entry);
     }
     return this;
   }
 
-  private Iterable<TemplateContextData> iterable(TemplateContextData... entries) {
+  private Iterable<TemplateContextData<?>> iterable(TemplateContextData<?>... entries) {
     if (entries == null) {
       return new ArrayList<>();
     }

@@ -50,7 +50,7 @@ public class Code implements TemplateContextData<Code>{
   }
 
   public String getNamespace() {
-    context.add(this.metadata.toContextData()).add(this);
+    context.add(this.metadata).add(this);
     return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
   }
   
@@ -60,7 +60,7 @@ public class Code implements TemplateContextData<Code>{
   }
 
   private String toFileName() {
-    context.add(this.metadata.toContextData()).add(this);
+    context.add(this.metadata).add(this);
     return this.getTemplate(this.metadata.getFileName()).mergeToString(context);
   }
 

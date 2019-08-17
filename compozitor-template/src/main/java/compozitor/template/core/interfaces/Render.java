@@ -24,7 +24,7 @@ public class Render extends compozitor.template.core.interfaces.LineDirective {
     List<String> renderedCode = new ArrayList<>();
 
     contextObject.forEach(it -> {
-      templateContext.add(TemplateContextData.of("it", it));
+      templateContext.add("it", it);
       renderedCode.add(template.mergeToString(templateContext));
     });
 
