@@ -60,6 +60,7 @@ public class ProcessingContext implements Types, Elements, Filer {
 
   private void log(Kind kind, String message, Object... args) {
     String logMessage = MessageFormat.format(message, args);
+    System.out.println(logMessage);
     this.logger.printMessage(kind, logMessage);
   }
 

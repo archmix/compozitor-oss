@@ -1,15 +1,13 @@
 package compozitor.processor.core.application;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
-
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Assert;
-
 import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
 import compozitor.processor.core.interfaces.TypeModel;
 
-@SupportedAnnotationTypes("compozitor.processor.core.test.TypeAnnotation")
 public class TypeProcessor extends AnnotationProcessor {
 	@Override
 	protected void process(TypeModel model) {
@@ -24,5 +22,12 @@ public class TypeProcessor extends AnnotationProcessor {
 	@Override
 	protected void process(MethodModel model) {
 		Assert.fail();
+	}
+	
+	@Override
+	public Set<String> getSupportedAnnotationTypes() {
+	  Set<String> types = new HashSet<String>();
+	  types.add("compozitor.processor.core.test.TypeAnnotation");
+	  return types;
 	}
 }

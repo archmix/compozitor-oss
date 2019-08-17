@@ -1,6 +1,8 @@
 package compozitor.processor.core.interfaces;
 
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 
 public class ArgumentModelBuilder {
   private final ProcessingContext context;
@@ -16,8 +18,9 @@ public class ArgumentModelBuilder {
     Annotations annotations = new Annotations(this.context);
     argument.getAnnotationMirrors().forEach(annotations::add);
 
-    TypeModel type = this.typeBuilder.build(argument.asType());
+    TypeMirror argumentType = argument.asType();
+    TypeModel type = this.typeBuilder.build(argumentType);
 
-    return new ArgumentModel(this.context, argument, annotations, type);
+    return new ArgumentModel(this.context, argument, annotations, type, argumentType.getKind().equals(TypeKind.ARRAY));
   }
 }

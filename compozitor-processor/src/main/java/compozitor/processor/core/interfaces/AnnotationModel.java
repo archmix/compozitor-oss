@@ -31,7 +31,7 @@ public class AnnotationModel extends Model<AnnotationMirror> {
 
     if (obj instanceof TypeModel) {
       TypeModel type = (TypeModel) obj;
-      return this.context.isSameType(this.element.getAnnotationType(), type.element.asType());
+      return this.context.isSameType(this.element.getAnnotationType(), type.getElement().asType());
     }
 
     if (obj instanceof AnnotationModel) {
@@ -49,6 +49,6 @@ public class AnnotationModel extends Model<AnnotationMirror> {
   }
 
   public boolean instanceOf(TypeModel type) {
-    return this.context.isAssignable(this.element.getAnnotationType(), type.element.asType());
+    return this.context.isAssignable(this.element.getAnnotationType(), type.getElement().asType());
   }
 }

@@ -11,11 +11,14 @@ public class ArgumentModel extends Model<VariableElement> {
 
   private final String name;
 
+  private final boolean array;
+  
   public ArgumentModel(ProcessingContext context, VariableElement element,
-      Annotations annotations, TypeModel type) {
+      Annotations annotations, TypeModel type, Boolean array) {
     super(context, element);
     this.annotations = annotations;
     this.type = type;
     this.name = element.getSimpleName().toString();
+    this.array = array;
   }
 }

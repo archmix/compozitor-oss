@@ -17,47 +17,35 @@ class TypeModelBuilder {
   }
 
   public TypeModel build(TypeMirror type) {
-
+    this.context.info("Building model for type {0}", type);
     if (type instanceof PrimitiveType) {
+      this.context.info("Type is primitive");
       return this.build(this.context.boxedClass((PrimitiveType) type));
+    }
+    
+    if(type.getKind().equals(TypeKind.ARRAY)) {
+      this.context.info("Type is an array");
+      String name = type.toString().replace("[]", "");
+      return this.build(this.context.getTypeElement(name));
     }
 
     Element element = this.context.asElement(type);
-    if (type.getKind().equals(TypeKind.VOID)) {
-      element = this.context.getTypeElement("java.lang.Void");
+    if (element instanceof TypeParameterElement) {
+      this.context.info("Type has typed parameters");
+      return this.build((TypeParameterElement) element);
     }
 
-    if (element instanceof TypeParameterElement) {
-      return this.build((TypeParameterElement) element);
+    if (type.getKind().equals(TypeKind.VOID)) {
+      element = this.context.getTypeElement("java.lang.Void");
     }
 
     return this.build((TypeElement) element);
   }
 
   public TypeParameterModel build(TypeParameterElement typeParameter) {
-    TypeElement type = (TypeElement) typeParameter.getEnclosingElement();
-
-    PackageModel packageModel = this.buildPackage(type);
-
-    Annotations annotations = new Annotations(context);
-    type.getAnnotationMirrors().forEach(annotations::add);
-
-    Modifiers modifiers = this.buildModifiers(type);
-
-    Interfaces interfaces = this.buildInterfaces(type);
-
-    TypeModel superType = this.buildSuperClass(type);
-
-    Fields fields = new Fields(context);
-    Methods methods = new Methods(context);
-
-    if (!packageModel.getName().startsWith("java")) {
-      this.buildFields(fields, type);
-      this.buildMethods(methods, type);
-    }
-
-    return new TypeParameterModel(context, typeParameter, packageModel, annotations, modifiers,
-        superType, interfaces, fields, methods);
+    TypeModel typeModel = this.build((TypeElement) typeParameter.getEnclosingElement());
+    
+    return new TypeParameterModel(context, typeParameter, typeModel);
   }
 
   public TypeModel build(TypeElement type) {
@@ -68,6 +56,11 @@ class TypeModelBuilder {
     type.getAnnotationMirrors().forEach(annotations::add);
 
     Modifiers modifiers = this.buildModifiers(type);
+    
+    if (packageModel.getName().startsWith("java")
+        || type.getKind().equals(ElementKind.ANNOTATION_TYPE)) {
+      return new SimpleTypeModel(context, type, packageModel, annotations, modifiers, null, null, null, null);
+    }
 
     Interfaces interfaces = this.buildInterfaces(type);
 
@@ -76,28 +69,28 @@ class TypeModelBuilder {
     Fields fields = new Fields(context);
     Methods methods = new Methods(context);
 
-    if (!packageModel.getName().startsWith("java")
-        && !type.getKind().equals(ElementKind.ANNOTATION_TYPE)) {
-      this.buildFields(fields, type);
-      this.buildMethods(methods, type);
-    }
+    this.buildFields(fields, type);
+    this.buildMethods(methods, type);
 
-    return new TypeModel(this.context, type, packageModel, annotations, modifiers, superType,
+    return new SimpleTypeModel(this.context, type, packageModel, annotations, modifiers, superType,
         interfaces, fields, methods);
   }
 
   private Methods buildMethods(Methods methods, TypeElement type) {
+    this.context.info("Building methods for type {0}", type);
     ElementFilter.methodsIn(type.getEnclosedElements()).forEach(methods::add);
 
     return methods;
   }
 
   private Fields buildFields(Fields fields, TypeElement type) {
+    this.context.info("Building fields for type {0}", type);
     ElementFilter.fieldsIn(type.getEnclosedElements()).forEach(fields::add);
     return fields;
   }
 
   private TypeModel buildSuperClass(TypeElement type) {
+    this.context.info("Building super class for type {0}", type);
     TypeElement object = this.context.getTypeElement("java.lang.Object");
 
     TypeMirror superType = type.getSuperclass();
@@ -112,6 +105,7 @@ class TypeModelBuilder {
   }
 
   private Interfaces buildInterfaces(TypeElement type) {
+    this.context.info("Building interfaces for type {0}", type);
     Interfaces interfaces = new Interfaces(this.context);
 
     type.getInterfaces().forEach(interfaces::add);
@@ -120,10 +114,12 @@ class TypeModelBuilder {
   }
 
   private Modifiers buildModifiers(TypeElement type) {
+    this.context.info("Building modifiers for type {0}", type);
     return new Modifiers(type.getModifiers());
   }
 
   private PackageModel buildPackage(TypeElement type) {
+    this.context.info("Building package for type {0}", type);
     return new PackageModel(this.context, this.context.getPackageOf(type));
   }
 }

@@ -1,51 +1,25 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.TypeElement;
-import lombok.Getter;
+import javax.lang.model.element.Element;
 
-public class TypeModel extends AssignableModel<TypeElement> {
-  private final PackageModel packageModel;
+public interface TypeModel {
+  Annotations getAnnotations();
 
-  @Getter
-  private final Annotations annotations;
+  Modifiers getModifiers();
 
-  @Getter
-  private final Modifiers modifiers;
+  String getName();
 
-  @Getter
-  private final String name;
+  String getQualifiedName();
 
-  @Getter
-  private final String qualifiedName;
+  TypeModel getSuperType();
 
-  @Getter
-  private final TypeModel superType;
+  Interfaces getInterfaces();
 
-  @Getter
-  private final Interfaces interfaces;
+  Fields getFields();
 
-  @Getter
-  private final Fields fields;
+  Methods getMethods();
+  
+  PackageModel getPackage();
 
-  @Getter
-  private final Methods methods;
-
-  TypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel,
-      Annotations annotations, Modifiers modifiers, TypeModel superType, Interfaces interfaces,
-      Fields fields, Methods methods) {
-    super(context, element);
-    this.packageModel = packageModel;
-    this.annotations = annotations;
-    this.modifiers = modifiers;
-    this.name = element.getSimpleName().toString();
-    this.qualifiedName = element.getQualifiedName().toString();
-    this.superType = superType;
-    this.interfaces = interfaces;
-    this.fields = fields;
-    this.methods = methods;
-  }
-
-  public PackageModel getPackage() {
-    return this.packageModel;
-  }
+  Element getElement();
 }

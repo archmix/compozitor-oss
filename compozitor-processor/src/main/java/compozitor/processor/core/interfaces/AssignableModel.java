@@ -10,7 +10,7 @@ class AssignableModel<M extends Element> extends Model<M> {
   }
 
   public boolean instanceOf(TypeModel type) {
-    return this.instanceOf(type.element.asType());
+    return this.instanceOf(type.getElement().asType());
   }
 
   boolean instanceOf(TypeMirror type) {
