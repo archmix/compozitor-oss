@@ -21,6 +21,7 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
   private final CodeEngine<T> engine;
   private final EngineContext<T> context;
   private final TemplateEngine templateEngine;
+  private final EngineType engineType;
   private StateHandler stateHandler;
 
   public ProcessorEngine() {
@@ -30,6 +31,7 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
     this.stateHandler = ((ise) -> {
       throw new RuntimeException(ise);
     });
+    this.engineType = EngineType.adapter(this.getTargetAnnotation().getSimpleName());
   }
 
   protected TemplateEngine init(TemplateEngineBuilder builder) {
@@ -38,7 +40,7 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
 
   @Override
   protected final void postProcess() {
-    this.load(this.context);
+    this.load(engineType, this.context);
 
     this.engine.generate(context, code -> {
       this.write(code);
@@ -78,5 +80,5 @@ public abstract class ProcessorEngine<T> extends AnnotationProcessor {
   
   protected abstract Class<? extends Annotation> getTargetAnnotation();
 
-  protected abstract void load(EngineContext<T> context);
+  protected abstract void load(EngineType engineType, EngineContext<T> context);
 }
