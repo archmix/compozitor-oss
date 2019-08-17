@@ -9,7 +9,7 @@ import compozitor.template.core.interfaces.TemplateContextData;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class Code {
+public class Code implements TemplateContextData<Code>{
   private final TemplateMetadata metadata;
 
   private final TemplateContext context;
@@ -50,23 +50,22 @@ public class Code {
   }
 
   public String getNamespace() {
-    context.add(this.metadata.toContextData()).add(toTemplateContextData());
-
+    context.add(this.metadata.toContextData()).add(this);
     return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
+  }
+  
+  @Override
+  public String key() {
+    return "Code";
   }
 
   private String toFileName() {
-    context.add(this.metadata.toContextData()).add(toTemplateContextData());
-
+    context.add(this.metadata.toContextData()).add(this);
     return this.getTemplate(this.metadata.getFileName()).mergeToString(context);
   }
 
   private Template getTemplate(String attribute) {
     return TemplateBuilder.create("Code").withResourceLoader(new StringInputStream(attribute))
         .build();
-  }
-
-  public TemplateContextData toTemplateContextData() {
-    return TemplateContextData.of("Code", this);
   }
 }

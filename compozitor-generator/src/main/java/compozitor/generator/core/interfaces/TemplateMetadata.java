@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class TemplateMetadata {
+public class TemplateMetadata implements TemplateContextData<TemplateMetadata> {
   @Setter
   private String criteria;
   @Setter
@@ -60,8 +60,9 @@ public class TemplateMetadata {
   public void disable() {
     this.enabled = false;
   }
-
-  public TemplateContextData toContextData() {
-    return TemplateContextData.of("Template", this);
+  
+  @Override
+  public String key() {
+    return "Template";
   }
 }

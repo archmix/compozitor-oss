@@ -5,8 +5,9 @@ import java.util.List;
 import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
 import compozitor.template.core.interfaces.TemplateContext;
+import compozitor.template.core.interfaces.TemplateContextData;
 
-public class CodeGenerator<T> {
+public class CodeGenerator<T extends TemplateContextData<T>> {
 
   public final List<GeneratedCode> execute(GeneratorContext context,
       MetamodelRepository<T> repository) {
@@ -18,13 +19,13 @@ public class CodeGenerator<T> {
     Code code = new Code(templateMetadata, templateContext);
 
     for (T metamodel : repository) {
-      templateContext.add(repository.toTemplateContextData(metamodel));
+      templateContext.add(metamodel);
 
       if (!this.accept(templateMetadata, templateContext)) {
         continue;
       }
 
-      templateContext.add(code.toTemplateContextData());
+      templateContext.add(code);
       code.setContent(template.mergeToStream(templateContext));
 
       list.add(code.toGeneratedCode());
