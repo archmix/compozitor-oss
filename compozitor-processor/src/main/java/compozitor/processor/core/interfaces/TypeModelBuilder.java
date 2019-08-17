@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
@@ -9,27 +8,23 @@ import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
-import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
 
 class TypeModelBuilder {
-  private final ProcessingEnvironment environment;
+  private final ProcessingContext context;
 
-  TypeModelBuilder(ProcessingEnvironment environment) {
-    this.environment = environment;
+  TypeModelBuilder(ProcessingContext context) {
+    this.context = context;
   }
 
   public TypeModel build(TypeMirror type) {
-    Types types = this.environment.getTypeUtils();
-    Elements elements = this.environment.getElementUtils();
 
     if (type instanceof PrimitiveType) {
-      return this.build(types.boxedClass((PrimitiveType) type));
+      return this.build(this.context.boxedClass((PrimitiveType) type));
     }
 
-    Element element = types.asElement(type);
+    Element element = this.context.asElement(type);
     if (type.getKind().equals(TypeKind.VOID)) {
-      element = elements.getTypeElement("java.lang.Void");
+      element = this.context.getTypeElement("java.lang.Void");
     }
 
     if (element instanceof TypeParameterElement) {
@@ -44,7 +39,7 @@ class TypeModelBuilder {
 
     PackageModel packageModel = this.buildPackage(type);
 
-    Annotations annotations = new Annotations(environment);
+    Annotations annotations = new Annotations(context);
     type.getAnnotationMirrors().forEach(annotations::add);
 
     Modifiers modifiers = this.buildModifiers(type);
@@ -53,22 +48,23 @@ class TypeModelBuilder {
 
     TypeModel superType = this.buildSuperClass(type);
 
-    Fields fields = new Fields(environment);
-    Methods methods = new Methods(environment);
+    Fields fields = new Fields(context);
+    Methods methods = new Methods(context);
 
     if (!packageModel.getName().startsWith("java")) {
       this.buildFields(fields, type);
       this.buildMethods(methods, type);
     }
 
-    return new TypeParameterModel(environment, typeParameter, packageModel, annotations, modifiers,
+    return new TypeParameterModel(context, typeParameter, packageModel, annotations, modifiers,
         superType, interfaces, fields, methods);
   }
 
   public TypeModel build(TypeElement type) {
+    this.context.info("Building TypeModel for element {0}", type);
     PackageModel packageModel = this.buildPackage(type);
 
-    Annotations annotations = new Annotations(environment);
+    Annotations annotations = new Annotations(context);
     type.getAnnotationMirrors().forEach(annotations::add);
 
     Modifiers modifiers = this.buildModifiers(type);
@@ -77,8 +73,8 @@ class TypeModelBuilder {
 
     TypeModel superType = this.buildSuperClass(type);
 
-    Fields fields = new Fields(environment);
-    Methods methods = new Methods(environment);
+    Fields fields = new Fields(context);
+    Methods methods = new Methods(context);
 
     if (!packageModel.getName().startsWith("java")
         && !type.getKind().equals(ElementKind.ANNOTATION_TYPE)) {
@@ -86,7 +82,7 @@ class TypeModelBuilder {
       this.buildMethods(methods, type);
     }
 
-    return new TypeModel(this.environment, type, packageModel, annotations, modifiers, superType,
+    return new TypeModel(this.context, type, packageModel, annotations, modifiers, superType,
         interfaces, fields, methods);
   }
 
@@ -102,23 +98,21 @@ class TypeModelBuilder {
   }
 
   private TypeModel buildSuperClass(TypeElement type) {
-    Types types = this.environment.getTypeUtils();
-    Elements elements = this.environment.getElementUtils();
-    TypeElement object = elements.getTypeElement("java.lang.Object");
+    TypeElement object = this.context.getTypeElement("java.lang.Object");
 
     TypeMirror superType = type.getSuperclass();
 
     if (TypeKind.NONE.equals(superType.getKind())
-        || types.isAssignable(object.asType(), superType)) {
+        || this.context.isAssignable(object.asType(), superType)) {
       return null;
     }
 
-    TypeElement superElement = (TypeElement) types.asElement(superType);
+    TypeElement superElement = (TypeElement) this.context.asElement(superType);
     return this.build(superElement);
   }
 
   private Interfaces buildInterfaces(TypeElement type) {
-    Interfaces interfaces = new Interfaces(this.environment);
+    Interfaces interfaces = new Interfaces(this.context);
 
     type.getInterfaces().forEach(interfaces::add);
 
@@ -130,8 +124,6 @@ class TypeModelBuilder {
   }
 
   private PackageModel buildPackage(TypeElement type) {
-    Elements elements = environment.getElementUtils();
-
-    return new PackageModel(this.environment, elements.getPackageOf(type));
+    return new PackageModel(this.context, this.context.getPackageOf(type));
   }
 }

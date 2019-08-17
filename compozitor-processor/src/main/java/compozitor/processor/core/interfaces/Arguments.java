@@ -1,13 +1,12 @@
 package compozitor.processor.core.interfaces;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.VariableElement;
 
 public class Arguments extends ModelIterable<ArgumentModel> {
   private final ArgumentModelBuilder builder;
 
-  public Arguments(ProcessingEnvironment environment) {
-    this.builder = new ArgumentModelBuilder(environment);
+  public Arguments(ProcessingContext context) {
+    this.builder = new ArgumentModelBuilder(context);
   }
 
   void add(VariableElement element) {

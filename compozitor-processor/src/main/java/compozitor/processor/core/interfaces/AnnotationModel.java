@@ -1,15 +1,14 @@
 package compozitor.processor.core.interfaces;
 
 import java.util.Map;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
 
 public class AnnotationModel extends Model<AnnotationMirror> {
 
-  AnnotationModel(ProcessingEnvironment environment, AnnotationMirror annotation) {
-    super(environment, annotation);
+  AnnotationModel(ProcessingContext context, AnnotationMirror annotation) {
+    super(context, annotation);
   }
 
   public AnnotationValue getValue(String key) {
@@ -32,12 +31,12 @@ public class AnnotationModel extends Model<AnnotationMirror> {
 
     if (obj instanceof TypeModel) {
       TypeModel type = (TypeModel) obj;
-      return this.types.isSameType(this.element.getAnnotationType(), type.element.asType());
+      return this.context.isSameType(this.element.getAnnotationType(), type.element.asType());
     }
 
     if (obj instanceof AnnotationModel) {
       AnnotationModel annotation = (AnnotationModel) obj;
-      return this.types.isSameType(this.element.getAnnotationType(),
+      return this.context.isSameType(this.element.getAnnotationType(),
           annotation.element.getAnnotationType());
     }
 
@@ -45,11 +44,11 @@ public class AnnotationModel extends Model<AnnotationMirror> {
   }
 
   public boolean instanceOf(AnnotationModel annotation) {
-    return this.types.isAssignable(this.element.getAnnotationType(),
+    return this.context.isAssignable(this.element.getAnnotationType(),
         annotation.element.getAnnotationType());
   }
 
   public boolean instanceOf(TypeModel type) {
-    return this.types.isAssignable(this.element.getAnnotationType(), type.element.asType());
+    return this.context.isAssignable(this.element.getAnnotationType(), type.element.asType());
   }
 }

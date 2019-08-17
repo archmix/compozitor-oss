@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import lombok.Getter;
 
@@ -31,10 +30,10 @@ public class TypeModel extends AssignableModel<TypeElement> {
   @Getter
   private final Methods methods;
 
-  TypeModel(ProcessingEnvironment environment, TypeElement element, PackageModel packageModel,
+  TypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel,
       Annotations annotations, Modifiers modifiers, TypeModel superType, Interfaces interfaces,
       Fields fields, Methods methods) {
-    super(environment, element);
+    super(context, element);
     this.packageModel = packageModel;
     this.annotations = annotations;
     this.modifiers = modifiers;

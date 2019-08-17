@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.VariableElement;
 import lombok.Getter;
 
@@ -12,9 +11,9 @@ public class ArgumentModel extends Model<VariableElement> {
 
   private final String name;
 
-  public ArgumentModel(ProcessingEnvironment environment, VariableElement element,
+  public ArgumentModel(ProcessingContext context, VariableElement element,
       Annotations annotations, TypeModel type) {
-    super(environment, element);
+    super(context, element);
     this.annotations = annotations;
     this.type = type;
     this.name = element.getSimpleName().toString();

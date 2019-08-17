@@ -2,24 +2,23 @@ package compozitor.processor.core.interfaces;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
 public class JavaTypes {
-  private final ProcessingEnvironment environment;
+  private final ProcessingContext context;
 
   private final TypeModelBuilder builder;
 
   private final Map<String, TypeElement> cache;
 
-  JavaTypes(ProcessingEnvironment environment) {
-    this.environment = environment;
-    this.builder = new TypeModelBuilder(environment);
+  JavaTypes(ProcessingContext context) {
+    this.context = context;
+    this.builder = new TypeModelBuilder(context);
     this.cache = new HashMap<>();
   }
 
-  public static JavaTypes create(ProcessingEnvironment environment) {
-    return new JavaTypes(environment);
+  public static JavaTypes create(ProcessingContext context) {
+    return new JavaTypes(context);
   }
 
   public TypeModel getObjectType() {
@@ -39,7 +38,7 @@ public class JavaTypes {
   private TypeElement element(String name) {
     TypeElement element = this.cache.get(name);
     if (element == null) {
-      element = this.environment.getElementUtils().getTypeElement(name);
+      element = this.context.getTypeElement(name);
       this.cache.put(name, element);
     }
 

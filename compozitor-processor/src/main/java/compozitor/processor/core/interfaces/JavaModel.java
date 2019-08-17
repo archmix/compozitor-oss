@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -10,14 +9,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(staticName = "create")
 public class JavaModel {
-  protected final ProcessingEnvironment environment;
+  protected final ProcessingContext context;
 
   public TypeModel getClass(Element element) {
     if (!element.getKind().equals(ElementKind.CLASS)) {
       return null;
     }
 
-    return new TypeModelBuilder(this.environment).build((TypeElement) element);
+    return new TypeModelBuilder(this.context).build((TypeElement) element);
   }
 
   public TypeModel getInterface(Element element) {
@@ -25,7 +24,7 @@ public class JavaModel {
       return null;
     }
 
-    return new TypeModelBuilder(this.environment).build((TypeElement) element);
+    return new TypeModelBuilder(this.context).build((TypeElement) element);
   }
 
   public FieldModel getField(Element element) {
@@ -33,7 +32,7 @@ public class JavaModel {
       return null;
     }
 
-    return new FieldModelBuilder(this.environment).build((VariableElement) element);
+    return new FieldModelBuilder(this.context).build((VariableElement) element);
   }
 
   public MethodModel getMethod(Element element) {
@@ -41,6 +40,6 @@ public class JavaModel {
       return null;
     }
 
-    return new MethodModelBuilder(this.environment).build((ExecutableElement) element);
+    return new MethodModelBuilder(this.context).build((ExecutableElement) element);
   }
 }

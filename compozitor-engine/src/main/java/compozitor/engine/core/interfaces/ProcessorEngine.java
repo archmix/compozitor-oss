@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.processing.Filer;
 import javax.annotation.processing.FilerException;
 import javax.tools.FileObject;
 import com.google.common.io.CharStreams;
@@ -24,7 +23,7 @@ import compozitor.template.core.interfaces.TemplateEngineBuilder;
 
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final CodeEngine<T> engine;
-  private final EngineContext<T> context;
+  private final EngineContext<T> engineContext;
   private final TemplateEngine templateEngine;
   private final EngineType engineType;
   private final MetamodelRepository<T> repository;
@@ -32,14 +31,14 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   public ProcessorEngine() {
     this.engine = CodeEngine.create();
-    this.context = EngineContext.create();
+    this.engineContext = EngineContext.create();
     this.templateEngine = this.init(TemplateEngineBuilder.create().withClasspathTemplateLoader());
     this.repository = new MetamodelRepository<>();
     this.stateHandler = ((ise) -> {
       throw new RuntimeException(ise);
     });
     this.engineType = EngineType.adapter(this.getTargetAnnotation().getSimpleName());
-    this.context.add(engineType, this.repository);
+    this.engineContext.add(engineType, this.repository);
   }
 
   protected TemplateEngine init(TemplateEngineBuilder builder) {
@@ -55,21 +54,19 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     List<TemplateMetadata> templates = new ArrayList<>();
     this.loadTemplates(templates);
     templates.forEach(template ->{
-      this.context.add(this.engineType, template);
+      this.engineContext.add(this.engineType, template);
     });
 
-    this.engine.generate(context, code -> {
+    this.engine.generate(engineContext, code -> {
       this.write(code);
     });
   }
 
   private void write(GeneratedCode code) {
-    Filer filer = this.processingEnv.getFiler();
-
     try {
       String sourceCode = CharStreams.toString(new InputStreamReader(code.getContent()));
 
-      FileObject sourceFile = filer.createSourceFile(code.getQualifiedName());
+      FileObject sourceFile = this.context.createSourceFile(code.getQualifiedName());
 
       try (Writer writer = sourceFile.openWriter()) {
         writer.write(sourceCode);

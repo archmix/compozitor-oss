@@ -1,44 +1,52 @@
 package compozitor.processor.core.interfaces;
 
+import java.util.Collections;
 import java.util.Set;
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Messager;
+import javax.annotation.processing.Completion;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic.Kind;
 
-public abstract class AnnotationProcessor extends AbstractProcessor {
+public abstract class AnnotationProcessor implements Processor {
+  protected ProcessingContext context;
+
+  @Override
+  public synchronized final void init(ProcessingEnvironment environment) {
+    this.context = ProcessingContext.create(environment);
+  }
 
   @Override
   public final boolean process(Set<? extends TypeElement> annotations,
       RoundEnvironment roundEnvironment) {
-    Messager messager = processingEnv.getMessager();
 
     try {
       this.preProcess();
 
       annotations.forEach(annotation -> {
-        messager.printMessage(Kind.NOTE, "Processing elements for annotation", annotation);
+        this.context.info("Processing elements for annotation {0}", annotation);
         roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element -> {
           this.process(annotation, element);
         });
-        messager.printMessage(Kind.NOTE, "All elements processed for annotation", annotation);
+        this.context.info("All elements processed for annotation {0}", annotation);
       });
 
       this.postProcess();
     } catch (RuntimeException ex) {
       ex.printStackTrace();
-      messager.printMessage(Kind.ERROR, ex.getMessage());
+      this.context.error(ex.getMessage());
     }
 
     return annotations.size() > 0;
   }
 
   private void process(TypeElement annotation, Element element) {
-    JavaModel javaModel = JavaModel.create(processingEnv);
+    JavaModel javaModel = JavaModel.create(this.context);
     if (element.getKind().equals(ElementKind.CLASS)) {
       TypeModel model = javaModel.getClass(element);
       this.process(model);
@@ -65,13 +73,24 @@ public abstract class AnnotationProcessor extends AbstractProcessor {
   }
   
   @Override
+  public Set<String> getSupportedAnnotationTypes() {
+    return Collections.emptySet();
+  }
+
+  @Override
   public final SourceVersion getSupportedSourceVersion() {
     return SourceVersion.latestSupported();
   }
   
   @Override
-  public final Set<String> getSupportedOptions() {
-    return super.getSupportedOptions();
+  public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation,
+      ExecutableElement member, String userText) {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public Set<String> getSupportedOptions() {
+    return Collections.emptySet();
   }
 
   protected void preProcess() {
