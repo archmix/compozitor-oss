@@ -27,7 +27,7 @@ public abstract class AnnotationProcessor implements Processor {
   @Override
   public final boolean process(Set<? extends TypeElement> annotations,
       RoundEnvironment roundEnvironment) {
-
+    
     try {
       this.preProcess();
 
@@ -46,7 +46,7 @@ public abstract class AnnotationProcessor implements Processor {
       this.context.error(ex.getMessage());
     }
 
-    return annotations.size() > 0;
+    return true;
   }
 
   private void process(TypeElement annotation, Element element) {
