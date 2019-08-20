@@ -20,7 +20,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
 
   @Getter
   private final TypeModel superType;
-
+  
   @Getter
   private final Interfaces interfaces;
 
@@ -30,9 +30,8 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   @Getter
   private final Methods methods;
 
-  SimpleTypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel,
-      Annotations annotations, Modifiers modifiers, TypeModel superType, Interfaces interfaces,
-      Fields fields, Methods methods) {
+  SimpleTypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel, Annotations annotations, Modifiers modifiers,
+      TypeModel superType, Interfaces interfaces, Fields fields, Methods methods) {
     super(context, element);
     this.packageModel = packageModel;
     this.annotations = annotations;
@@ -48,7 +47,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   public PackageModel getPackage() {
     return this.packageModel;
   }
-  
+
   @Override
   public TypeElement getElement() {
     return this.element;

@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.SortedSet;
+import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import com.google.common.collect.Sets;
@@ -55,9 +56,15 @@ public class ServiceResourceFile implements AutoCloseable {
     }
   }
 
+  public void add(TypeModel service) {
+    this.add(service, expectedInterface -> {
+      this.context.log(Kind.ERROR, service.getElement(), "You need to implement this interface {0}", this.providerInterface.getQualifiedName());
+    });
+  }
+
   public void add(TypeModel service, ErrorHandler handler) {
     if (!service.getInterfaces().contains(this.providerInterface)) {
-      handler.handle(this.providerInterface, service);
+      handler.handle(this.providerInterface);
       return;
     }
 
@@ -93,6 +100,6 @@ public class ServiceResourceFile implements AutoCloseable {
 
   @FunctionalInterface
   public static interface ErrorHandler {
-    void handle(TypeModel providerInterface, TypeModel service);
+    void handle(TypeModel providerInterface);
   }
 }

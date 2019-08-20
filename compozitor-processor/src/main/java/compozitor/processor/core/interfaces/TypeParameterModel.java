@@ -57,7 +57,7 @@ public class TypeParameterModel extends AssignableModel<TypeParameterElement> im
   public PackageModel getPackage() {
     return this.type.getPackage();
   }
-  
+
   @Override
   public TypeParameterElement getElement() {
     return this.element;

@@ -1,19 +1,30 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.TypeElement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.lang.model.type.TypeMirror;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 public class Interfaces extends ModelIterable<TypeModel> {
-  private final ProcessingContext types;
-  private final TypeModelBuilder builder;
 
-  Interfaces(ProcessingContext context) {
-    this.types = context;
-    this.builder = new TypeModelBuilder(context);
+  Interfaces(List<? extends TypeMirror> interfaces, JavaModel javaModel) {
+    super(new InterfacesSupplier(interfaces, javaModel));
   }
-
-  void add(TypeMirror interfaceType) {
-    TypeElement type = (TypeElement) this.types.asElement(interfaceType);
-    this.add(this.builder.build(type));
+  
+  @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+  static class InterfacesSupplier implements ListSupplier<TypeModel>{
+    private final List<? extends TypeMirror> interfaces;
+    private final JavaModel javaModel;
+    
+    @Override
+    public List<TypeModel> get() {
+      List<TypeModel> models = new ArrayList<>();
+      this.interfaces.forEach(iface ->{
+        models.add(this.javaModel.getInterface(iface));
+      });
+      
+      return models;
+    }
   }
 }

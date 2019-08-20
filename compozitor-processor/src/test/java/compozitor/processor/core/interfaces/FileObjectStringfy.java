@@ -2,7 +2,7 @@ package compozitor.processor.core.interfaces;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.tools.JavaFileObject;
+import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import com.google.testing.compile.Compilation;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +11,21 @@ import lombok.RequiredArgsConstructor;
 public class FileObjectStringfy {
   private final Compilation compilation;
 
-  public String sourcetoString(String path) {
+  public String sourceToString(String path) {
     String resourceNotFound = String.format("Resource not found %s", path);
-    JavaFileObject generatedFile = compilation.generatedFile(StandardLocation.SOURCE_OUTPUT, path)
+    FileObject generatedFile = compilation.generatedFile(StandardLocation.SOURCE_OUTPUT, path)
+        .orElseThrow(() -> new RuntimeException(resourceNotFound));
+    return this.toString(generatedFile);
+  }
+  
+  public String resourceToString(String path) {
+    String resourceNotFound = String.format("Resource not found %s", path);
+    FileObject generatedFile = compilation.generatedFile(StandardLocation.CLASS_OUTPUT, path)
         .orElseThrow(() -> new RuntimeException(resourceNotFound));
     return this.toString(generatedFile);
   }
 
-  public String toString(JavaFileObject javaFile) {
+  public String toString(FileObject javaFile) {
     try(InputStream input = javaFile.openInputStream()){
       byte[] available = new byte[input.available()];
       input.read(available);

@@ -11,10 +11,10 @@ public interface TypeModel {
 
   String getQualifiedName();
 
-  TypeModel getSuperType();
-
   Interfaces getInterfaces();
 
+  TypeModel getSuperType();
+  
   Fields getFields();
 
   Methods getMethods();

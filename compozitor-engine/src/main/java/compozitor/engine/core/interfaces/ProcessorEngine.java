@@ -28,7 +28,6 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   private final EngineType engineType;
   private final MetamodelRepository<T> repository;
   private StateHandler stateHandler;
-  private final RunOnce runOnce;
 
   public ProcessorEngine() {
     this.engine = CodeEngine.create();
@@ -40,7 +39,6 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     });
     this.engineType = EngineType.adapter(this.getTargetAnnotation().getSimpleName());
     this.engineContext.add(engineType, this.repository);
-    this.runOnce = new RunOnce();
   }
 
   protected TemplateEngine init(TemplateEngineBuilder builder) {
@@ -53,16 +51,14 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   @Override
   protected final void postProcess() {
-    this.runOnce.run(()->{
-      List<TemplateMetadata> templates = new ArrayList<>();
-      this.loadTemplates(templates);
-      templates.forEach(template ->{
-        this.engineContext.add(this.engineType, template);
-      });
-      
-      this.engine.generate(engineContext, code -> {
-        this.write(code);
-      });
+    List<TemplateMetadata> templates = new ArrayList<>();
+    this.loadTemplates(templates);
+    templates.forEach(template ->{
+      this.engineContext.add(this.engineType, template);
+    });
+    
+    this.engine.generate(engineContext, code -> {
+      this.write(code);
     });
   }
 
@@ -80,10 +76,6 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public void setHandler(StateHandler handler) {
-    this.stateHandler = handler;
   }
   
   @Override

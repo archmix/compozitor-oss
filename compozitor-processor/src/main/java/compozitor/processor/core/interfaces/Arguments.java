@@ -1,15 +1,29 @@
 package compozitor.processor.core.interfaces;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.lang.model.element.VariableElement;
+import lombok.RequiredArgsConstructor;
 
 public class Arguments extends ModelIterable<ArgumentModel> {
-  private final ArgumentModelBuilder builder;
-
-  public Arguments(ProcessingContext context) {
-    this.builder = new ArgumentModelBuilder(context);
+  
+  Arguments(List<? extends VariableElement> arguments, JavaModel javaModel) {
+    super(new ArgumentsSupplier(arguments, javaModel));
   }
 
-  void add(VariableElement element) {
-    this.add(this.builder.build(element));
+  @RequiredArgsConstructor
+  static class ArgumentsSupplier implements ListSupplier<ArgumentModel>{
+    private final List<? extends VariableElement> arguments;
+    
+    private final JavaModel javaModel;
+    
+    @Override
+    public List<ArgumentModel> get() {
+      List<ArgumentModel> models = new ArrayList<>();
+      this.arguments.forEach(argument ->{
+        models.add(this.javaModel.getArgument(argument));
+      });
+      return null;
+    }
   }
 }

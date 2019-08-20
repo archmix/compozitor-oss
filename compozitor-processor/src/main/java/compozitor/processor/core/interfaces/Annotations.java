@@ -1,15 +1,30 @@
 package compozitor.processor.core.interfaces;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 public class Annotations extends ModelIterable<AnnotationModel> {
-  private final AnnotationModelBuilder builder;
 
-  Annotations(ProcessingContext context) {
-    this.builder = new AnnotationModelBuilder(context);
+  Annotations(List<? extends AnnotationMirror> annotations, JavaModel javaModel) {
+    super(new AnnotationsSupplier(annotations, javaModel));
   }
 
-  void add(AnnotationMirror annotation) {
-    this.add(this.builder.build(annotation));
+  @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+  static class AnnotationsSupplier implements ListSupplier<AnnotationModel> {
+    private final List<? extends AnnotationMirror> annotations;
+    private final JavaModel javaModel;
+
+    @Override
+    public List<AnnotationModel> get() {
+      List<AnnotationModel> models = new ArrayList<>();
+      this.annotations.forEach(annotation -> {
+        models.add(this.javaModel.getAnnotation(annotation));
+      });
+
+      return models;
+    }
   }
 }

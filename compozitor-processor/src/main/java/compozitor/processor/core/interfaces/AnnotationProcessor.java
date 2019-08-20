@@ -1,4 +1,4 @@
-package compozitor.processor.core.interfaces;
+  package compozitor.processor.core.interfaces;
 
 import java.util.Collections;
 import java.util.Set;
@@ -16,17 +16,24 @@ import javax.lang.model.element.TypeElement;
 public abstract class AnnotationProcessor implements Processor {
   protected ProcessingContext context;
   
+  protected JavaModel javaModel;
+  
   protected JavaTypes javaTypes;
 
   @Override
   public synchronized final void init(ProcessingEnvironment environment) {
     this.context = ProcessingContext.create(environment);
-    this.javaTypes = JavaTypes.create(this.context);
+    this.javaModel = JavaModel.create(context);
+    this.javaTypes = JavaTypes.create(this.javaModel);
   }
 
   @Override
   public final boolean process(Set<? extends TypeElement> annotations,
       RoundEnvironment roundEnvironment) {
+
+    if(roundEnvironment.processingOver()) {
+      return true;
+    }
     
     try {
       this.preProcess();
@@ -50,7 +57,6 @@ public abstract class AnnotationProcessor implements Processor {
   }
 
   private void process(TypeElement annotation, Element element) {
-    JavaModel javaModel = JavaModel.create(this.context);
     if (element.getKind().equals(ElementKind.CLASS)) {
       this.context.info("Element is a class", element);
       TypeModel model = javaModel.getClass(element);
