@@ -3,14 +3,12 @@ mvn -DskipTests deploy
 git clone git@github.com:mrbraztech/skynet.git
 git checkout -b gh-pages
 
-for d in **/*compozitor*/; do 
-  if [ -d "$d" ]; then
-    echo $d;
-    mavenRepo = "$d/maven-repo"
-    cp -r $mavenRepo ./skynet
-    rm -rf $mavenRepo
-  fi
-done
+for directory in $(find ./ -type d -name "maven-repo");
+do
+    echo $directory
+    cp -r $directory ./skynet
+    rm -rf $directory
+done 
 
 cd skynet
 git config user.email "braz@mrbraz.tech"
