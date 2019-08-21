@@ -9,6 +9,7 @@ for d in **/*compozitor*/; do
     mavenRepo = "$d/maven-repo"
     cp -r $mavenRepo ./skynet
     rm -rf $mavenRepo
+  fi
 done
 
 cd skynet
