@@ -1,4 +1,4 @@
-  package compozitor.processor.core.interfaces;
+package compozitor.processor.core.interfaces;
 
 import java.util.Collections;
 import java.util.Set;
@@ -15,44 +15,53 @@ import javax.lang.model.element.TypeElement;
 
 public abstract class AnnotationProcessor implements Processor {
   protected ProcessingContext context;
-  
+
   protected JavaModel javaModel;
-  
+
   protected JavaTypes javaTypes;
+
+  private final RunOnce runOnce;
+
+  public AnnotationProcessor() {
+    this.runOnce = RunOnce.create();
+  }
 
   @Override
   public synchronized final void init(ProcessingEnvironment environment) {
     this.context = ProcessingContext.create(environment);
     this.javaModel = JavaModel.create(context);
     this.javaTypes = JavaTypes.create(this.javaModel);
-    this.context.info("Running processor {0}", this.getClass().getName());
   }
 
   @Override
   public final boolean process(Set<? extends TypeElement> annotations,
       RoundEnvironment roundEnvironment) {
 
-    if(roundEnvironment.processingOver()) {
+    if (roundEnvironment.processingOver()) {
       return true;
     }
-    
-    try {
-      this.preProcess();
 
-      annotations.forEach(annotation -> {
-        this.context.info("Processing elements for annotation {0}", annotation);
-        roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element -> {
-          this.context.info("Found type {0} with annotation {1}", element, annotation);
-          this.process(annotation, element);
+    this.runOnce.run(() -> {
+      this.context.info("Running processor {0}", this.getClass().getName());
+
+      try {
+        this.preProcess();
+
+        annotations.forEach(annotation -> {
+          this.context.info("Processing elements for annotation {0}", annotation);
+          roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element -> {
+            this.context.info("Found type {0} with annotation {1}", element, annotation);
+            this.process(annotation, element);
+          });
+          this.context.info("All elements processed for annotation {0}", annotation);
         });
-        this.context.info("All elements processed for annotation {0}", annotation);
-      });
 
-      this.postProcess();
-    } catch (RuntimeException ex) {
-      ex.printStackTrace();
-      this.context.error(ex.getMessage());
-    }
+        this.postProcess();
+      } catch (RuntimeException ex) {
+        ex.printStackTrace();
+        this.context.error(ex.getMessage());
+      }
+    });
 
     return true;
   }
@@ -86,7 +95,7 @@ public abstract class AnnotationProcessor implements Processor {
       return;
     }
   }
-  
+
   @Override
   public Set<String> getSupportedAnnotationTypes() {
     return Collections.emptySet();
@@ -96,7 +105,7 @@ public abstract class AnnotationProcessor implements Processor {
   public final SourceVersion getSupportedSourceVersion() {
     return SourceVersion.latestSupported();
   }
-  
+
   @Override
   public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation,
       ExecutableElement member, String userText) {
