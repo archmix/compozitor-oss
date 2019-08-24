@@ -41,7 +41,7 @@ public abstract class AnnotationProcessor implements Processor {
       annotations.forEach(annotation -> {
         this.context.info("Processing elements for annotation {0}", annotation);
         roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element -> {
-          this.context.info("Found type with annotation {0}", element);
+          this.context.info("Found type {0} with annotation {1}", element, annotation);
           this.process(annotation, element);
         });
         this.context.info("All elements processed for annotation {0}", annotation);
