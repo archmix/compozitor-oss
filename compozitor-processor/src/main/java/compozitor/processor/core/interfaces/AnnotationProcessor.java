@@ -25,6 +25,7 @@ public abstract class AnnotationProcessor implements Processor {
     this.context = ProcessingContext.create(environment);
     this.javaModel = JavaModel.create(context);
     this.javaTypes = JavaTypes.create(this.javaModel);
+    this.context.info("Running processor {0}", this.getClass().getName());
   }
 
   @Override
