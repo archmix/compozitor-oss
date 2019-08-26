@@ -6,6 +6,7 @@ cp -Ru compozitor-engine/maven-repo ./skynet
 cp -Ru compozitor-generator/maven-repo ./skynet
 cp -Ru compozitor-processor/maven-repo ./skynet
 cp -Ru compozitor-template/maven-repo ./skynet
+cp -Ru maven-repo ./skynet
 
 cd skynet
 git config user.email "braz@mrbraz.tech"
