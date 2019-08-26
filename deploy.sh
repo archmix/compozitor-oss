@@ -1,7 +1,6 @@
 mvn -DskipTests deploy
 
 git clone git@github.com:mrbraztech/skynet.git
-git checkout -b gh-pages
 
 for directory in $(find ./ -type d -name "maven-repo");
 do
