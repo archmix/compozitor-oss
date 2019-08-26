@@ -2,12 +2,10 @@ mvn -DskipTests deploy
 
 git clone git@github.com:mrbraztech/skynet.git
 
-for directory in $(find ./ -type d -name "maven-repo");
-do
-    echo $directory
-    cp -r $directory ./skynet
-    rm -rf $directory
-done 
+cp -r compozitor-engine/maven-repo ./skynet
+cp -r compozitor-generator/maven-repo ./skynet
+cp -r compozitor-processor/maven-repo ./skynet
+cp -r compozitor-template/maven-repo ./skynet
 
 cd skynet
 git config user.email "braz@mrbraz.tech"
