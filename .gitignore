@@ -4,7 +4,10 @@
 .editorConfig
 .settings/
 .idea
+*.versionsBackup
+release.properties
 
+maven-repo
 target/
 
 **/.project
@@ -13,6 +16,6 @@ target/
 **/.editorConfig
 **/.settings/
 **/.idea
-
+**/*.versionsBackup
 **/target/
-release.properties
+**/maven-repo

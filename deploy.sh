@@ -2,10 +2,10 @@ mvn -DskipTests deploy
 
 git clone git@github.com:mrbraztech/skynet.git
 
-cp -r compozitor-engine/maven-repo ./skynet
-cp -r compozitor-generator/maven-repo ./skynet
-cp -r compozitor-processor/maven-repo ./skynet
-cp -r compozitor-template/maven-repo ./skynet
+cp -Ru compozitor-engine/maven-repo ./skynet
+cp -Ru compozitor-generator/maven-repo ./skynet
+cp -Ru compozitor-processor/maven-repo ./skynet
+cp -Ru compozitor-template/maven-repo ./skynet
 
 cd skynet
 git config user.email "braz@mrbraz.tech"
