@@ -11,7 +11,6 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<compozitorVersion>${project.version}</compozitorVersion>
 		<javaVersion>1.8</javaVersion>
 		<velocityVersion>1.7</velocityVersion>
 		<autoServiceVersion>1.0-rc5</autoServiceVersion>
@@ -42,32 +41,32 @@
 			<dependency>
 				<artifactId>compozitor-processor</artifactId>
 				<groupId>compozitor</groupId>
-				<version>${compozitorVersion}</version>
+				<version>${project.version}</version>
 				<optional>true</optional>
 			</dependency>
 			<dependency>
         <artifactId>compozitor-processor</artifactId>
         <groupId>compozitor</groupId>
-        <version>${compozitorVersion}</version>
+        <version>${project.version}</version>
         <type>test-jar</type>
         <optional>true</optional>
       </dependency>
 			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>compozitor</groupId>
-				<version>${compozitorVersion}</version>
+				<version>${project.version}</version>
 				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-generator</artifactId>
 				<groupId>compozitor</groupId>
-				<version>${compozitorVersion}</version>
+				<version>${project.version}</version>
 				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-template</artifactId>
 				<groupId>compozitor</groupId>
-				<version>${compozitorVersion}</version>
+				<version>${project.version}</version>
 				<optional>true</optional>
 			</dependency>
 
