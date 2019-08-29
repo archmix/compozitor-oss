@@ -58,12 +58,12 @@ public class ServiceResourceFile implements AutoCloseable {
 
   public void add(TypeModel service) {
     this.add(service, expectedInterface -> {
-      this.context.log(Kind.ERROR, service.getElement(), "You need to implement this interface {0}", this.providerInterface.getQualifiedName());
+      this.context.log(Kind.ERROR, service.getElement(), "You need to implement this type {0}", expectedInterface.getQualifiedName());
     });
   }
 
   public void add(TypeModel service, ErrorHandler handler) {
-    if (!service.getInterfaces().contains(this.providerInterface)) {
+    if (!shouldRegister(service)) {
       handler.handle(this.providerInterface);
       return;
     }
@@ -73,6 +73,18 @@ public class ServiceResourceFile implements AutoCloseable {
       return;
     }
     this.write(serviceName);
+  }
+  
+  private boolean shouldRegister(TypeModel service) {
+    boolean instance = service.getSuperType().instanceOf(this.providerInterface);
+    
+    if(!instance) {
+      instance = service.getInterfaces().stream().anyMatch((iface) ->{
+        return iface.instanceOf(this.providerInterface);
+      });
+    }
+    
+    return instance;
   }
 
   private void write(String serviceName) {

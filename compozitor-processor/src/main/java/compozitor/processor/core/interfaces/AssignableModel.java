@@ -13,7 +13,8 @@ class AssignableModel<M extends Element> extends Model<M> {
     return this.instanceOf(type.getElement().asType());
   }
 
-  boolean instanceOf(TypeMirror type) {
-    return this.context.isAssignable(this.element.asType(), type);
+  boolean instanceOf(TypeMirror targetType) {
+    TypeMirror type = this.element.asType();
+    return this.context.isAssignable(type, targetType) || this.context.isSubtype(targetType, type);
   }
 }

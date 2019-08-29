@@ -60,19 +60,16 @@ public class JavaModel {
 
   public TypeModel getType(TypeMirror type) {
     if (type instanceof PrimitiveType) {
-      this.context.info("Type is primitive");
       return this.getType(this.context.boxedClass((PrimitiveType) type));
     }
 
     if (type.getKind().equals(TypeKind.ARRAY)) {
-      this.context.info("Type is an array");
       String name = type.toString().replace("[]", "");
       return this.getType(this.context.getTypeElement(name));
     }
 
     Element element = this.context.asElement(type);
     if (element instanceof TypeParameterElement) {
-      this.context.info("Type has typed parameters");
       return this.getType((TypeParameterElement) element);
     }
 
@@ -91,7 +88,6 @@ public class JavaModel {
       return typeModel;
     }
     
-    this.context.info("Building TypeModel for element {0}", typeName);
     PackageModel packageModel = this.getPackage(type);
 
     Annotations annotations = new Annotations(type.getAnnotationMirrors(), this);
@@ -167,7 +163,6 @@ public class JavaModel {
   }
   
   private PackageModel getPackage(TypeElement type) {
-    this.context.info("Building package for type {0}", type);
     return new PackageModel(this.context, this.context.getPackageOf(type));
   }
 }

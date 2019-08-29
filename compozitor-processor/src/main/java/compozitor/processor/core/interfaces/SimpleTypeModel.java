@@ -52,4 +52,15 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   public TypeElement getElement() {
     return this.element;
   }
+  
+  @Override
+  public boolean instanceOf(TypeModel type) {
+    boolean instance = super.instanceOf(type);
+    
+    if(!instance && this.getSuperType() != null) {
+      return this.getSuperType().instanceOf(type);
+    }
+    
+    return instance;
+  }
 }

@@ -22,4 +22,6 @@ public interface TypeModel {
   PackageModel getPackage();
 
   Element getElement();
+  
+  boolean instanceOf(TypeModel type);
 }
