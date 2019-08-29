@@ -19,7 +19,7 @@
 	<repositories>
     <repository>
       <id>skynet</id>
-      <url>http://skynet.mrbraz.tech/maven-repo/</url>
+      <url>http://skynet.mrbraz.tech/</url>
     </repository>
   </repositories>
 

@@ -25,7 +25,7 @@ jobs:
       
       - checkout
 
-      - run: mvn clean deploy -s settings.xml
+      - run: mvn clean deploy -DskipTests -s settings.xml
 
 workflows:
   version: 2
