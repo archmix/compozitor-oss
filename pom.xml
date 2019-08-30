@@ -29,6 +29,7 @@
 		<module>compozitor-generator</module>
 		<module>compozitor-processor</module>
 		<module>compozitor-template</module>
+		<module>compozitor-test</module>
 	</modules>
 
 	<dependencyManagement>
@@ -41,10 +42,9 @@
 				<optional>true</optional>
 			</dependency>
 			<dependency>
-				<artifactId>compozitor-processor</artifactId>
+				<artifactId>compozitor-test</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${project.version}</version>
-				<type>test-jar</type>
 				<optional>true</optional>
 			</dependency>
 			<dependency>
