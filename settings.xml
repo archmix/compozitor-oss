@@ -1,9 +1,12 @@
-<settings>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
     <server>
-      <id>github</id>
-      <username>${env.GITHUB_USER}</username>
-      <password>${env.GITHUB_PASSWORD}</password>
+      <id>cloudsmith</id>
+      <username>${env.REPO_USER_NAME}</username>
+      <password>${env.REPO_API_KEY}</password>
     </server>
   </servers>
 </settings>
