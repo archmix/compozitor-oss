@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
 
-      - run: mvn clean package
+      - run: mvn clean test
       
   deploy:
     docker: 
