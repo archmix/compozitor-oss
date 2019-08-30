@@ -12,9 +12,9 @@ jobs:
     steps:
       - checkout
 
-      - run: mvn clean test
+      - run: mvn -s settings.xml clean deploy
       
-  deploy:
+  release:
     docker: 
       - image: circleci/openjdk:8-jdk
       
@@ -24,8 +24,10 @@ jobs:
       - add_ssh_keys
       
       - checkout
-
-      - run: mvn clean deploy -s settings.xml
+      
+      - run: git config user.email "ci@mrbraz.tech"
+      - run: git config user.name "Circle CI"
+      - run: mvn -B -s settings.xml release:clean release:prepare release:perform -DignoreSnapshots=true
 
 workflows:
   version: 2
@@ -36,9 +38,9 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-      - deploy:
+      - release:
           requires:
-            - build
+             - build
           filters:
             branches:
               only: master
