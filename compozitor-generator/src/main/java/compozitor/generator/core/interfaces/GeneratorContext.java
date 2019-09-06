@@ -21,14 +21,14 @@ public class GeneratorContext {
     return new GeneratorContext(metadata);
   }
 
-  public GeneratorContext add(TemplateContextData... entries) {
-    for (TemplateContextData entry : this.iterable(entries)) {
+  public GeneratorContext add(TemplateContextData<?>... entries) {
+    for (TemplateContextData<?> entry : this.iterable(entries)) {
       this.context.add(entry);
     }
     return this;
   }
 
-  private Iterable<TemplateContextData> iterable(TemplateContextData... entries) {
+  private Iterable<TemplateContextData<?>> iterable(TemplateContextData<?>... entries) {
     if (entries == null) {
       return new ArrayList<>();
     }

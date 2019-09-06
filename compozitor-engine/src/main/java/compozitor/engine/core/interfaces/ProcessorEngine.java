@@ -4,17 +4,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.annotation.processing.FilerException;
 import javax.tools.FileObject;
 import com.google.common.io.CharStreams;
 import compozitor.generator.core.interfaces.GeneratedCode;
 import compozitor.generator.core.interfaces.MetamodelRepository;
-import compozitor.generator.core.interfaces.TemplateMetadata;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateContextData;
@@ -51,7 +48,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   @Override
   protected final void postProcess() {
-    List<TemplateMetadata> templates = new ArrayList<>();
+    TemplateRepository templates = new TemplateRepository();
     this.loadTemplates(templates);
     templates.forEach(template ->{
       this.engineContext.add(this.engineType, template);
@@ -89,5 +86,5 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   
   protected abstract Class<? extends Annotation> getTargetAnnotation();
 
-  protected abstract void loadTemplates(List<TemplateMetadata> templates);
+  protected abstract void loadTemplates(TemplateRepository templates);
 }

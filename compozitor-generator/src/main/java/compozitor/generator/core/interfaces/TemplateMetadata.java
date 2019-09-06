@@ -20,28 +20,28 @@ public class TemplateMetadata implements TemplateContextData<TemplateMetadata> {
   private Boolean resource;
   private Boolean testArtifact;
 
-  public static TemplateMetadata regularMetadata() {
+  public static TemplateMetadata regularTemplate() {
     TemplateMetadata metadata = new TemplateMetadata();
     metadata.resource = false;
     metadata.testArtifact = false;
     return metadata;
   }
 
-  public static TemplateMetadata regularResourceMetadata() {
+  public static TemplateMetadata regularResourceTemplate() {
     TemplateMetadata metadata = new TemplateMetadata();
     metadata.resource = true;
     metadata.testArtifact = false;
     return metadata;
   }
 
-  public static TemplateMetadata testMetadata() {
+  public static TemplateMetadata testTemplate() {
     TemplateMetadata metadata = new TemplateMetadata();
     metadata.testArtifact = true;
     metadata.resource = false;
     return metadata;
   }
 
-  public static TemplateMetadata testResourceMetadata() {
+  public static TemplateMetadata testResourceTemplate() {
     TemplateMetadata metadata = new TemplateMetadata();
     metadata.testArtifact = true;
     metadata.resource = true;
