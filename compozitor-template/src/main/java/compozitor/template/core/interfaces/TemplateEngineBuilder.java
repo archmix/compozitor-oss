@@ -44,6 +44,7 @@ public class TemplateEngineBuilder {
   }
 
   private void init() {
+    this.target.addProperty(RuntimeConstants.VM_LIBRARY, "");
     this.target.addProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, "true");
     this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE, "true");
     this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");

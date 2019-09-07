@@ -7,8 +7,8 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import javax.annotation.processing.FilerException;
 import javax.tools.FileObject;
+import javax.tools.StandardLocation;
 import com.google.common.io.CharStreams;
 import compozitor.generator.core.interfaces.GeneratedCode;
 import compozitor.generator.core.interfaces.MetamodelRepository;
@@ -24,16 +24,14 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   private final TemplateEngine templateEngine;
   private final EngineType engineType;
   private final MetamodelRepository<T> repository;
-  private StateHandler stateHandler;
+  private GeneratorListener generatorListener;
 
   public ProcessorEngine() {
     this.engine = CodeEngine.create();
     this.engineContext = EngineContext.create();
     this.templateEngine = this.init(TemplateEngineBuilder.create().withClasspathTemplateLoader());
     this.repository = new MetamodelRepository<>();
-    this.stateHandler = ((ise) -> {
-      throw new RuntimeException(ise);
-    });
+    this.generatorListener = ((sourceCode) -> {});
     this.engineType = EngineType.adapter(this.getTargetAnnotation().getSimpleName());
     this.engineContext.add(engineType, this.repository);
   }
@@ -62,17 +60,24 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   private void write(GeneratedCode code) {
     try {
       String sourceCode = CharStreams.toString(new InputStreamReader(code.getContent()));
-
-      FileObject sourceFile = this.context.createSourceFile(code.getQualifiedName());
+      this.generatorListener.accept(sourceCode);
+      
+      FileObject sourceFile = this.createFile(code);
 
       try (Writer writer = sourceFile.openWriter()) {
         writer.write(sourceCode);
       }
-    } catch (FilerException fe) {
-      this.stateHandler.accept(fe);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+  
+  private FileObject createFile(GeneratedCode code) throws IOException {
+    if(code.getResource()) {
+      return this.context.createResource(StandardLocation.SOURCE_OUTPUT, code.getNamespace(), code.getFileName());
+    }
+    
+    return this.context.createSourceFile(code.getQualifiedName());
   }
   
   @Override
@@ -82,6 +87,10 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   protected final Template getTemplate(String resourceName) {
     return this.templateEngine.getTemplate(resourceName);
+  }
+  
+  public void setGeneratorListener(GeneratorListener generatorListener) {
+    this.generatorListener = generatorListener;
   }
   
   protected abstract Class<? extends Annotation> getTargetAnnotation();

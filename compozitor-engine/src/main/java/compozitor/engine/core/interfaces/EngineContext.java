@@ -1,6 +1,8 @@
 package compozitor.engine.core.interfaces;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import compozitor.generator.core.interfaces.MetamodelRepository;
@@ -10,7 +12,7 @@ import compozitor.template.core.interfaces.TemplateContextData;
 public class EngineContext<T extends TemplateContextData<T>> {
   private final Map<EngineType, MetamodelRepository<T>> metadata;
 
-  private final Map<EngineType, TemplateMetadata> templates;
+  private final Map<EngineType, List<TemplateMetadata>> templates;
 
   EngineContext() {
     this.metadata = new HashMap<>();
@@ -26,12 +28,19 @@ public class EngineContext<T extends TemplateContextData<T>> {
   }
 
   public void add(EngineType type, TemplateMetadata template) {
-    this.templates.put(type, template);
+    List<TemplateMetadata> templates = this.templates.get(type);
+    if (templates == null) {
+      templates = new ArrayList<>();
+      this.templates.put(type, templates);
+    }
+    templates.add(template);
   }
 
   public void apply(BiConsumer<MetamodelRepository<T>, TemplateMetadata> consumer) {
     this.templates.keySet().forEach(type -> {
-      consumer.accept(this.metadata.get(type), this.templates.get(type));
+      this.templates.get(type).forEach(template -> {
+        consumer.accept(this.metadata.get(type), template);
+      });
     });
   }
 }
