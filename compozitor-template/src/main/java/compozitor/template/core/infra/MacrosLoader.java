@@ -12,7 +12,9 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
+import lombok.extern.java.Log;
 
+@Log
 public class MacrosLoader {
   private JoinableClassLoader classLoader;
 
@@ -45,7 +47,9 @@ public class MacrosLoader {
 
           String resource = null;
           while ((resource = reader.readLine()) != null) {
-            resources.add(new File(path.toString(), resource).toString());
+            String resourceFile = new File(path.toString(), resource).toString();
+            log.info(String.format("Adding macro to template engine %s", resourceFile));
+            resources.add(resourceFile);
           }
         }
       }

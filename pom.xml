@@ -39,31 +39,26 @@
 				<artifactId>compozitor-processor</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${project.version}</version>
-				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-test</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${project.version}</version>
-				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${project.version}</version>
-				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-generator</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${project.version}</version>
-				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-template</artifactId>
 				<groupId>compozitor</groupId>
 				<version>${project.version}</version>
-				<optional>true</optional>
 			</dependency>
 
 
@@ -72,7 +67,6 @@
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
 				<version>${velocityVersion}</version>
-				<optional>true</optional>
 			</dependency>
 
 			<!-- AWS -->
@@ -80,7 +74,6 @@
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-s3</artifactId>
 				<version>${awsVersion}</version>
-				<optional>true</optional>
 			</dependency>
 
 			<!-- GOOGLE -->
@@ -88,13 +81,11 @@
 				<groupId>com.google.auto.service</groupId>
 				<artifactId>auto-service</artifactId>
 				<version>${autoServiceVersion}</version>
-				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<groupId>com.google.testing.compile</groupId>
 				<artifactId>compile-testing</artifactId>
 				<version>${compileTestingVersion}</version>
-				<optional>true</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
