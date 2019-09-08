@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.velocity.app.event.implement.IncludeRelativePath;
@@ -96,10 +97,11 @@ public class TemplateEngineBuilder {
     return this;
   }
 
-  public TemplateEngineBuilder addMacros(Path path) {
+  public TemplateEngineBuilder addMacros(Path path, Consumer<Iterable<String>> added) {
     Stream<String> macroFiles = MacrosLoader.create().list(path);
     macroFiles.forEach(this.macros::add);
     
+    added.accept(this.macros);
     this.target.setProperty(VELOCIMACRO_LOCATION, this.macros.stream().collect(Collectors.joining(",")));
 
     return this;
