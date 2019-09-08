@@ -32,7 +32,9 @@ public class TemplateEngineBuilder {
 
   private final RuntimeServices target;
 
-  private final Set<Class<? extends Directive>> allDirectives = new HashSet<>();
+  private final Set<Class<? extends Directive>> directives = new HashSet<>();
+  
+  private final Set<String> macros = new HashSet<>();
 
   public static TemplateEngineBuilder create() {
     return new TemplateEngineBuilder();
@@ -54,7 +56,7 @@ public class TemplateEngineBuilder {
 
     this.target.setProperty(VELOCIMACRO_ALLOW_INLINE_TEMPLATE, "true");
 
-    this.withDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class,
+    this.addDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class,
         Uncapitalize.class, UpperCase.class);
   }
 
@@ -79,14 +81,14 @@ public class TemplateEngineBuilder {
     return this;
   }
 
-  public TemplateEngineBuilder withDirectives(Collection<Class<? extends Directive>> directives) {
-    this.allDirectives.addAll(directives);
+  public TemplateEngineBuilder addDirectives(Collection<Class<? extends Directive>> directives) {
+    this.directives.addAll(directives);
     this.target.addProperty(USER_DIRECTIVE, this.toUserDirectiveValue());
     return this;
   }
 
-  public TemplateEngineBuilder withDirectives(Class<? extends Directive>... directives) {
-    return this.withDirectives(Arrays.asList(directives));
+  public TemplateEngineBuilder addDirectives(Class<? extends Directive>... directives) {
+    return this.addDirectives(Arrays.asList(directives));
   }
 
   public TemplateEngineBuilder withDirectivePath(Path path) {
@@ -94,10 +96,11 @@ public class TemplateEngineBuilder {
     return this;
   }
 
-  public TemplateEngineBuilder withMacrosPath(Path path) {
+  public TemplateEngineBuilder addMacros(Path path) {
     Stream<String> macroFiles = MacrosLoader.create().list(path);
-
-    this.target.setProperty(VELOCIMACRO_LOCATION, macroFiles.collect(Collectors.joining(",")));
+    macroFiles.forEach(this.macros::add);
+    
+    this.target.setProperty(VELOCIMACRO_LOCATION, this.macros.stream().collect(Collectors.joining(",")));
 
     return this;
   }
@@ -121,14 +124,14 @@ public class TemplateEngineBuilder {
   }
 
   public Iterable<Class<? extends Directive>> directives() {
-    return this.allDirectives;
+    return this.directives;
   }
 
   private String toUserDirectiveValue() {
 
     StringBuffer csv = new StringBuffer();
 
-    for (Class<? extends Directive> value : this.allDirectives) {
+    for (Class<? extends Directive> value : this.directives) {
       csv.append(value.getName()).append(",");
     }
 

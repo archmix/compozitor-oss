@@ -37,6 +37,7 @@ public abstract class Directive extends org.apache.velocity.runtime.directive.Di
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static class Variable {
     private String name;
 
@@ -56,8 +57,8 @@ public abstract class Directive extends org.apache.velocity.runtime.directive.Di
       return name;
     }
 
-    public Object getValue() {
-      return value;
+    public <T> T getValue() {
+      return (T) value;
     }
   }
 
