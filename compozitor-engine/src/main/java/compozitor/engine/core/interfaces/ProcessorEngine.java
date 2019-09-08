@@ -21,7 +21,7 @@ import compozitor.template.core.interfaces.TemplateEngineBuilder;
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final CodeEngine<T> engine;
   private final EngineContext<T> engineContext;
-  private final TemplateEngine templateEngine;
+  private TemplateEngine templateEngine;
   private final EngineType engineType;
   private final MetamodelRepository<T> repository;
   private GeneratorListener generatorListener;
@@ -29,11 +29,15 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   public ProcessorEngine() {
     this.engine = CodeEngine.create();
     this.engineContext = EngineContext.create();
-    this.templateEngine = this.init(TemplateEngineBuilder.create().withClasspathTemplateLoader());
     this.repository = new MetamodelRepository<>();
     this.generatorListener = ((sourceCode) -> {});
     this.engineType = EngineType.adapter(this.getTargetAnnotation().getSimpleName());
     this.engineContext.add(engineType, this.repository);
+  }
+  
+  @Override
+  protected void preProcess() {
+    this.templateEngine = this.init(TemplateEngineBuilder.create().withClasspathTemplateLoader());
   }
 
   protected TemplateEngine init(TemplateEngineBuilder builder) {
