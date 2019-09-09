@@ -17,6 +17,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 import compozitor.template.core.infra.JoinableClassLoader;
 import compozitor.template.core.infra.MacrosLoader;
+import compozitor.template.core.infra.ResourceUri;
 import compozitor.template.core.infra.S3Resource;
 import compozitor.template.core.infra.S3ResourceLoader;
 
@@ -26,16 +27,13 @@ public class TemplateEngineBuilder {
 
   public static final String USERDIRECTIVE_TEMPLATES_LOCATION = "userdirective.templates.location";
 
-  public static final String VELOCIMACRO_LOCATION = "velocimacro.library";
-
-  public static final String VELOCIMACRO_ALLOW_INLINE_TEMPLATE =
-      "velocimacro.permissions.allow.inline";
-
   private final RuntimeServices target;
 
   private final Set<Class<? extends Directive>> directives = new HashSet<>();
   
   private final Set<String> macros = new HashSet<>();
+  
+  private final JoinableClassLoader classLoader;
 
   public static TemplateEngineBuilder create() {
     return new TemplateEngineBuilder();
@@ -43,6 +41,7 @@ public class TemplateEngineBuilder {
 
   private TemplateEngineBuilder() {
     this.target = RuntimeSingleton.getRuntimeServices();
+    this.classLoader = JoinableClassLoader.create().join(this.getClass().getClassLoader());
     this.init();
   }
 
@@ -55,10 +54,13 @@ public class TemplateEngineBuilder {
         IncludeRelativePath.class.getName());
     this.target.addProperty("runtime.log.logsystem.log4j.logger", "root");
 
-    this.target.setProperty(VELOCIMACRO_ALLOW_INLINE_TEMPLATE, "true");
-
     this.addDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class,
         Uncapitalize.class, UpperCase.class);
+  }
+  
+  public TemplateEngineBuilder addClassLoader(ClassLoader classLoader) {
+    this.classLoader.join(classLoader);
+    return this;
   }
 
   public TemplateEngineBuilder withClasspathTemplateLoader() {
@@ -97,13 +99,25 @@ public class TemplateEngineBuilder {
     return this;
   }
 
-  public TemplateEngineBuilder addMacros(Path path, Consumer<Iterable<String>> added) {
-    Stream<String> macroFiles = MacrosLoader.create().list(path);
+  /**
+   * This method does not work in Annotation Processing
+   */
+  public TemplateEngineBuilder loadMacros(Path path, Consumer<Iterable<String>> added) {
+    Stream<String> macroFiles = MacrosLoader.create(this.classLoader).list(path);
     macroFiles.forEach(this.macros::add);
     
     added.accept(this.macros);
-    this.target.setProperty(VELOCIMACRO_LOCATION, this.macros.stream().collect(Collectors.joining(",")));
 
+    return this.setMacros();
+  }
+  
+  public TemplateEngineBuilder addMacros(Path path, String... files) {
+    Arrays.asList(files).forEach(file -> this.macros.add(new ResourceUri(path.toString(), file).toString()));
+    return this.setMacros();
+  }
+  
+  private TemplateEngineBuilder setMacros() {
+    this.target.setProperty(RuntimeConstants.VM_LIBRARY, this.macros.stream().collect(Collectors.joining(",")));
     return this;
   }
 
@@ -113,10 +127,7 @@ public class TemplateEngineBuilder {
 
     try {
       // This is needed for OSGI environments
-      JoinableClassLoader joinedClassLoader =
-          JoinableClassLoader.create().join(loader).join(this.getClass().getClassLoader());
-      thread.setContextClassLoader(joinedClassLoader);
-
+      thread.setContextClassLoader(this.classLoader);
       this.target.init();
     } finally {
       thread.setContextClassLoader(loader);

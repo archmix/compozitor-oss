@@ -15,6 +15,7 @@ public class JoinableClassLoader extends ClassLoader {
   public JoinableClassLoader() {
     this.classLoaders = new HashSet<>();
     this.classLoaders.add(Thread.currentThread().getContextClassLoader());
+    this.classLoaders.add(this.getClass().getClassLoader());
   }
 
   public static JoinableClassLoader create() {

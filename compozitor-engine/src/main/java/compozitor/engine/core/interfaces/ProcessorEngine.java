@@ -37,7 +37,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   
   @Override
   protected void preProcess() {
-    this.templateEngine = this.init(TemplateEngineBuilder.create().withClasspathTemplateLoader());
+    this.templateEngine = this.init(TemplateEngineBuilder.create().addClassLoader(this.getClass().getClassLoader()).withClasspathTemplateLoader());
   }
 
   protected TemplateEngine init(TemplateEngineBuilder builder) {

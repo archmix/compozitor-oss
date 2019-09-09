@@ -16,12 +16,12 @@ import java.util.stream.Stream;
 public class MacrosLoader {
   private JoinableClassLoader classLoader;
 
-  MacrosLoader() {
-    this.classLoader = JoinableClassLoader.create().join(this.getClass().getClassLoader());
+  MacrosLoader(JoinableClassLoader classLoader) {
+    this.classLoader = classLoader;
   }
 
-  public static MacrosLoader create() {
-    return new MacrosLoader();
+  public static MacrosLoader create(JoinableClassLoader classLoader) {
+    return new MacrosLoader(classLoader);
   }
 
   public Stream<String> list(Path path) {
@@ -35,7 +35,7 @@ public class MacrosLoader {
     try {
       String resourceName = path.toString();
       if (resourceName.startsWith("/")) {
-        resourceName = resourceName.replaceFirst("/", "");
+        resourceName = resourceName.substring(1);
       }
 
       Enumeration<URL> urls = this.classLoader.getResources(resourceName);
@@ -45,7 +45,7 @@ public class MacrosLoader {
 
           String resource = null;
           while ((resource = reader.readLine()) != null) {
-            String resourceFile = new File(path.toString(), resource).toString();
+            String resourceFile = new ResourceUri(path.toString(), resource).toString();
             resources.add(resourceFile);
           }
         }
