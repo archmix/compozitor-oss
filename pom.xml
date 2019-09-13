@@ -6,7 +6,7 @@
 		<groupId>tech.mrbraz</groupId>
 		<artifactId>java8-parent</artifactId>
 		<version>1.0.0</version>
-		<relativePath />
+		<relativePath></relativePath>
 	</parent>
 
 	<groupId>compozitor</groupId>
@@ -107,14 +107,6 @@
 		<repository>
 			<id>mrbraztech-oss</id>
 			<url>https://dl.cloudsmith.io/public/mrbraztech/oss/maven/</url>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
 		</repository>
 	</repositories>
 </project>
