@@ -97,6 +97,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+    <connection>scm:git:ssh://github.com/mrbraztech/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/mrbraztech/${project.artifactId}.git</developerConnection>
+    <url>https://github.com/mrbraztech/${project.artifactId}</url>
+    <tag>v${project.version}</tag>
+  </scm>
 
 	<repositories>
 		<repository>
