@@ -11,7 +11,7 @@
 
 	<groupId>compozitor</groupId>
 	<artifactId>compozitor-oss</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.5</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -100,7 +100,7 @@
     <connection>scm:git:ssh://github.com/mrbraztech/${project.artifactId}.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mrbraztech/${project.artifactId}.git</developerConnection>
     <url>https://github.com/mrbraztech/${project.artifactId}</url>
-    <tag>v${project.version}</tag>
+    <tag>v0.0.5</tag>
   </scm>
 
 	<repositories>
