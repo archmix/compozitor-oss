@@ -38,6 +38,7 @@ public abstract class AnnotationProcessor implements Processor {
       RoundEnvironment roundEnvironment) {
 
     if (roundEnvironment.processingOver()) {
+      this.postProcess();
       return true;
     }
 
@@ -55,8 +56,6 @@ public abstract class AnnotationProcessor implements Processor {
           });
           this.context.info("All elements processed for annotation {0}", annotation);
         });
-
-        this.postProcess();
       } catch (RuntimeException ex) {
         ex.printStackTrace();
         this.context.error(ex.getMessage());
