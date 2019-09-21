@@ -4,8 +4,8 @@
 
 	<parent>
 		<groupId>tech.mrbraz</groupId>
-		<artifactId>java8-parent</artifactId>
-		<version>1.0.0</version>
+		<artifactId>java-parent</artifactId>
+		<version>1.8</version>
 		<relativePath />
 	</parent>
 
@@ -16,7 +16,7 @@
 
 	<properties>
 		<velocityVersion>1.7</velocityVersion>
-		<autoServiceVersion>1.0-rc5</autoServiceVersion>
+		<autoServiceVersion>1.0-rc6</autoServiceVersion>
 		<awsVersion>1.11.594</awsVersion>
 		<compileTestingVersion>0.18</compileTestingVersion>
 		<maven.jar.pluginVersion>3.1.1</maven.jar.pluginVersion>
