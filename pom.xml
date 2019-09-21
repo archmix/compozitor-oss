@@ -24,6 +24,10 @@
 		<maven.jar.pluginVersion>3.1.1</maven.jar.pluginVersion>
 	</properties>
 
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.com/mrbraztech/${project.artifactId}.git</developerConnection>
+	</scm>
+
 	<modules>
 		<module>compozitor-engine</module>
 		<module>compozitor-generator</module>
@@ -94,9 +98,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
