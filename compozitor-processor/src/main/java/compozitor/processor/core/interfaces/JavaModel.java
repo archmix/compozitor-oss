@@ -66,9 +66,8 @@ public class JavaModel {
       return this.getType(this.context.getTypeElement(name), typeParameters);
     }
 
-    
-    DeclaredType declared = (DeclaredType) type;
     if (type.getKind().equals(TypeKind.DECLARED)) {
+      DeclaredType declared = (DeclaredType) type;
       typeParameters.addAll(declared.getTypeArguments());
     }
     
