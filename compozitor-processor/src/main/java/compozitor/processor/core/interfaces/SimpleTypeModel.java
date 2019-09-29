@@ -30,8 +30,11 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   @Getter
   private final Methods methods;
 
+  @Getter
+  private final TypeParameters parameters;
+  
   SimpleTypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel, Annotations annotations, Modifiers modifiers,
-      TypeModel superType, Interfaces interfaces, Fields fields, Methods methods) {
+      TypeModel superType, Interfaces interfaces, Fields fields, Methods methods, TypeParameters parameters) {
     super(context, element);
     this.packageModel = packageModel;
     this.annotations = annotations;
@@ -42,6 +45,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
     this.interfaces = interfaces;
     this.fields = fields;
     this.methods = methods;
+    this.parameters = parameters;
   }
 
   public PackageModel getPackage() {
@@ -51,6 +55,14 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   @Override
   public TypeElement getElement() {
     return this.element;
+  }
+  
+  public boolean isCollection() {
+    try {
+      return Iterable.class.isAssignableFrom(Class.forName(this.element.toString()));
+    } catch (ClassNotFoundException e) {
+      throw new IllegalStateException(e);
+    }
   }
   
   @Override

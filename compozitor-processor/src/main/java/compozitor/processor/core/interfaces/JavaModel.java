@@ -1,14 +1,16 @@
 package compozitor.processor.core.interfaces;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -52,35 +54,37 @@ public class JavaModel {
     return this.getType(mirror);
   }
 
-  public TypeParameterModel getType(TypeParameterElement typeParameter) {
-    TypeModel typeModel = this.getType((TypeElement) typeParameter.getEnclosingElement());
-
-    return new TypeParameterModel(context, typeParameter, typeModel);
-  }
-
   public TypeModel getType(TypeMirror type) {
+    List<TypeMirror> typeParameters = new ArrayList<>();
+    
     if (type instanceof PrimitiveType) {
-      return this.getType(this.context.boxedClass((PrimitiveType) type));
+      return this.getType(this.context.boxedClass((PrimitiveType) type), typeParameters);
     }
 
     if (type.getKind().equals(TypeKind.ARRAY)) {
       String name = type.toString().replace("[]", "");
-      return this.getType(this.context.getTypeElement(name));
+      return this.getType(this.context.getTypeElement(name), typeParameters);
     }
 
+    
+    DeclaredType declared = (DeclaredType) type;
+    if (type.getKind().equals(TypeKind.DECLARED)) {
+      typeParameters.addAll(declared.getTypeArguments());
+    }
+    
     Element element = this.context.asElement(type);
-    if (element instanceof TypeParameterElement) {
-      return this.getType((TypeParameterElement) element);
-    }
-
     if (type.getKind().equals(TypeKind.VOID)) {
       element = this.context.getTypeElement("java.lang.Void");
     }
-
-    return this.getType((TypeElement) element);
+    
+    return this.getType((TypeElement) element, typeParameters);
+  }
+  
+  public TypeModel getType(TypeElement type) {
+    return this.getType(type, new ArrayList<>());
   }
 
-  public TypeModel getType(TypeElement type) {
+  public TypeModel getType(TypeElement type, List<? extends TypeMirror> typeParameters) {
     String typeName = type.getQualifiedName().toString();
     
     TypeModel typeModel = this.typeCache.get(typeName);
@@ -100,6 +104,8 @@ public class JavaModel {
 
     Fields fields = new Fields(ElementFilter.fieldsIn(type.getEnclosedElements()), this);
     
+    TypeParameters parameters = new TypeParameters(typeParameters, this);
+    
     TypeModel superType = null;
     
     if(type.getKind().equals(ElementKind.CLASS) && !typeName.startsWith("java")) {
@@ -107,7 +113,7 @@ public class JavaModel {
     }
     
     SimpleTypeModel simpleType = new SimpleTypeModel(this.context, type, packageModel, annotations, modifiers, superType,
-        interfaces, fields, methods);
+        interfaces, fields, methods, parameters);
     
     this.typeCache.put(typeName, simpleType);
     

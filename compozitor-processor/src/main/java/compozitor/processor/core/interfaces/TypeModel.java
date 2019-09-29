@@ -15,6 +15,8 @@ public interface TypeModel {
 
   TypeModel getSuperType();
   
+  TypeParameters getParameters();
+  
   Fields getFields();
 
   Methods getMethods();
@@ -24,4 +26,6 @@ public interface TypeModel {
   Element getElement();
   
   boolean instanceOf(TypeModel type);
+  
+  boolean isCollection();
 }
