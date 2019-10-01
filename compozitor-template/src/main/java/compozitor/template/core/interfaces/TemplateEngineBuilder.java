@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.velocity.app.event.implement.IncludeRelativePath;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
@@ -40,7 +40,7 @@ public class TemplateEngineBuilder {
   }
 
   private TemplateEngineBuilder() {
-    this.target = RuntimeSingleton.getRuntimeServices();
+    this.target = new RuntimeInstance();
     this.classLoader = JoinableClassLoader.create().join(this.getClass().getClassLoader());
     this.init();
   }

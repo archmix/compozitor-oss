@@ -7,7 +7,7 @@ import compozitor.template.core.infra.StringInputStream;
 
 public class Template {
   private final org.apache.velocity.Template template;
-
+  
   public Template(org.apache.velocity.Template template) {
     this.template = template;
   }

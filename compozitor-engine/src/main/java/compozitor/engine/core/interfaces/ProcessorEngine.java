@@ -56,7 +56,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
       this.engineContext.add(this.engineType, template);
     });
     
-    this.engine.generate(engineContext, code -> {
+    this.engine.generate(this.templateEngine, this.engineContext, code -> {
       this.write(code);
     });
   }

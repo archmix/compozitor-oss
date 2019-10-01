@@ -11,17 +11,20 @@ import org.apache.velocity.runtime.resource.Resource;
 import compozitor.template.core.infra.StringInputStream;
 
 public class TemplateBuilder {
-  private static final TemplateEngine templateEngine = TemplateEngineBuilder.create().build();
   private final org.apache.velocity.Template target;
 
-  private TemplateBuilder(String name) {
+  private TemplateBuilder(String name, TemplateEngine templateEngine) {
     this.target = new org.apache.velocity.Template();
     this.target.setRuntimeServices(templateEngine.getRuntimeServices());
     this.target.setName(name);
   }
 
   public static TemplateBuilder create(String templateName) {
-    return new TemplateBuilder(templateName);
+    return new TemplateBuilder(templateName, TemplateEngineBuilder.create().build());
+  }
+  
+  public static TemplateBuilder create(TemplateEngine templateEngine, String templateName) {
+    return new TemplateBuilder(templateName, templateEngine);
   }
 
   public TemplateBuilder withResourceLoader(File file) {

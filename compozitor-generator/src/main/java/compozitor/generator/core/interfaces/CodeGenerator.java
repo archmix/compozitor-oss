@@ -6,17 +6,18 @@ import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
 import compozitor.template.core.interfaces.TemplateContext;
 import compozitor.template.core.interfaces.TemplateContextData;
+import compozitor.template.core.interfaces.TemplateEngine;
 
 public class CodeGenerator<T extends TemplateContextData<T>> {
 
   public final List<GeneratedCode> execute(GeneratorContext context,
-      MetamodelRepository<T> repository) {
+      MetamodelRepository<T> repository, TemplateEngine engine) {
     TemplateMetadata templateMetadata = context.getMetadata();
     Template template = templateMetadata.getTemplate();
     TemplateContext templateContext = context.getContext();
 
     List<GeneratedCode> list = new ArrayList<>();
-    Code code = new Code(templateMetadata, templateContext);
+    Code code = new Code(templateMetadata, templateContext, engine);
 
     for (T metamodel : repository) {
       templateContext.add(metamodel);
