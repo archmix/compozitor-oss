@@ -6,14 +6,25 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 
 public abstract class Directive extends org.apache.velocity.runtime.directive.Directive {
   public static final String DIRECTIVE_FILE_EXTENSION = ".cdf";
+  
+  private TemplateEngine engine;
 
   @Override
   public String getName() {
     return StringUtils.uncapitalize(this.getClass().getSimpleName());
+  }
+  
+  @Override
+  public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
+      throws TemplateInitException {
+    super.init(rs, context, node);
+    this.engine = new TemplateEngine(rs);
   }
 
   @Override
@@ -28,7 +39,7 @@ public abstract class Directive extends org.apache.velocity.runtime.directive.Di
         variables.add(variable);
       }
 
-      String generated = this.doRender(variables);
+      String generated = this.doRender(this.engine, variables);
       writer.write(generated);
 
       return true;
@@ -62,5 +73,5 @@ public abstract class Directive extends org.apache.velocity.runtime.directive.Di
     }
   }
 
-  protected abstract String doRender(List<Variable> variables);
+  protected abstract String doRender(TemplateEngine engine, List<Variable> variables);
 }

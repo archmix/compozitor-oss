@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class Render extends compozitor.template.core.interfaces.LineDirective {
 
   @Override
-  protected String doRender(List<Variable> variables) {
+  protected String doRender(TemplateEngine engine, List<Variable> variables) {
     Iterable<Object> contextObject = (Iterable<Object>) variables.get(0).getValue();
     if (contextObject == null) {
       return null;
@@ -19,7 +19,7 @@ public class Render extends compozitor.template.core.interfaces.LineDirective {
 
     String separator = variables.get(2).getValue().toString();
 
-    Template template = TemplateBuilder.create("render").withResourceLoader(expression).build();
+    Template template = TemplateBuilder.create(engine, "render").withResourceLoader(expression).build();
     TemplateContext templateContext = TemplateContext.create();
     List<String> renderedCode = new ArrayList<>();
 
