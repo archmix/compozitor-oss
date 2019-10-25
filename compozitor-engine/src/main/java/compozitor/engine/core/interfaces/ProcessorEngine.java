@@ -72,7 +72,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
         writer.write(sourceCode);
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
   

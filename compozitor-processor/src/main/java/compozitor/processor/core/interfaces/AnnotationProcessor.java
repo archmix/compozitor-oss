@@ -22,6 +22,8 @@ public abstract class AnnotationProcessor implements Processor {
 
   private final RunOnce runOnce;
 
+  private static final Boolean ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS = Boolean.FALSE;
+
   public AnnotationProcessor() {
     this.runOnce = RunOnce.create();
   }
@@ -37,32 +39,39 @@ public abstract class AnnotationProcessor implements Processor {
   public final boolean process(Set<? extends TypeElement> annotations,
       RoundEnvironment roundEnvironment) {
 
-    if (roundEnvironment.processingOver()) {
-      this.postProcess();
-      return true;
+    try {
+      this.context.info("Running processor {0}", this.getClass().getName());
+      
+      if(annotations.isEmpty()) {
+        return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
+      }
+      
+      this.preProcess();
+
+      for(TypeElement annotation : annotations) {
+        this.context.info("Processing elements for annotation {0}", annotation);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(annotation);
+        if(elements.isEmpty()) {
+          return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
+        }
+        
+        elements.forEach(element -> {
+          this.context.info("Found type {0} with annotation {1}", element, annotation);
+          this.process(annotation, element);
+        });
+        this.context.info("All elements processed for annotation {0}", annotation);
+      }
+        
+      this.runOnce.run(() ->{
+        this.context.info("Generating resources for {0}", this.getClass().getName());
+        this.postProcess();
+      });
+    } catch (RuntimeException ex) {
+      ex.printStackTrace();
+      this.context.error(ex.getMessage());
     }
 
-    this.runOnce.run(() -> {
-      this.context.info("Running processor {0}", this.getClass().getName());
-
-      try {
-        this.preProcess();
-
-        annotations.forEach(annotation -> {
-          this.context.info("Processing elements for annotation {0}", annotation);
-          roundEnvironment.getElementsAnnotatedWith(annotation).forEach(element -> {
-            this.context.info("Found type {0} with annotation {1}", element, annotation);
-            this.process(annotation, element);
-          });
-          this.context.info("All elements processed for annotation {0}", annotation);
-        });
-      } catch (RuntimeException ex) {
-        ex.printStackTrace();
-        this.context.error(ex.getMessage());
-      }
-    });
-
-    return true;
+    return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
   }
 
   private void process(TypeElement annotation, Element element) {
