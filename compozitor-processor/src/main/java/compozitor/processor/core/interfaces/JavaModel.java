@@ -84,7 +84,7 @@ public class JavaModel {
   }
 
   public TypeModel getType(TypeElement type, List<? extends TypeMirror> typeParameters) {
-    String typeName = type.getQualifiedName().toString();
+    String typeName = getQualifiedName(type, typeParameters);
     
     TypeModel typeModel = this.typeCache.get(typeName);
     if(typeModel != null) {
@@ -117,6 +117,23 @@ public class JavaModel {
     this.typeCache.put(typeName, simpleType);
     
     return simpleType;
+  }
+
+  private String getQualifiedName(TypeElement type, List<? extends TypeMirror> typeParameters) {
+    String qualifiedName = type.getQualifiedName().toString();
+    if (!typeParameters.isEmpty()) {
+      qualifiedName = qualifiedName.concat("<");
+      boolean first = true;
+      for (TypeMirror typeMirror : typeParameters) {
+        if (!first) {
+          qualifiedName = qualifiedName.concat(",");
+        }
+        first = false;
+        qualifiedName = qualifiedName.concat(typeMirror.toString());
+      }
+      qualifiedName = qualifiedName.concat(">");
+    }
+    return qualifiedName;
   }
 
   public FieldModel getField(Element element) {
