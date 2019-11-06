@@ -23,7 +23,7 @@ public class Arguments extends ModelIterable<ArgumentModel> {
       this.arguments.forEach(argument ->{
         models.add(this.javaModel.getArgument(argument));
       });
-      return null;
+      return models;
     }
   }
 }
