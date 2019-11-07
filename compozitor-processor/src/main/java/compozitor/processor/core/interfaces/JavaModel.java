@@ -1,9 +1,12 @@
 package compozitor.processor.core.interfaces;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -121,19 +124,13 @@ public class JavaModel {
 
   private String getQualifiedName(TypeElement type, List<? extends TypeMirror> typeParameters) {
     String qualifiedName = type.getQualifiedName().toString();
-    if (!typeParameters.isEmpty()) {
-      qualifiedName = qualifiedName.concat("<");
-      boolean first = true;
-      for (TypeMirror typeMirror : typeParameters) {
-        if (!first) {
-          qualifiedName = qualifiedName.concat(",");
-        }
-        first = false;
-        qualifiedName = qualifiedName.concat(typeMirror.toString());
-      }
-      qualifiedName = qualifiedName.concat(">");
+
+    String parameters = typeParameters.stream().map(TypeMirror::toString).collect(joining(","));
+    if (parameters.isEmpty()) {
+      return qualifiedName;
     }
-    return qualifiedName;
+
+    return String.format("%s<%s>", qualifiedName, parameters);
   }
 
   public FieldModel getField(Element element) {
