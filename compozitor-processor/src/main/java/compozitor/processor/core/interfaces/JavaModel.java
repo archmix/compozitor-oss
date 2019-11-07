@@ -1,9 +1,12 @@
 package compozitor.processor.core.interfaces;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -84,7 +87,7 @@ public class JavaModel {
   }
 
   public TypeModel getType(TypeElement type, List<? extends TypeMirror> typeParameters) {
-    String typeName = type.getQualifiedName().toString();
+    String typeName = getQualifiedName(type, typeParameters);
     
     TypeModel typeModel = this.typeCache.get(typeName);
     if(typeModel != null) {
@@ -117,6 +120,17 @@ public class JavaModel {
     this.typeCache.put(typeName, simpleType);
     
     return simpleType;
+  }
+
+  private String getQualifiedName(TypeElement type, List<? extends TypeMirror> typeParameters) {
+    String qualifiedName = type.getQualifiedName().toString();
+
+    String parameters = typeParameters.stream().map(TypeMirror::toString).collect(joining(","));
+    if (parameters.isEmpty()) {
+      return qualifiedName;
+    }
+
+    return String.format("%s<%s>", qualifiedName, parameters);
   }
 
   public FieldModel getField(Element element) {
