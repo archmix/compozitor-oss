@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -107,9 +106,9 @@ public class JavaModel {
     Fields fields = new Fields(ElementFilter.fieldsIn(type.getEnclosedElements()), this);
     
     TypeParameters parameters = new TypeParameters(typeParameters, this);
-    
-    TypeModel superType = null;
-    
+
+    TypeModel superType = getSuperTypeModel(type);
+
     if(type.getKind().equals(ElementKind.CLASS) && !typeName.startsWith("java")) {
       superType = this.getType(type.getSuperclass());
     }
@@ -120,6 +119,14 @@ public class JavaModel {
     this.typeCache.put(typeName, simpleType);
     
     return simpleType;
+  }
+
+  private TypeModel getSuperTypeModel(TypeElement type) {
+    if (type.getSuperclass().getKind() == TypeKind.NONE) {
+      return null;
+    }
+
+    return getType(type.getSuperclass());
   }
 
   private String getQualifiedName(TypeElement type, List<? extends TypeMirror> typeParameters) {
