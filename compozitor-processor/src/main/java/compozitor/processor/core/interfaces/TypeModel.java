@@ -28,4 +28,6 @@ public interface TypeModel {
   boolean instanceOf(TypeModel type);
   
   boolean isCollection();
+
+  boolean isEnum();
 }

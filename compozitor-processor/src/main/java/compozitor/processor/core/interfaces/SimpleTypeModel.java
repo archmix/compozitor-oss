@@ -1,5 +1,6 @@
 package compozitor.processor.core.interfaces;
 
+import java.util.Objects;
 import javax.lang.model.element.TypeElement;
 import lombok.Getter;
 
@@ -74,5 +75,18 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
     }
     
     return instance;
+  }
+
+  @Override
+  public boolean isEnum() {
+    if (Objects.isNull(superType)) {
+      return false;
+    }
+
+    try {
+      return Class.forName(superType.getQualifiedName()) == java.lang.Enum.class;
+    } catch (ClassNotFoundException e) {
+      throw new IllegalStateException(e);
+    }
   }
 }
