@@ -1,5 +1,6 @@
 package compozitor.processor.core.interfaces;
 
+import compozitor.processor.core.application.MethodProcessorWithAttributes;
 import org.junit.Assert;
 import org.junit.Test;
 import com.google.testing.compile.Compilation;
@@ -30,6 +31,14 @@ public class CompozitorProcessorTest {
     Compilation compilation =
         CompilationBuilder.create().withJavaSource("compozitor/processor/core/test/TypeModel.java")
             .withProcessors(new MethodProcessor()).build();
+    Assert.assertEquals(Status.SUCCESS, compilation.status());
+  }
+
+  @Test
+  public void givenTypeModelAnnotatedWithMethodAnnotationWithAttributesWhenCompileThenProcessType() {
+    Compilation compilation =
+        CompilationBuilder.create().withJavaSource("compozitor/processor/core/test/TypeModel.java")
+            .withProcessors(new MethodProcessorWithAttributes()).build();
     Assert.assertEquals(Status.SUCCESS, compilation.status());
   }
 

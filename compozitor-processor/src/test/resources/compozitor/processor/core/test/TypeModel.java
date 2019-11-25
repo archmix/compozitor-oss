@@ -19,4 +19,9 @@ public class TypeModel {
 	public void doSomething(List<String> values) {
 		
 	}
+
+	@MethodAnnotationWithAttributes(firstName = "first")
+	public void doSomethingWithAttributes() {
+
+	}
 }
