@@ -13,7 +13,7 @@ public class AnnotationModel extends Model<AnnotationMirror> {
 
   public AnnotationValue getValue(String key) {
     Map<? extends ExecutableElement, ? extends AnnotationValue> values =
-        this.element.getElementValues();
+        context.getElementValuesWithDefaults(this.element);
     for (ExecutableElement keyElement : values.keySet()) {
       if (keyElement.getSimpleName().contentEquals(key)) {
         return values.get(keyElement);

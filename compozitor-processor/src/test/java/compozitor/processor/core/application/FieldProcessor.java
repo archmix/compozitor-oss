@@ -26,7 +26,7 @@ public class FieldProcessor extends AnnotationProcessor {
 	
 	@Override
     public Set<String> getSupportedAnnotationTypes() {
-      Set<String> types = new HashSet<String>();
+      Set<String> types = new HashSet<>();
       types.add("compozitor.processor.core.test.FieldAnnotation");
       return types;
     }
