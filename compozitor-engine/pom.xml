@@ -14,11 +14,11 @@
 	<dependencies>
 		<dependency>
 			<artifactId>compozitor-generator</artifactId>
-			<groupId>compozitor</groupId>
+			<groupId>org.archmix</groupId>
 		</dependency>
 		<dependency>
       <artifactId>compozitor-processor</artifactId>
-      <groupId>compozitor</groupId>
+      <groupId>org.archmix</groupId>
     </dependency>
     
 		<dependency>

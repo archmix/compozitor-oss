@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<artifactId>compozitor-template</artifactId>
-			<groupId>compozitor</groupId>
+			<groupId>org.archmix</groupId>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
