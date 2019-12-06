@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>compozitor-oss</artifactId>
-	<version>0.0.9-SNAPSHOT</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
