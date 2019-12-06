@@ -14,6 +14,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<compozitorVersion>0.0.9-SNAPSHOT</compozitorVersion>
 		<velocityVersion>1.7</velocityVersion>
 		<autoServiceVersion>1.0-rc6</autoServiceVersion>
 		<awsVersion>1.11.594</awsVersion>
@@ -40,27 +41,27 @@
 			<dependency>
 				<artifactId>compozitor-processor</artifactId>
 				<groupId>org.archmix</groupId>
-				<version>${project.version}</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-test</artifactId>
 				<groupId>org.archmix</groupId>
-				<version>${project.version}</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-engine</artifactId>
 				<groupId>org.archmix</groupId>
-				<version>${project.version}</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-generator</artifactId>
 				<groupId>org.archmix</groupId>
-				<version>${project.version}</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 			<dependency>
 				<artifactId>compozitor-template</artifactId>
 				<groupId>org.archmix</groupId>
-				<version>${project.version}</version>
+				<version>${compozitorVersion}</version>
 			</dependency>
 
 			<!-- VELOCITY -->
