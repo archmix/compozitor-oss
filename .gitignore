@@ -5,11 +5,13 @@
 .settings/
 .idea
 *.versionsBackup
+*.iml
 release.properties
 
 maven-repo
 target/
 
+**/*.iml
 **/.project
 **/.classpath
 **/.factorypath

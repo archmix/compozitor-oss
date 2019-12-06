@@ -11,21 +11,22 @@ jobs:
 
     steps:
       - checkout
-
+      - run: curl https://raw.githubusercontent.com/archmix/infra-maven/master/settings.xml >> settings.xml
       - run: mvn -s settings.xml clean deploy
-      
+
   release:
-    docker: 
+    docker:
       - image: circleci/openjdk:8-jdk
-      
+
     working_directory: ~/repo
-    
+
     steps:
       - add_ssh_keys
-      
+
       - checkout
-      
-      - run: git config user.email "ci@mrbraz.tech"
+
+      - run: curl https://raw.githubusercontent.com/archmix/infra-maven/master/settings.xml >> settings.xml
+      - run: git config user.email "ci@archmix.org"
       - run: git config user.name "Circle CI"
       - run: mvn -B -s settings.xml release:clean release:prepare release:perform -DignoreSnapshots=true
 
@@ -34,13 +35,15 @@ workflows:
   build-deploy:
     jobs:
       - build:
+          context: Archmix Maven
           filters:
             branches:
               ignore:
                 - gh-pages
       - release:
+          context: Archmix Maven
           requires:
-             - build
+            - build
           filters:
             branches:
               only: master
