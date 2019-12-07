@@ -1,4 +1,4 @@
-package compozitor.engine.core.interfaces;
+package compozitor.engine.processor.interfaces;
 
 @FunctionalInterface
 public interface GeneratorListener {

@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(staticName = "create", access = AccessLevel.PACKAGE)
 public class JavaModel {
-  @Getter
   private final ProcessingContext context;
   
   private final Map<String, TypeModel> typeCache = new HashMap<>();
@@ -54,6 +53,11 @@ public class JavaModel {
 
   public TypeModel getInterface(TypeMirror mirror) {
     return this.getType(mirror);
+  }
+
+  public TypeModel getType(String name) {
+    TypeElement element = this.context.getTypeElement(name);
+    return this.getType(element);
   }
 
   public TypeModel getType(TypeMirror type) {

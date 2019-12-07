@@ -15,7 +15,7 @@ public abstract class ServiceProcessor extends AnnotationProcessor {
     this.serviceClasses().forEach(serviceInterface -> {
       this.context.info("Registering Service file for Interface {0}", serviceInterface);
       String interfaceName = serviceInterface.getCanonicalName();
-      TypeModel interfaceType = this.javaTypes.getType(interfaceName);
+      TypeModel interfaceType = this.context.getJavaModel().getType(interfaceName);
       this.serviceFiles.put(interfaceName, new ServiceResourceFile(this.context, interfaceType));
     });
   }

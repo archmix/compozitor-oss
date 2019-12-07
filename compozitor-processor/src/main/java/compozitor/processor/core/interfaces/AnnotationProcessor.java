@@ -16,10 +16,6 @@ import javax.lang.model.element.TypeElement;
 public abstract class AnnotationProcessor implements Processor {
   protected ProcessingContext context;
 
-  protected JavaModel javaModel;
-
-  protected JavaTypes javaTypes;
-
   private final RunOnce runOnce;
 
   private static final Boolean ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS = Boolean.FALSE;
@@ -31,8 +27,6 @@ public abstract class AnnotationProcessor implements Processor {
   @Override
   public synchronized final void init(ProcessingEnvironment environment) {
     this.context = ProcessingContext.create(environment);
-    this.javaModel = JavaModel.create(context);
-    this.javaTypes = JavaTypes.create(this.javaModel);
   }
 
   @Override
@@ -57,7 +51,7 @@ public abstract class AnnotationProcessor implements Processor {
         
         elements.forEach(element -> {
           this.context.info("Found type {0} with annotation {1}", element, annotation);
-          this.process(annotation, element);
+          this.process(this.context.getJavaModel(), element);
         });
         this.context.info("All elements processed for annotation {0}", annotation);
       }
@@ -74,7 +68,28 @@ public abstract class AnnotationProcessor implements Processor {
     return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
   }
 
-  private void process(TypeElement annotation, Element element) {
+  @Override
+  public Set<String> getSupportedAnnotationTypes() {
+    return Collections.emptySet();
+  }
+
+  @Override
+  public final SourceVersion getSupportedSourceVersion() {
+    return SourceVersion.latestSupported();
+  }
+
+  @Override
+  public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation,
+      ExecutableElement member, String userText) {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public Set<String> getSupportedOptions() {
+    return Collections.emptySet();
+  }
+
+  private final void process(JavaModel javaModel, Element element){
     if (element.getKind().equals(ElementKind.CLASS)) {
       this.context.info("Processing Element is a class", element);
       TypeModel model = javaModel.getClass(element);
@@ -104,44 +119,23 @@ public abstract class AnnotationProcessor implements Processor {
     }
   }
 
-  @Override
-  public Set<String> getSupportedAnnotationTypes() {
-    return Collections.emptySet();
-  }
-
-  @Override
-  public final SourceVersion getSupportedSourceVersion() {
-    return SourceVersion.latestSupported();
-  }
-
-  @Override
-  public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation,
-      ExecutableElement member, String userText) {
-    return Collections.emptyList();
-  }
-
-  @Override
-  public Set<String> getSupportedOptions() {
-    return Collections.emptySet();
-  }
-
   protected void preProcess() {
     return;
   }
 
+  protected void process(TypeModel typeModel){
+    return;
+  }
+
+  protected void process(FieldModel fieldModel){
+    return;
+  }
+
+  protected void process(MethodModel methodModel){
+    return;
+  }
+
   protected void postProcess() {
-    return;
-  }
-
-  protected void process(TypeModel model) {
-    return;
-  }
-
-  protected void process(FieldModel model) {
-    return;
-  }
-
-  protected void process(MethodModel model) {
     return;
   }
 }

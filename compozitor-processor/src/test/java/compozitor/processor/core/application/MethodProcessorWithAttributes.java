@@ -28,7 +28,7 @@ public class MethodProcessorWithAttributes extends AnnotationProcessor {
 	protected void process(MethodModel model) {
 		Assert.assertNotNull(model);
 
-		final TypeModel annotationType = javaTypes.getAnnotationType(ANNOTATION_CLASS_NAME);
+		final TypeModel annotationType = context.getJavaModel().getType(ANNOTATION_CLASS_NAME);
 
 		final AnnotationModel annotationModel = model.getAnnotations()
 				.get(annotation -> annotation.instanceOf(annotationType))

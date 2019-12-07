@@ -31,15 +31,26 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileManager.Location;
 import javax.tools.JavaFileObject;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProcessingContext implements Types, Elements, Filer {
   private final ProcessingEnvironment environment;
   private final Messager logger;
+  @Getter
+  private final JavaModel javaModel;
+  @Getter
+  private final JavaTypes javaTypes;
 
   public static ProcessingContext create(ProcessingEnvironment environment) {
     return new ProcessingContext(environment, environment.getMessager());
+  }
+
+  public ProcessingContext(final ProcessingEnvironment environment, final Messager logger){
+    this.environment = environment;
+    this.logger = logger;
+    this.javaModel = JavaModel.create(this);
+    this.javaTypes = JavaTypes.create(this, javaModel);
   }
 
   public void info(String message, Object... args) {
