@@ -1,8 +1,9 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.Objects;
-import javax.lang.model.element.TypeElement;
 import lombok.Getter;
+
+import javax.lang.model.element.TypeElement;
+import java.util.Objects;
 
 public class SimpleTypeModel extends AssignableModel<TypeElement> implements TypeModel {
   private final PackageModel packageModel;
@@ -21,7 +22,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
 
   @Getter
   private final TypeModel superType;
-  
+
   @Getter
   private final Interfaces interfaces;
 
@@ -33,9 +34,9 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
 
   @Getter
   private final TypeParameters parameters;
-  
+
   SimpleTypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel, Annotations annotations, Modifiers modifiers,
-      TypeModel superType, Interfaces interfaces, Fields fields, Methods methods, TypeParameters parameters) {
+                  TypeModel superType, Interfaces interfaces, Fields fields, Methods methods, TypeParameters parameters) {
     super(context, element);
     this.packageModel = packageModel;
     this.annotations = annotations;
@@ -57,7 +58,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   public TypeElement getElement() {
     return this.element;
   }
-  
+
   public boolean isCollection() {
     try {
       return Iterable.class.isAssignableFrom(Class.forName(this.element.toString()));
@@ -65,15 +66,15 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
       throw new IllegalStateException(e);
     }
   }
-  
+
   @Override
   public boolean instanceOf(TypeModel type) {
     boolean instance = super.instanceOf(type);
-    
-    if(!instance && this.getSuperType() != null) {
+
+    if (!instance && this.getSuperType() != null) {
       return this.getSuperType().instanceOf(type);
     }
-    
+
     return instance;
   }
 

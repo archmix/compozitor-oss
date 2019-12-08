@@ -1,10 +1,11 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.lang.model.element.ExecutableElement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+
+import javax.lang.model.element.ExecutableElement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Methods extends ModelIterable<MethodModel> {
   Methods(List<ExecutableElement> methods, JavaModel javaModel) {

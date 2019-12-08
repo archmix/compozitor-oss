@@ -9,14 +9,14 @@ import java.util.stream.Stream;
 
 class ModelIterable<M> implements Iterable<M> {
   private final List<M> models;
-  
+
   private final LazyLoadProxy<List<M>> supplierProxy;
 
   public ModelIterable(ListSupplier<M> modelsSupplier) {
     this.models = new ArrayList<>();
     this.supplierProxy = new LazyLoadProxy<List<M>>(modelsSupplier);
   }
-  
+
   @Override
   public Iterator<M> iterator() {
     return this.models().iterator();
@@ -33,9 +33,9 @@ class ModelIterable<M> implements Iterable<M> {
   public Optional<M> get(Predicate<M> predicate) {
     return this.stream().filter(predicate).findFirst();
   }
-  
-  private List<M> models(){
-    this.supplierProxy.run(models ->{
+
+  private List<M> models() {
+    this.supplierProxy.run(models -> {
       this.models.addAll(models.get());
     });
     return this.models;

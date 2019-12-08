@@ -1,7 +1,8 @@
 package compozitor.template.core.interfaces;
 
-import java.nio.charset.Charset;
 import org.apache.velocity.runtime.RuntimeServices;
+
+import java.nio.charset.Charset;
 
 public class TemplateEngine {
   private final RuntimeServices engine;

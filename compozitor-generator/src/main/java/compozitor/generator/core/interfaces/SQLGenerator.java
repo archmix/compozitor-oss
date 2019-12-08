@@ -112,7 +112,7 @@ public class SQLGenerator {
   }
 
   public String selectAllFKsSQL(String entity, Iterable<String> columns,
-      Iterable<String> constraints) {
+                                Iterable<String> constraints) {
     StringBuffer SQL;
 
     SQL = new StringBuffer(selectAllSQL(entity, columns));

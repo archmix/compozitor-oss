@@ -20,6 +20,11 @@ public class TemplateMetadata implements TemplateContextData<TemplateMetadata> {
   private Boolean resource;
   private Boolean testArtifact;
 
+  TemplateMetadata() {
+    this.criteria = "";
+    this.enabled = true;
+  }
+
   public static TemplateMetadata regularTemplate() {
     TemplateMetadata metadata = new TemplateMetadata();
     metadata.resource = false;
@@ -48,11 +53,6 @@ public class TemplateMetadata implements TemplateContextData<TemplateMetadata> {
     return metadata;
   }
 
-  TemplateMetadata() {
-    this.criteria = "";
-    this.enabled = true;
-  }
-
   public void enable() {
     this.enabled = true;
   }
@@ -60,7 +60,7 @@ public class TemplateMetadata implements TemplateContextData<TemplateMetadata> {
   public void disable() {
     this.enabled = false;
   }
-  
+
   @Override
   public String key() {
     return "Template";

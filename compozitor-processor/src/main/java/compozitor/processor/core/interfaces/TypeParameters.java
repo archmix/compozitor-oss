@@ -1,12 +1,13 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.lang.model.type.TypeMirror;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
-public class TypeParameters extends ModelIterable<TypeModel>{
+import javax.lang.model.type.TypeMirror;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TypeParameters extends ModelIterable<TypeModel> {
 
   TypeParameters(List<? extends TypeMirror> parameters, JavaModel javaModel) {
     super(new TypeParametersSupplier(parameters, javaModel));

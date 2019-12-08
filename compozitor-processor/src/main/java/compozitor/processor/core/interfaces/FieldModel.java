@@ -1,7 +1,8 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.VariableElement;
 import lombok.Getter;
+
+import javax.lang.model.element.VariableElement;
 
 @Getter
 public class FieldModel extends Model<VariableElement> {
@@ -14,7 +15,7 @@ public class FieldModel extends Model<VariableElement> {
   private final String name;
 
   public FieldModel(ProcessingContext context, VariableElement element,
-      Annotations annotations, Modifiers modifiers, TypeModel type) {
+                    Annotations annotations, Modifiers modifiers, TypeModel type) {
     super(context, element);
     this.annotations = annotations;
     this.modifiers = modifiers;

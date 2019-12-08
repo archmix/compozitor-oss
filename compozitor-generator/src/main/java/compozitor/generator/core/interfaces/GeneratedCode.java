@@ -1,8 +1,9 @@
 package compozitor.generator.core.interfaces;
 
-import java.io.InputStream;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.InputStream;
 
 @Getter
 @Setter

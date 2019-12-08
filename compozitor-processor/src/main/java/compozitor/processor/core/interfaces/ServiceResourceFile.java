@@ -1,5 +1,12 @@
 package compozitor.processor.core.interfaces;
 
+import com.google.common.collect.Sets;
+import com.google.common.io.CharStreams;
+import com.google.common.io.Closer;
+
+import javax.tools.Diagnostic.Kind;
+import javax.tools.FileObject;
+import javax.tools.StandardLocation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,12 +15,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.SortedSet;
-import javax.tools.Diagnostic.Kind;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
-import com.google.common.collect.Sets;
-import com.google.common.io.CharStreams;
-import com.google.common.io.Closer;
 
 public class ServiceResourceFile implements AutoCloseable {
   private static final String RESOURCE_FILE_URI_PATTERN = "META-INF/services/%s";
@@ -31,7 +32,7 @@ public class ServiceResourceFile implements AutoCloseable {
   public ServiceResourceFile(ProcessingContext context, TypeModel providerInterface) {
     this.providerInterface = providerInterface;
     this.resourceFileUri =
-        String.format(RESOURCE_FILE_URI_PATTERN, providerInterface.getQualifiedName());
+      String.format(RESOURCE_FILE_URI_PATTERN, providerInterface.getQualifiedName());
     this.services = Sets.newTreeSet();
     this.context = context;
     this.serviceFile = new BufferedWriter(new OutputStreamWriter(this.openFile()));
@@ -40,17 +41,17 @@ public class ServiceResourceFile implements AutoCloseable {
   private OutputStream openFile() {
     try {
       FileObject serviceFile =
-          context.getResource(StandardLocation.CLASS_OUTPUT, "", this.resourceFileUri);
+        context.getResource(StandardLocation.CLASS_OUTPUT, "", this.resourceFileUri);
       this.loadServiceFile(serviceFile.openInputStream());
       return serviceFile.openOutputStream();
     } catch (IOException e) {
       context.info("Services file does not exist {0}. I will create a new one.",
-          this.resourceFileUri);
+        this.resourceFileUri);
     }
 
     try {
       return context.createResource(StandardLocation.CLASS_OUTPUT, "", this.resourceFileUri)
-          .openOutputStream();
+        .openOutputStream();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -74,16 +75,16 @@ public class ServiceResourceFile implements AutoCloseable {
     }
     this.write(serviceName);
   }
-  
+
   private boolean shouldRegister(TypeModel service) {
     boolean instance = service.getSuperType().instanceOf(this.providerInterface);
-    
-    if(!instance) {
-      instance = service.getInterfaces().stream().anyMatch((iface) ->{
+
+    if (!instance) {
+      instance = service.getInterfaces().stream().anyMatch((iface) -> {
         return iface.instanceOf(this.providerInterface);
       });
     }
-    
+
     return instance;
   }
 

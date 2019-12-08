@@ -1,14 +1,15 @@
 package compozitor.template.core.interfaces;
 
+import compozitor.template.core.infra.StringInputStream;
+import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.Resource;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import org.apache.commons.collections.ExtendedProperties;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.resource.Resource;
-import compozitor.template.core.infra.StringInputStream;
 
 public class TemplateBuilder {
   private final org.apache.velocity.Template target;
@@ -22,7 +23,7 @@ public class TemplateBuilder {
   public static TemplateBuilder create(String templateName) {
     return new TemplateBuilder(templateName, TemplateEngineBuilder.create().build());
   }
-  
+
   public static TemplateBuilder create(TemplateEngine templateEngine, String templateName) {
     return new TemplateBuilder(templateName, templateEngine);
   }

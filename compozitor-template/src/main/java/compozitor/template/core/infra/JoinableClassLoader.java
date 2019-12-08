@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class JoinableClassLoader extends ClassLoader {
   private final Set<ClassLoader> classLoaders;
-  
+
   public JoinableClassLoader() {
     this.classLoaders = new HashSet<>();
     this.classLoaders.add(Thread.currentThread().getContextClassLoader());

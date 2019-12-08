@@ -1,8 +1,9 @@
 package compozitor.processor.core.interfaces;
 
-import java.text.MessageFormat;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+
+import java.text.MessageFormat;
 
 public class ProcessorStateBuilder {
   private final String resume;

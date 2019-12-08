@@ -41,7 +41,7 @@ public class MacrosLoader {
       Enumeration<URL> urls = this.classLoader.getResources(resourceName);
       while (urls.hasMoreElements()) {
         try (InputStream classPath = urls.nextElement().openStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(classPath))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(classPath))) {
 
           String resource = null;
           while ((resource = reader.readLine()) != null) {

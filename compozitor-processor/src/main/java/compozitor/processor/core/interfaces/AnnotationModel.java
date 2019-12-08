@@ -1,9 +1,9 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.Map;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
+import java.util.Map;
 
 public class AnnotationModel extends Model<AnnotationMirror> {
 
@@ -13,7 +13,7 @@ public class AnnotationModel extends Model<AnnotationMirror> {
 
   public AnnotationValue getValue(String key) {
     Map<? extends ExecutableElement, ? extends AnnotationValue> values =
-        context.getElementValuesWithDefaults(this.element);
+      context.getElementValuesWithDefaults(this.element);
     for (ExecutableElement keyElement : values.keySet()) {
       if (keyElement.getSimpleName().contentEquals(key)) {
         return values.get(keyElement);
@@ -37,7 +37,7 @@ public class AnnotationModel extends Model<AnnotationMirror> {
     if (obj instanceof AnnotationModel) {
       AnnotationModel annotation = (AnnotationModel) obj;
       return this.context.isSameType(this.element.getAnnotationType(),
-          annotation.element.getAnnotationType());
+        annotation.element.getAnnotationType());
     }
 
     return super.equals(obj);
@@ -45,7 +45,7 @@ public class AnnotationModel extends Model<AnnotationMirror> {
 
   public boolean instanceOf(AnnotationModel annotation) {
     return this.context.isAssignable(this.element.getAnnotationType(),
-        annotation.element.getAnnotationType());
+      annotation.element.getAnnotationType());
   }
 
   public boolean instanceOf(TypeModel type) {

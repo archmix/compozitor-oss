@@ -38,35 +38,36 @@ public abstract class ServiceProcessor extends AnnotationProcessor {
     ServiceResourceFile resourceFile = this.resourceFile(targetInterface);
     if (resourceFile != null) {
       this.context.info("Registering type {0} for service interface {1}", model.getQualifiedName(),
-          targetInterface.getQualifiedName());
+        targetInterface.getQualifiedName());
       resourceFile.add(model);
     }
   }
 
   private ServiceResourceFile resourceFile(TypeModel targetInterface) {
-    if(targetInterface == null) {
+    if (targetInterface == null) {
       return null;
     }
-    
+
     String interfaceName = targetInterface.getQualifiedName();
     ServiceResourceFile resourceFile = this.serviceFiles.get(interfaceName);
     if (resourceFile == null) {
       resourceFile = this.resourceFile(targetInterface.getSuperType());
     }
-    
-    if(resourceFile != null) {
+
+    if (resourceFile != null) {
       return resourceFile;
     }
-    
-    for(TypeModel iface : targetInterface.getInterfaces()) {
+
+    for (TypeModel iface : targetInterface.getInterfaces()) {
       resourceFile = this.resourceFile(iface);
-      if(resourceFile != null) {
+      if (resourceFile != null) {
         break;
       }
     }
-    
+
     return resourceFile;
   }
+
   @Override
   protected final void postProcess() {
     this.serviceFiles.values().forEach(resourceFile -> {

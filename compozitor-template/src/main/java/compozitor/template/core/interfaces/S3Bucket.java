@@ -1,7 +1,7 @@
 package compozitor.template.core.interfaces;
 
-import org.apache.commons.collections.ExtendedProperties;
 import compozitor.template.core.infra.S3Resource;
+import org.apache.commons.collections.ExtendedProperties;
 
 public class S3Bucket {
   private final String name;

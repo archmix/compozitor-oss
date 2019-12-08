@@ -1,16 +1,20 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.TypeElement;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import javax.lang.model.element.TypeElement;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RequiredArgsConstructor(staticName = "create")
 public class JavaTypes {
   private final ProcessingContext context;
 
   private final JavaModel javaModel;
-  
+
   public TypeModel getObjectType() {
     return this.javaModel.getType(Object.class.getName());
   }
@@ -60,6 +64,6 @@ public class JavaTypes {
   }
 
   private TypeElement element(String name) {
-      return this.context.getTypeElement(name);
+    return this.context.getTypeElement(name);
   }
 }

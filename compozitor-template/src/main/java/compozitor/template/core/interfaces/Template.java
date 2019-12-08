@@ -1,13 +1,14 @@
 package compozitor.template.core.interfaces;
 
+import compozitor.template.core.infra.StringInputStream;
+
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import compozitor.template.core.infra.StringInputStream;
 
 public class Template {
   private final org.apache.velocity.Template template;
-  
+
   public Template(org.apache.velocity.Template template) {
     this.template = template;
   }

@@ -1,11 +1,8 @@
 package compozitor.processor.core.interfaces;
 
-import static java.util.stream.Collectors.joining;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -17,14 +14,17 @@ import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.*;
 
 @RequiredArgsConstructor(staticName = "create", access = AccessLevel.PACKAGE)
 public class JavaModel {
   private final ProcessingContext context;
-  
+
   private final Map<String, TypeModel> typeCache = new HashMap<>();
 
   public AnnotationModel getAnnotation(AnnotationMirror annotation) {
@@ -42,7 +42,7 @@ public class JavaModel {
   public TypeModel getClass(TypeMirror element) {
     return this.getType(element);
   }
-  
+
   public TypeModel getInterface(Element element) {
     if (!element.getKind().equals(ElementKind.INTERFACE)) {
       return null;
@@ -62,7 +62,7 @@ public class JavaModel {
 
   public TypeModel getType(TypeMirror type) {
     List<TypeMirror> typeParameters = new ArrayList<>();
-    
+
     if (type instanceof PrimitiveType) {
       return this.getType(this.context.boxedClass((PrimitiveType) type), typeParameters);
     }
@@ -76,27 +76,27 @@ public class JavaModel {
       DeclaredType declared = (DeclaredType) type;
       typeParameters.addAll(declared.getTypeArguments());
     }
-    
+
     Element element = this.context.asElement(type);
     if (type.getKind().equals(TypeKind.VOID)) {
       element = this.context.getTypeElement("java.lang.Void");
     }
-    
+
     return this.getType((TypeElement) element, typeParameters);
   }
-  
+
   public TypeModel getType(TypeElement type) {
     return this.getType(type, new ArrayList<>());
   }
 
   public TypeModel getType(TypeElement type, List<? extends TypeMirror> typeParameters) {
     String typeName = getQualifiedName(type, typeParameters);
-    
+
     TypeModel typeModel = this.typeCache.get(typeName);
-    if(typeModel != null) {
+    if (typeModel != null) {
       return typeModel;
     }
-    
+
     PackageModel packageModel = this.getPackage(type);
 
     Annotations annotations = new Annotations(type.getAnnotationMirrors(), this);
@@ -104,24 +104,24 @@ public class JavaModel {
     Modifiers modifiers = new Modifiers(type.getModifiers());
 
     Interfaces interfaces = new Interfaces(type.getInterfaces(), this);
-    
+
     Methods methods = new Methods(ElementFilter.methodsIn(type.getEnclosedElements()), this);
 
     Fields fields = new Fields(ElementFilter.fieldsIn(type.getEnclosedElements()), this);
-    
+
     TypeParameters parameters = new TypeParameters(typeParameters, this);
 
     TypeModel superType = getSuperTypeModel(type);
 
-    if(type.getKind().equals(ElementKind.CLASS) && !typeName.startsWith("java")) {
+    if (type.getKind().equals(ElementKind.CLASS) && !typeName.startsWith("java")) {
       superType = this.getType(type.getSuperclass());
     }
-    
+
     SimpleTypeModel simpleType = new SimpleTypeModel(this.context, type, packageModel, annotations, modifiers, superType,
-        interfaces, fields, methods, parameters);
-    
+      interfaces, fields, methods, parameters);
+
     this.typeCache.put(typeName, simpleType);
-    
+
     return simpleType;
   }
 
@@ -189,9 +189,9 @@ public class JavaModel {
     TypeModel type = this.getType(argumentType);
 
     return new ArgumentModel(this.context, element, annotations, type,
-        argumentType.getKind().equals(TypeKind.ARRAY));
+      argumentType.getKind().equals(TypeKind.ARRAY));
   }
-  
+
   private PackageModel getPackage(TypeElement type) {
     return new PackageModel(this.context, this.context.getPackageOf(type));
   }

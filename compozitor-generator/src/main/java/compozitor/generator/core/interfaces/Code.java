@@ -1,6 +1,5 @@
 package compozitor.generator.core.interfaces;
 
-import java.io.InputStream;
 import compozitor.template.core.infra.StringInputStream;
 import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
@@ -9,12 +8,14 @@ import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 import lombok.RequiredArgsConstructor;
 
+import java.io.InputStream;
+
 @RequiredArgsConstructor
-public class Code implements TemplateContextData<Code>{
+public class Code implements TemplateContextData<Code> {
   private final TemplateMetadata metadata;
 
   private final TemplateContext context;
-  
+
   private final TemplateEngine engine;
 
   private InputStream content;
@@ -56,7 +57,7 @@ public class Code implements TemplateContextData<Code>{
     context.add(this.metadata).add(this);
     return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
   }
-  
+
   @Override
   public String key() {
     return "Code";
@@ -69,6 +70,6 @@ public class Code implements TemplateContextData<Code>{
 
   private Template getTemplate(String attribute) {
     return TemplateBuilder.create(this.engine, "Code").withResourceLoader(new StringInputStream(attribute))
-        .build();
+      .build();
   }
 }

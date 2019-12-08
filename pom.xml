@@ -1,94 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.archmix</groupId>
-		<artifactId>java-parent</artifactId>
-		<version>1.8</version>
-		<relativePath />
-	</parent>
+  <parent>
+    <groupId>org.archmix</groupId>
+    <artifactId>java-parent</artifactId>
+    <version>1.8</version>
+    <relativePath/>
+  </parent>
 
-	<artifactId>compozitor-oss</artifactId>
-	<version>0.0.9-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <artifactId>compozitor-oss</artifactId>
+  <version>0.0.9-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-	<properties>
-		<compozitorVersion>0.0.9-SNAPSHOT</compozitorVersion>
-		<velocityVersion>1.7</velocityVersion>
-		<autoServiceVersion>1.0-rc6</autoServiceVersion>
-		<awsVersion>1.11.594</awsVersion>
-		<compileTestingVersion>0.18</compileTestingVersion>
-		<maven.jar.pluginVersion>3.1.1</maven.jar.pluginVersion>
-	</properties>
+  <properties>
+    <compozitorVersion>0.0.9-SNAPSHOT</compozitorVersion>
+    <velocityVersion>1.7</velocityVersion>
+    <autoServiceVersion>1.0-rc6</autoServiceVersion>
+    <awsVersion>1.11.594</awsVersion>
+    <compileTestingVersion>0.18</compileTestingVersion>
+    <maven.jar.pluginVersion>3.1.1</maven.jar.pluginVersion>
+  </properties>
 
-	<scm>
-		<developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
+  <scm>
+    <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
-	<modules>
-		<module>compozitor-engine</module>
-		<module>compozitor-generator</module>
-		<module>compozitor-processor</module>
-		<module>compozitor-template</module>
-		<module>compozitor-test</module>
-	</modules>
+  <modules>
+    <module>compozitor-engine</module>
+    <module>compozitor-generator</module>
+    <module>compozitor-processor</module>
+    <module>compozitor-template</module>
+    <module>compozitor-test</module>
+  </modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- COMPOZITOR -->
-			<dependency>
-				<artifactId>compozitor-processor</artifactId>
-				<groupId>org.archmix</groupId>
-				<version>${compozitorVersion}</version>
-			</dependency>
-			<dependency>
-				<artifactId>compozitor-test</artifactId>
-				<groupId>org.archmix</groupId>
-				<version>${compozitorVersion}</version>
-			</dependency>
-			<dependency>
-				<artifactId>compozitor-engine</artifactId>
-				<groupId>org.archmix</groupId>
-				<version>${compozitorVersion}</version>
-			</dependency>
-			<dependency>
-				<artifactId>compozitor-generator</artifactId>
-				<groupId>org.archmix</groupId>
-				<version>${compozitorVersion}</version>
-			</dependency>
-			<dependency>
-				<artifactId>compozitor-template</artifactId>
-				<groupId>org.archmix</groupId>
-				<version>${compozitorVersion}</version>
-			</dependency>
+  <dependencyManagement>
+    <dependencies>
+      <!-- COMPOZITOR -->
+      <dependency>
+        <artifactId>compozitor-processor</artifactId>
+        <groupId>org.archmix</groupId>
+        <version>${compozitorVersion}</version>
+      </dependency>
+      <dependency>
+        <artifactId>compozitor-test</artifactId>
+        <groupId>org.archmix</groupId>
+        <version>${compozitorVersion}</version>
+      </dependency>
+      <dependency>
+        <artifactId>compozitor-engine</artifactId>
+        <groupId>org.archmix</groupId>
+        <version>${compozitorVersion}</version>
+      </dependency>
+      <dependency>
+        <artifactId>compozitor-generator</artifactId>
+        <groupId>org.archmix</groupId>
+        <version>${compozitorVersion}</version>
+      </dependency>
+      <dependency>
+        <artifactId>compozitor-template</artifactId>
+        <groupId>org.archmix</groupId>
+        <version>${compozitorVersion}</version>
+      </dependency>
 
-			<!-- VELOCITY -->
-			<dependency>
-				<groupId>org.apache.velocity</groupId>
-				<artifactId>velocity</artifactId>
-				<version>${velocityVersion}</version>
-			</dependency>
+      <!-- VELOCITY -->
+      <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>${velocityVersion}</version>
+      </dependency>
 
-			<!-- AWS -->
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk-s3</artifactId>
-				<version>${awsVersion}</version>
-			</dependency>
+      <!-- AWS -->
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk-s3</artifactId>
+        <version>${awsVersion}</version>
+      </dependency>
 
-			<!-- GOOGLE -->
-			<dependency>
-				<groupId>com.google.auto.service</groupId>
-				<artifactId>auto-service</artifactId>
-				<version>${autoServiceVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.testing.compile</groupId>
-				<artifactId>compile-testing</artifactId>
-				<version>${compileTestingVersion}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+      <!-- GOOGLE -->
+      <dependency>
+        <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
+        <version>${autoServiceVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.testing.compile</groupId>
+        <artifactId>compile-testing</artifactId>
+        <version>${compileTestingVersion}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

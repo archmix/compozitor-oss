@@ -1,10 +1,5 @@
 package compozitor.template.core.infra;
 
-import java.io.InputStream;
-import org.apache.commons.collections.ExtendedProperties;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GetObjectMetadataRequest;
@@ -12,6 +7,12 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import compozitor.template.core.interfaces.S3Bucket;
+import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+
+import java.io.InputStream;
 
 public class S3ResourceLoader extends ResourceLoader {
   private S3Bucket s3Bucket;
@@ -32,7 +33,7 @@ public class S3ResourceLoader extends ResourceLoader {
   @Override
   public long getLastModified(Resource resource) {
     ObjectMetadata metadata = this.s3Client
-        .getObjectMetadata(new GetObjectMetadataRequest(this.s3Bucket.name(), resource.getName()));
+      .getObjectMetadata(new GetObjectMetadataRequest(this.s3Bucket.name(), resource.getName()));
     return metadata.getLastModified().getTime();
   }
 

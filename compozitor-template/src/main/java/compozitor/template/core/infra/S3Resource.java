@@ -9,15 +9,15 @@ public enum S3Resource {
     this.key = key;
   }
 
+  public static String resourceName() {
+    return "s3";
+  }
+
   public String propertyKey() {
     return "s3.resource.loader." + this.key;
   }
 
   public String key() {
     return key;
-  }
-
-  public static String resourceName() {
-    return "s3";
   }
 }

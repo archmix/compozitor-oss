@@ -1,7 +1,8 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.ExecutableElement;
 import lombok.Getter;
+
+import javax.lang.model.element.ExecutableElement;
 
 @Getter
 public class MethodModel extends Model<ExecutableElement> {
@@ -16,7 +17,7 @@ public class MethodModel extends Model<ExecutableElement> {
   private Arguments arguments;
 
   public MethodModel(ProcessingContext context, ExecutableElement element,
-      Annotations annotations, Modifiers modifiers, TypeModel returnType, Arguments arguments) {
+                     Annotations annotations, Modifiers modifiers, TypeModel returnType, Arguments arguments) {
     super(context, element);
     this.annotations = annotations;
     this.modifiers = modifiers;

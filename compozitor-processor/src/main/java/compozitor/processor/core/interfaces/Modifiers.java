@@ -1,10 +1,11 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.Iterator;
-import java.util.Set;
-import javax.lang.model.element.Modifier;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+
+import javax.lang.model.element.Modifier;
+import java.util.Iterator;
+import java.util.Set;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class Modifiers implements Iterable<Modifier> {

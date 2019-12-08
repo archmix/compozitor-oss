@@ -1,5 +1,18 @@
 package compozitor.template.core.interfaces;
 
+import compozitor.template.core.infra.JoinableClassLoader;
+import compozitor.template.core.infra.MacrosLoader;
+import compozitor.template.core.infra.ResourceUri;
+import compozitor.template.core.infra.S3Resource;
+import compozitor.template.core.infra.S3ResourceLoader;
+import org.apache.velocity.app.event.implement.IncludeRelativePath;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
+
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,41 +21,27 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.velocity.app.event.implement.IncludeRelativePath;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
-import compozitor.template.core.infra.JoinableClassLoader;
-import compozitor.template.core.infra.MacrosLoader;
-import compozitor.template.core.infra.ResourceUri;
-import compozitor.template.core.infra.S3Resource;
-import compozitor.template.core.infra.S3ResourceLoader;
 
 @SuppressWarnings("unchecked")
 public class TemplateEngineBuilder {
-  private static final String USER_DIRECTIVE = "userdirective";
-
   public static final String USERDIRECTIVE_TEMPLATES_LOCATION = "userdirective.templates.location";
-
+  private static final String USER_DIRECTIVE = "userdirective";
   private final RuntimeServices target;
 
   private final Set<Class<? extends Directive>> directives = new HashSet<>();
-  
-  private final Set<String> macros = new HashSet<>();
-  
-  private final JoinableClassLoader classLoader;
 
-  public static TemplateEngineBuilder create() {
-    return new TemplateEngineBuilder();
-  }
+  private final Set<String> macros = new HashSet<>();
+
+  private final JoinableClassLoader classLoader;
 
   private TemplateEngineBuilder() {
     this.target = new RuntimeInstance();
     this.classLoader = JoinableClassLoader.create().join(this.getClass().getClassLoader());
     this.init();
+  }
+
+  public static TemplateEngineBuilder create() {
+    return new TemplateEngineBuilder();
   }
 
   private void init() {
@@ -51,13 +50,13 @@ public class TemplateEngineBuilder {
     this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE, "true");
     this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
     this.target.addProperty(RuntimeConstants.EVENTHANDLER_INCLUDE,
-        IncludeRelativePath.class.getName());
+      IncludeRelativePath.class.getName());
     this.target.addProperty("runtime.log.logsystem.log4j.logger", "root");
 
     this.addDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class,
-        Uncapitalize.class, UpperCase.class);
+      Uncapitalize.class, UpperCase.class);
   }
-  
+
   public TemplateEngineBuilder addClassLoader(ClassLoader classLoader) {
     this.classLoader.join(classLoader);
     return this;
@@ -105,17 +104,17 @@ public class TemplateEngineBuilder {
   public TemplateEngineBuilder loadMacros(Path path, Consumer<Iterable<String>> added) {
     Stream<String> macroFiles = MacrosLoader.create(this.classLoader).list(path);
     macroFiles.forEach(this.macros::add);
-    
+
     added.accept(this.macros);
 
     return this.setMacros();
   }
-  
+
   public TemplateEngineBuilder addMacros(Path path, String... files) {
     Arrays.asList(files).forEach(file -> this.macros.add(new ResourceUri(path.toString(), file).toString()));
     return this.setMacros();
   }
-  
+
   private TemplateEngineBuilder setMacros() {
     this.target.setProperty(RuntimeConstants.VM_LIBRARY, this.macros.stream().collect(Collectors.joining(",")));
     return this;

@@ -1,6 +1,4 @@
-package compozitor.engine.core.interfaces;
-
-import compozitor.generator.core.interfaces.TemplateMetadata;
+package compozitor.generator.core.interfaces;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,8 +7,12 @@ import java.util.List;
 public class TemplateRepository implements Iterable<TemplateMetadata> {
   private final List<TemplateMetadata> templates;
 
-  public TemplateRepository() {
+  TemplateRepository() {
     this.templates = new ArrayList<>();
+  }
+
+  public static TemplateRepository create() {
+    return new TemplateRepository();
   }
 
   @Override

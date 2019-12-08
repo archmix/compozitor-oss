@@ -1,7 +1,8 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.PackageElement;
 import lombok.Getter;
+
+import javax.lang.model.element.PackageElement;
 
 @Getter
 public class PackageModel extends Model<PackageElement> {

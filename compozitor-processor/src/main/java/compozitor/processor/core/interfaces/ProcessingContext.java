@@ -1,10 +1,7 @@
 package compozitor.processor.core.interfaces;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
+
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -30,9 +27,11 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.JavaFileManager.Location;
 import javax.tools.JavaFileObject;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
 
 public class ProcessingContext implements Types, Elements, Filer {
   private final ProcessingEnvironment environment;
@@ -42,15 +41,15 @@ public class ProcessingContext implements Types, Elements, Filer {
   @Getter
   private final JavaTypes javaTypes;
 
-  public static ProcessingContext create(ProcessingEnvironment environment) {
-    return new ProcessingContext(environment, environment.getMessager());
-  }
-
-  public ProcessingContext(final ProcessingEnvironment environment, final Messager logger){
+  public ProcessingContext(final ProcessingEnvironment environment, final Messager logger) {
     this.environment = environment;
     this.logger = logger;
     this.javaModel = JavaModel.create(this);
     this.javaTypes = JavaTypes.create(this, javaModel);
+  }
+
+  public static ProcessingContext create(ProcessingEnvironment environment) {
+    return new ProcessingContext(environment, environment.getMessager());
   }
 
   public void info(String message, Object... args) {
@@ -73,7 +72,7 @@ public class ProcessingContext implements Types, Elements, Filer {
     String logMessage = createMessage(message, args);
     this.logger.printMessage(kind, logMessage);
   }
-  
+
   public void log(Kind kind, Element element, String message, Object... args) {
     String logMessage = createMessage(message, args);
     this.logger.printMessage(kind, logMessage, element);
@@ -172,7 +171,7 @@ public class ProcessingContext implements Types, Elements, Filer {
 
   @Override
   public DeclaredType getDeclaredType(DeclaredType containing, TypeElement typeElem,
-      TypeMirror... typeArgs) {
+                                      TypeMirror... typeArgs) {
     return this.environment.getTypeUtils().getDeclaredType(containing, typeElem, typeArgs);
   }
 
@@ -193,7 +192,7 @@ public class ProcessingContext implements Types, Elements, Filer {
 
   @Override
   public Map<? extends ExecutableElement, ? extends AnnotationValue> getElementValuesWithDefaults(
-      AnnotationMirror a) {
+    AnnotationMirror a) {
     return this.environment.getElementUtils().getElementValuesWithDefaults(a);
   }
 
@@ -234,7 +233,7 @@ public class ProcessingContext implements Types, Elements, Filer {
 
   @Override
   public boolean overrides(ExecutableElement overrider, ExecutableElement overridden,
-      TypeElement type) {
+                           TypeElement type) {
     return this.environment.getElementUtils().overrides(overrider, overridden, type);
   }
 
@@ -260,26 +259,26 @@ public class ProcessingContext implements Types, Elements, Filer {
 
   @Override
   public JavaFileObject createSourceFile(CharSequence name, Element... originatingElements)
-      throws IOException {
+    throws IOException {
     return this.environment.getFiler().createSourceFile(name, originatingElements);
   }
 
   @Override
   public JavaFileObject createClassFile(CharSequence name, Element... originatingElements)
-      throws IOException {
+    throws IOException {
     return this.environment.getFiler().createClassFile(name, originatingElements);
   }
 
   @Override
   public FileObject createResource(Location location, CharSequence pkg, CharSequence relativeName,
-      Element... originatingElements) throws IOException {
+                                   Element... originatingElements) throws IOException {
     return this.environment.getFiler().createResource(location, pkg, relativeName,
-        originatingElements);
+      originatingElements);
   }
 
   @Override
   public FileObject getResource(Location location, CharSequence pkg, CharSequence relativeName)
-      throws IOException {
+    throws IOException {
     return this.environment.getFiler().getResource(location, pkg, relativeName);
   }
 }

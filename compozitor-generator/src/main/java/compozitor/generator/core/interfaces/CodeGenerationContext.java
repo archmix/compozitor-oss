@@ -1,27 +1,28 @@
 package compozitor.generator.core.interfaces;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import compozitor.template.core.interfaces.TemplateContext;
 import compozitor.template.core.interfaces.TemplateContextData;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @Getter
-public class GeneratorContext {
+public class CodeGenerationContext {
   private final TemplateContext context;
 
   private final TemplateMetadata metadata;
 
-  GeneratorContext(TemplateMetadata metadata) {
+  CodeGenerationContext(TemplateMetadata metadata) {
     this.context = TemplateContext.create();
     this.metadata = metadata;
   }
 
-  public static GeneratorContext create(TemplateMetadata metadata) {
-    return new GeneratorContext(metadata);
+  public static CodeGenerationContext create(TemplateMetadata metadata) {
+    return new CodeGenerationContext(metadata);
   }
 
-  public GeneratorContext add(TemplateContextData<?>... entries) {
+  public CodeGenerationContext add(TemplateContextData<?>... entries) {
     for (TemplateContextData<?> entry : this.iterable(entries)) {
       this.context.add(entry);
     }

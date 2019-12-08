@@ -14,19 +14,19 @@ public interface TypeModel {
   Interfaces getInterfaces();
 
   TypeModel getSuperType();
-  
+
   TypeParameters getParameters();
-  
+
   Fields getFields();
 
   Methods getMethods();
-  
+
   PackageModel getPackage();
 
   Element getElement();
-  
+
   boolean instanceOf(TypeModel type);
-  
+
   boolean isCollection();
 
   boolean isEnum();

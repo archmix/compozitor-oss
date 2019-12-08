@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.SOURCE)
 @interface MethodAnnotationWithAttributes {
-    String firstName();
+  String firstName();
 
-    String[] surnames() default {};
+  String[] surnames() default {};
 }

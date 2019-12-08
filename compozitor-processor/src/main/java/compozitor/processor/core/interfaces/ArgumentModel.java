@@ -1,7 +1,8 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.VariableElement;
 import lombok.Getter;
+
+import javax.lang.model.element.VariableElement;
 
 @Getter
 public class ArgumentModel extends Model<VariableElement> {
@@ -12,9 +13,9 @@ public class ArgumentModel extends Model<VariableElement> {
   private final String name;
 
   private final boolean array;
-  
+
   public ArgumentModel(ProcessingContext context, VariableElement element,
-      Annotations annotations, TypeModel type, Boolean array) {
+                       Annotations annotations, TypeModel type, Boolean array) {
     super(context, element);
     this.annotations = annotations;
     this.type = type;

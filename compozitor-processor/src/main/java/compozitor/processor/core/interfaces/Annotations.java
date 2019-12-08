@@ -1,10 +1,11 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.lang.model.element.AnnotationMirror;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+
+import javax.lang.model.element.AnnotationMirror;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Annotations extends ModelIterable<AnnotationModel> {
 

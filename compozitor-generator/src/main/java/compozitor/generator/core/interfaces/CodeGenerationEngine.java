@@ -1,17 +1,18 @@
 package compozitor.generator.core.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
 import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
 import compozitor.template.core.interfaces.TemplateContext;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 
-public class CodeGenerator<T extends TemplateContextData<T>> {
+import java.util.ArrayList;
+import java.util.List;
 
-  public final List<GeneratedCode> execute(GeneratorContext context,
-      MetamodelRepository<T> repository, TemplateEngine engine) {
+public class CodeGenerationEngine<T extends TemplateContextData<T>> {
+
+  public final List<GeneratedCode> execute(CodeGenerationContext context,
+                                           MetaModelRepository<T> repository, TemplateEngine engine) {
     TemplateMetadata templateMetadata = context.getMetadata();
     Template template = templateMetadata.getTemplate();
     TemplateContext templateContext = context.getContext();

@@ -1,8 +1,9 @@
 package compozitor.template.core.interfaces;
 
+import org.apache.velocity.VelocityContext;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.apache.velocity.VelocityContext;
 
 public class TemplateContext {
   private final VelocityContext context;
@@ -27,7 +28,7 @@ public class TemplateContext {
     this.context.put(key, value);
     return this;
   }
-  
+
   public TemplateContext add(TemplateContextData<?>... entries) {
     for (TemplateContextData<?> entry : this.iterable(entries)) {
       this.context.put(entry.key(), entry);
