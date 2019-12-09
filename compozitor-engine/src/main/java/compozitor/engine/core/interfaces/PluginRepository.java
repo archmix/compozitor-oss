@@ -75,7 +75,7 @@ class PluginRepository {
   }
 
   private void accept(CodeGenerationCategoryPlugin plugin, CodeGenerationCategory category, Consumer<CodeGenerationCategoryPlugin> accepted) {
-    if (plugin.category().value().equals(category.value())) {
+    if (plugin.category().equals(category)) {
       accepted.accept(plugin);
     }
   }
@@ -90,10 +90,10 @@ class PluginRepository {
     return builder.build();
   }
 
-  public TemplateRepository templates() {
+  public TemplateRepository templates(TemplateEngine templateEngine) {
     TemplateRepository templateRepository = TemplateRepository.create();
     this.templatePlugins.forEach(plugin -> {
-      plugin.accept(templateRepository);
+      plugin.accept(templateEngine, templateRepository);
     });
 
     return templateRepository;
@@ -103,7 +103,7 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.typeModelPlugins.forEach(plugin -> {
-      metaModelList.add(plugin.accept(model));
+      metaModelList.add((T) plugin.accept(model));
     });
 
     return metaModelList;
@@ -113,7 +113,7 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.fieldModelPlugins.forEach(plugin -> {
-      metaModelList.add(plugin.accept(model));
+      metaModelList.add((T) plugin.accept(model));
     });
 
     return metaModelList;
@@ -123,7 +123,7 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.methodModelPlugins.forEach(plugin -> {
-      metaModelList.add(plugin.accept(model));
+      metaModelList.add((T) plugin.accept(model));
     });
 
     return metaModelList;

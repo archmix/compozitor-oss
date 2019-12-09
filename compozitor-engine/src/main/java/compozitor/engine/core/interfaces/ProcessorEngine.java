@@ -60,7 +60,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
     TemplateEngine templateEngine = this.pluginRepository.templateEngine();
 
-    TemplateRepository templates = this.pluginRepository.templates();
+    TemplateRepository templates = this.pluginRepository.templates(templateEngine);
     templates.forEach(template -> engineContext.add(this.category(), template));
 
     CodeGenerationCategoryEngine<T> engine = CodeGenerationCategoryEngine.create();
@@ -90,12 +90,12 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     return this.context.createSourceFile(code.getQualifiedName());
   }
 
-  protected void listen(SourceCodeListener generatorListener) {
+  protected final void listen(SourceCodeListener generatorListener) {
     this.generatorListener = generatorListener;
   }
 
   @Override
-  public Set<String> getSupportedAnnotationTypes() {
+  public final Set<String> getSupportedAnnotationTypes() {
     return this.pluginRepository.targetAnnotations(this.category()).values();
   }
 

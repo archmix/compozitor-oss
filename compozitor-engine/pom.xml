@@ -18,6 +18,10 @@
       <groupId>org.archmix</groupId>
     </dependency>
     <dependency>
+      <artifactId>compozitor-test</artifactId>
+      <groupId>org.archmix</groupId>
+    </dependency>
+    <dependency>
       <artifactId>compozitor-processor</artifactId>
       <groupId>org.archmix</groupId>
     </dependency>

@@ -26,7 +26,7 @@ public class FileObjectStringfy {
     return this.toString(generatedFile);
   }
 
-  public String toString(FileObject javaFile) {
+  public static String toString(FileObject javaFile) {
     try (InputStream input = javaFile.openInputStream()) {
       byte[] available = new byte[input.available()];
       input.read(available);
