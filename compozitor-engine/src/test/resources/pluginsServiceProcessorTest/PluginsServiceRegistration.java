@@ -11,7 +11,7 @@ import compozitor.engine.processor.infra.TestTemplateContextData;
 @ProcessorPlugin
 public class PluginsServiceRegistration implements TypeModelPlugin<TestTemplateContextData> {
   @Override
-  public <T extends TemplateContextData<T>> T accept(TypeModel typeModel) {
+  public TestTemplateContextData accept(TypeModel typeModel) {
     return null;
   }
 
