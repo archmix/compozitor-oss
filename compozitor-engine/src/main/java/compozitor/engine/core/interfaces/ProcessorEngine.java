@@ -40,17 +40,17 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   @Override
   protected final void process(FieldModel fieldModel) {
-    this.metaModelRepository.add(this.pluginRepository.getMetaModel(fieldModel));
+    this.metaModelRepository.add(this.pluginRepository.getMetaModel(this.context, fieldModel));
   }
 
   @Override
   protected final void process(MethodModel methodModel) {
-    this.metaModelRepository.add(this.pluginRepository.getMetaModel(methodModel));
+    this.metaModelRepository.add(this.pluginRepository.getMetaModel(this.context, methodModel));
   }
 
   @Override
   protected final void process(TypeModel typeModel) {
-    this.metaModelRepository.add(this.pluginRepository.getMetaModel(typeModel));
+    this.metaModelRepository.add(this.pluginRepository.getMetaModel(this.context, typeModel));
   }
 
   @Override

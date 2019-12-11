@@ -3,6 +3,7 @@ package compozitor.engine.core.interfaces;
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 import compozitor.generator.core.interfaces.TemplateMetadata;
 import compozitor.generator.core.interfaces.TemplateRepository;
+import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.TypeModel;
 import compozitor.template.core.interfaces.TemplateEngine;
 import compozitor.template.core.interfaces.TemplateEngineBuilder;
@@ -28,7 +29,7 @@ public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, Tar
   }
 
   @Override
-  public TableMetadata accept(TypeModel typeModel) {
+  public TableMetadata accept(ProcessingContext context, TypeModel typeModel) {
     return TableMetadata.create(typeModel);
   }
 

@@ -4,6 +4,7 @@ import compozitor.generator.core.interfaces.CodeGenerationCategory;
 import compozitor.generator.core.interfaces.TemplateRepository;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
+import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.TypeModel;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
@@ -99,31 +100,31 @@ class PluginRepository {
     return templateRepository;
   }
 
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(TypeModel model) {
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, TypeModel model) {
     List<T> metaModelList = new ArrayList<>();
 
     this.typeModelPlugins.forEach(plugin -> {
-      metaModelList.add((T) plugin.accept(model));
+      metaModelList.add((T) plugin.accept(context, model));
     });
 
     return metaModelList;
   }
 
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(FieldModel model) {
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, FieldModel model) {
     List<T> metaModelList = new ArrayList<>();
 
     this.fieldModelPlugins.forEach(plugin -> {
-      metaModelList.add((T) plugin.accept(model));
+      metaModelList.add((T) plugin.accept(context, model));
     });
 
     return metaModelList;
   }
 
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(MethodModel model) {
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, MethodModel model) {
     List<T> metaModelList = new ArrayList<>();
 
     this.methodModelPlugins.forEach(plugin -> {
-      metaModelList.add((T) plugin.accept(model));
+      metaModelList.add((T) plugin.accept(context, model));
     });
 
     return metaModelList;
