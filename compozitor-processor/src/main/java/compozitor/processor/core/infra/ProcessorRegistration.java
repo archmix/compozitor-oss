@@ -8,7 +8,7 @@ import compozitor.processor.core.interfaces.ServiceProcessor;
 import java.util.Arrays;
 import java.util.Set;
 
-@AutoService(Processor.class)
+@AutoService(javax.annotation.processing.Processor.class)
 public class ProcessorRegistration extends ServiceProcessor {
   @Override
   public final Set<String> getSupportedAnnotationTypes() {
