@@ -90,7 +90,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     return this.context.createSourceFile(code.getQualifiedName());
   }
 
-  protected final void listen(SourceCodeListener generatorListener) {
+  public final void listen(SourceCodeListener generatorListener) {
     this.generatorListener = generatorListener;
   }
 
