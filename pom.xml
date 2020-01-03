@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.archmix</groupId>
     <artifactId>java-parent</artifactId>
     <version>1.8</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <artifactId>compozitor-oss</artifactId>
-  <version>0.0.9-SNAPSHOT</version>
+  <version>0.0.9</version>
   <packaging>pom</packaging>
 
   <properties>
-    <compozitorVersion>0.0.9-SNAPSHOT</compozitorVersion>
+    <compozitorVersion>0.0.9</compozitorVersion>
     <velocityVersion>1.7</velocityVersion>
     <autoServiceVersion>1.0-rc6</autoServiceVersion>
     <awsVersion>1.11.594</awsVersion>
@@ -25,7 +24,7 @@
 
   <scm>
     <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v0.0.9</tag>
   </scm>
 
   <modules>
