@@ -10,11 +10,11 @@
   </parent>
 
   <artifactId>compozitor-oss</artifactId>
-  <version>0.0.10</version>
+  <version>0.0.11-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <compozitorVersion>0.0.10</compozitorVersion>
+    <compozitorVersion>0.0.11-SNAPSHOT</compozitorVersion>
     <velocityVersion>1.7</velocityVersion>
     <autoServiceVersion>1.0-rc6</autoServiceVersion>
     <awsVersion>1.11.594</awsVersion>
@@ -24,7 +24,7 @@
 
   <scm>
     <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
-    <tag>v0.0.10</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>
