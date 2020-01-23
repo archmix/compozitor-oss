@@ -9,11 +9,7 @@ import compozitor.template.core.interfaces.TemplateEngine;
 import compozitor.template.core.interfaces.TemplateEngineBuilder;
 
 @ProcessorPlugin
-public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, TargetAnnnotationsPlugin, TemplateEnginePlugin, TemplatePlugin {
-  @Override
-  public TargetAnnotations targetAnnotations() {
-    return TargetAnnotations.create().add(Table.class);
-  }
+public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, TemplateEnginePlugin, TemplatePlugin {
 
   @Override
   public void accept(TemplateEngineBuilder builder) {

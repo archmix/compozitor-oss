@@ -33,7 +33,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-public class ProcessingContext implements Types, Elements, Filer {
+public class ProcessingContext implements Types, Elements, Filer, Logger {
   private final ProcessingEnvironment environment;
   private final Messager logger;
   @Getter

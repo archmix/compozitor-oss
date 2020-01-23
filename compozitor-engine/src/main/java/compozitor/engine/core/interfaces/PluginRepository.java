@@ -3,6 +3,7 @@ package compozitor.engine.core.interfaces;
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 import compozitor.generator.core.interfaces.TemplateRepository;
 import compozitor.processor.core.interfaces.FieldModel;
+import compozitor.processor.core.interfaces.Logger;
 import compozitor.processor.core.interfaces.MethodModel;
 import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.TypeModel;
@@ -22,7 +23,6 @@ class PluginRepository {
   private final Collection<FieldModelPlugin<?>> fieldModelPlugins;
   private final Collection<MethodModelPlugin<?>> methodModelPlugins;
   private final Collection<TemplatePlugin> templatePlugins;
-  private final Collection<TargetAnnnotationsPlugin> targetAnnnotationsPlugins;
 
   PluginRepository() {
     this.templateEnginePlugins = new ArrayList<>();
@@ -30,47 +30,47 @@ class PluginRepository {
     this.fieldModelPlugins = new ArrayList<>();
     this.methodModelPlugins = new ArrayList<>();
     this.templatePlugins = new ArrayList<>();
-    this.targetAnnnotationsPlugins = new ArrayList<>();
   }
 
   static PluginRepository create() {
     return new PluginRepository();
   }
 
-  void load(CodeGenerationCategory category) {
+  void load(CodeGenerationCategory category, Logger logger) {
+    logger.info("Loading plugins for category {0}", category.getClass().getName());
+
     ServiceLoader.load(TemplateEnginePlugin.class).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
+        logger.info("Loading template engine plugin {0}", plugin.getClass().getCanonicalName());
         this.templateEnginePlugins.add(plugin);
       });
     });
 
     ServiceLoader.load(TypeModelPlugin.class).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
+        logger.info("Loading type model plugin {0}", plugin.getClass().getCanonicalName());
         this.typeModelPlugins.add(plugin);
       });
     });
 
     ServiceLoader.load(FieldModelPlugin.class).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
+        logger.info("Loading field model plugin {0}", plugin.getClass().getCanonicalName());
         this.fieldModelPlugins.add(plugin);
       });
     });
 
     ServiceLoader.load(MethodModelPlugin.class).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
+        logger.info("Loading method model plugin {0}", plugin.getClass().getCanonicalName());
         this.methodModelPlugins.add(plugin);
       });
     });
 
     ServiceLoader.load(TemplatePlugin.class).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
+        logger.info("Loading template plugin {0}", plugin.getClass().getCanonicalName());
         this.templatePlugins.add(plugin);
-      });
-    });
-
-    ServiceLoader.load(TargetAnnnotationsPlugin.class).forEach(plugin -> {
-      this.accept(plugin, category, (accepted) -> {
-        this.targetAnnnotationsPlugins.add(plugin);
       });
     });
   }
@@ -128,14 +128,5 @@ class PluginRepository {
     });
 
     return metaModelList;
-  }
-
-  public TargetAnnotations targetAnnotations(CodeGenerationCategory category) {
-    TargetAnnotations targetAnnotations = TargetAnnotations.create();
-    this.targetAnnnotationsPlugins.forEach(plugin -> {
-      targetAnnotations.add(plugin.targetAnnotations());
-    });
-
-    return targetAnnotations;
   }
 }

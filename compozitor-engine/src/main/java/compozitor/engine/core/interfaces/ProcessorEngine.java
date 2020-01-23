@@ -10,6 +10,7 @@ import compozitor.generator.core.interfaces.TemplateRepository;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
+import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.TypeModel;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
@@ -19,7 +20,6 @@ import javax.tools.StandardLocation;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
-import java.util.Set;
 
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final PluginRepository pluginRepository;
@@ -29,11 +29,11 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   public ProcessorEngine() {
     this.pluginRepository = PluginRepository.create();
     this.metaModelRepository = new MetaModelRepository<T>();
-    this.init();
   }
 
-  private void init() {
-    this.pluginRepository.load(this.category());
+  @Override
+  protected void init(ProcessingContext context) {
+    this.pluginRepository.load(this.category(), context);
     this.generatorListener = ((sourceCode) -> {
     });
   }
@@ -92,11 +92,6 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   public final void listen(SourceCodeListener generatorListener) {
     this.generatorListener = generatorListener;
-  }
-
-  @Override
-  public final Set<String> getSupportedAnnotationTypes() {
-    return this.pluginRepository.targetAnnotations(this.category()).values();
   }
 
   protected abstract CodeGenerationCategory category();
