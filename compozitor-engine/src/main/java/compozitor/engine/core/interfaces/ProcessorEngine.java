@@ -33,7 +33,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   @Override
   protected void init(ProcessingContext context) {
-    this.pluginRepository.load(this.category(), context);
+    this.pluginRepository.load(this.getClassLoader(), this.category(), context);
     this.generatorListener = ((sourceCode) -> {
     });
   }
@@ -73,6 +73,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
       this.generatorListener.accept(sourceCode);
 
       FileObject sourceFile = this.createFile(code);
+      this.context.info("Generating file {0}", sourceFile.getName());
 
       try (Writer writer = sourceFile.openWriter()) {
         writer.write(sourceCode);
@@ -92,6 +93,10 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   public final void listen(SourceCodeListener generatorListener) {
     this.generatorListener = generatorListener;
+  }
+
+  protected ClassLoader getClassLoader(){
+    return this.getClass().getClassLoader();
   }
 
   protected abstract CodeGenerationCategory category();

@@ -36,38 +36,38 @@ class PluginRepository {
     return new PluginRepository();
   }
 
-  void load(CodeGenerationCategory category, Logger logger) {
+  void load(ClassLoader classLoader, CodeGenerationCategory category, Logger logger) {
     logger.info("Loading plugins for category {0}", category.getClass().getName());
 
-    ServiceLoader.load(TemplateEnginePlugin.class).forEach(plugin -> {
+    ServiceLoader.load(TemplateEnginePlugin.class, classLoader).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
         logger.info("Loading template engine plugin {0}", plugin.getClass().getCanonicalName());
         this.templateEnginePlugins.add(plugin);
       });
     });
 
-    ServiceLoader.load(TypeModelPlugin.class).forEach(plugin -> {
+    ServiceLoader.load(TypeModelPlugin.class, classLoader).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
         logger.info("Loading type model plugin {0}", plugin.getClass().getCanonicalName());
         this.typeModelPlugins.add(plugin);
       });
     });
 
-    ServiceLoader.load(FieldModelPlugin.class).forEach(plugin -> {
+    ServiceLoader.load(FieldModelPlugin.class, classLoader).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
         logger.info("Loading field model plugin {0}", plugin.getClass().getCanonicalName());
         this.fieldModelPlugins.add(plugin);
       });
     });
 
-    ServiceLoader.load(MethodModelPlugin.class).forEach(plugin -> {
+    ServiceLoader.load(MethodModelPlugin.class, classLoader).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
         logger.info("Loading method model plugin {0}", plugin.getClass().getCanonicalName());
         this.methodModelPlugins.add(plugin);
       });
     });
 
-    ServiceLoader.load(TemplatePlugin.class).forEach(plugin -> {
+    ServiceLoader.load(TemplatePlugin.class, classLoader).forEach(plugin -> {
       this.accept(plugin, category, (accepted) -> {
         logger.info("Loading template plugin {0}", plugin.getClass().getCanonicalName());
         this.templatePlugins.add(plugin);

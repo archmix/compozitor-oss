@@ -48,11 +48,10 @@ public abstract class AnnotationProcessor implements Processor {
       this.preProcess();
 
       annotatedElements.forEach((annotation, elements) -> {
-        this.context.info("Processing annotatedElements for annotation {0}", annotation);
-        elements.forEach(element ->{
+        elements.forEach(element -> {
           this.process(element);
         });
-        this.context.info("All annotatedElements processed for annotation {0}", annotation);
+
       });
 
       this.runOnce.run(() -> {
@@ -67,7 +66,7 @@ public abstract class AnnotationProcessor implements Processor {
     return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
   }
 
-  protected AnnotatedElements elementsAnnotatedWith(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment){
+  protected AnnotatedElements elementsAnnotatedWith(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     AnnotatedElements elements = new AnnotatedElements();
 
     for (TypeElement annotation : annotations) {
@@ -102,28 +101,28 @@ public abstract class AnnotationProcessor implements Processor {
     JavaModel javaModel = this.context.getJavaModel();
 
     if (element.getKind().equals(ElementKind.CLASS)) {
-      this.context.info("Processing Element is a class", element);
       TypeModel model = javaModel.getClass(element);
+      this.context.info("Processing class {0}", model.getQualifiedName());
       this.process(model);
       return;
     }
 
     if (element.getKind().equals(ElementKind.INTERFACE)) {
-      this.context.info("Processing Element is an interface", element);
       TypeModel model = javaModel.getInterface(element);
+      this.context.info("Processing interface {0}", model.getQualifiedName());
       this.process(model);
       return;
     }
 
     if (element.getKind().equals(ElementKind.FIELD)) {
-      this.context.info("Processing Element is a field", element);
+      this.context.info("Processing field {0} from class {1}", element.getSimpleName(), element.getEnclosingElement().getSimpleName());
       FieldModel model = javaModel.getField(element);
       this.process(model);
       return;
     }
 
     if (element.getKind().equals(ElementKind.METHOD)) {
-      this.context.info("Processing Element is a method", element);
+      this.context.info("Processing method {0} from class {1}", element.getSimpleName(), element.getEnclosingElement().getSimpleName());
       MethodModel model = javaModel.getMethod(element);
       this.process(model);
       return;
