@@ -3,6 +3,7 @@ package compozitor.processor.core.interfaces;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
+import java.util.List;
 import java.util.Map;
 
 public class AnnotationModel extends Model<AnnotationMirror> {
@@ -21,6 +22,10 @@ public class AnnotationModel extends Model<AnnotationMirror> {
     }
 
     return null;
+  }
+
+  public List<AnnotationValue> getValues(String key){
+    return (List<AnnotationValue>) this.getValue(key).getValue();
   }
 
   @Override
