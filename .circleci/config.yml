@@ -35,13 +35,9 @@ workflows:
   build-deploy:
     jobs:
       - build:
-          context: Archmix Maven
-          filters:
-            branches:
-              ignore:
-                - gh-pages
+          context: Archmix
       - release:
-          context: Archmix Maven
+          context: Archmix
           requires:
             - build
           filters:
