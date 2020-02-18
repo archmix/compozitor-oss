@@ -10,11 +10,11 @@
   </parent>
 
   <artifactId>compozitor-oss</artifactId>
-  <version>0.0.12-SNAPSHOT</version>
+  <version>0.0.13-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <compozitorVersion>0.0.12-SNAPSHOT</compozitorVersion>
+    <compozitorVersion>0.0.13-SNAPSHOT</compozitorVersion>
     <velocityVersion>1.7</velocityVersion>
     <autoServiceVersion>1.0-rc6</autoServiceVersion>
     <awsVersion>1.11.594</awsVersion>
