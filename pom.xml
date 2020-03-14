@@ -19,7 +19,6 @@
     <autoServiceVersion>1.0-rc6</autoServiceVersion>
     <awsVersion>1.11.594</awsVersion>
     <compileTestingVersion>0.18</compileTestingVersion>
-    <maven.jar.pluginVersion>3.1.1</maven.jar.pluginVersion>
   </properties>
 
   <scm>
