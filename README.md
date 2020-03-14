@@ -12,7 +12,7 @@ Import dependency to your maven pom
 ```xml
 <dependency>
   <groupId>org.archmix</groupId>
-  <artifactId>compozitor-module</artifactId>
+  <artifactId>compozitor-oss</artifactId>
   <version>${walleedVersion}</version>
 </dependency>
 ```
