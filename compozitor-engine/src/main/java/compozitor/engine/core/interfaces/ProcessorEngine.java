@@ -85,10 +85,10 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   private FileObject createFile(GeneratedCode code) throws IOException {
     if (code.getResource()) {
-      return this.context.createResource(StandardLocation.SOURCE_OUTPUT, code.getNamespace(), code.getFileName());
+      return this.context.createResource(StandardLocation.SOURCE_OUTPUT, code.getNamespace().toString(), code.getFileName().toString());
     }
 
-    return this.context.createSourceFile(code.getQualifiedName());
+    return this.context.createSourceFile(code.getQualifiedName().toString());
   }
 
   public final void listen(SourceCodeListener generatorListener) {

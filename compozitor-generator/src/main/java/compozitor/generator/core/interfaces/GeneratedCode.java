@@ -4,19 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 
 @Getter
 @Setter
 public class GeneratedCode {
   private InputStream content;
 
-  private String fileName;
+  private Filename fileName;
 
-  private String path;
+  private Path path;
 
-  private String namespace;
+  private Namespace namespace;
 
-  private String qualifiedName;
+  private QualifiedName qualifiedName;
 
   private String simpleName;
 

@@ -21,7 +21,7 @@ public class Code implements TemplateContextData<Code> {
   private InputStream content;
 
   public String getResourceName() {
-    String fileName = this.toFileName();
+    String fileName = this.toFileName().toString();
 
     int dotIndex = fileName.indexOf(".");
     if (dotIndex > -1) {
@@ -36,15 +36,16 @@ public class Code implements TemplateContextData<Code> {
   }
 
   public GeneratedCode toGeneratedCode() {
-    String namespace = this.getNamespace();
-    String fileName = this.toFileName();
-    String qualifiedName = new StringBuilder(namespace).append(".").append(fileName).toString();
+    Namespace namespace = this.namespace();
+    Filename filename = this.toFileName();
+
+    QualifiedName qualifiedName = QualifiedName.create(namespace, filename);
 
     GeneratedCode generatedCode = new GeneratedCode();
     generatedCode.setContent(this.content);
-    generatedCode.setFileName(fileName);
+    generatedCode.setFileName(filename);
     generatedCode.setQualifiedName(qualifiedName);
-    generatedCode.setPath(namespace.replace('.', '/'));
+    generatedCode.setPath(namespace.toPath());
     generatedCode.setNamespace(namespace);
     generatedCode.setSimpleName(this.getResourceName());
     generatedCode.setResource(this.metadata.getResource());
@@ -53,9 +54,10 @@ public class Code implements TemplateContextData<Code> {
     return generatedCode;
   }
 
-  public String getNamespace() {
+  private Namespace namespace() {
     context.add(this.metadata).add(this);
-    return this.getTemplate(this.metadata.getNamespace()).mergeToString(context);
+    String namespaceValue = this.getTemplate(this.metadata.getNamespace().toString()).mergeToString(context);
+    return Namespace.create(namespaceValue);
   }
 
   @Override
@@ -63,9 +65,10 @@ public class Code implements TemplateContextData<Code> {
     return "Code";
   }
 
-  private String toFileName() {
+  private Filename toFileName() {
     context.add(this.metadata).add(this);
-    return this.getTemplate(this.metadata.getFileName()).mergeToString(context);
+    String filenameValue = this.getTemplate(this.metadata.getFileName().toString()).mergeToString(context);
+    return Filename.create(filenameValue);
   }
 
   private Template getTemplate(String attribute) {
