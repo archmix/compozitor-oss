@@ -28,10 +28,18 @@ public abstract class ServiceProcessor extends AnnotationProcessor {
       registerType(model, targetInterface);
     });
 
-    TypeModel superType = model.getSuperType();
-    if (superType != null) {
-      registerType(model, superType);
+    this.processAncestors(model, model.getSuperType());
+  }
+
+  private void processAncestors(TypeModel targetService, TypeModel superType){
+    if (superType == null) {
+      return;
     }
+    superType.getInterfaces().forEach(targetInterface ->{
+      registerType(targetService, targetInterface);
+    });
+
+    this.processAncestors(targetService, superType.getSuperType());
   }
 
   private void registerType(TypeModel model, TypeModel targetInterface) {

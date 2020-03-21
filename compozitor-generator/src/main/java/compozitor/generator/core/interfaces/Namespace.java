@@ -2,14 +2,12 @@ package compozitor.generator.core.interfaces;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RequiredArgsConstructor(staticName = "create")
 @EqualsAndHashCode(of = "value")
-@ToString(of = "value")
 public class Namespace {
   private static final String SLASH = "/";
   private static final String DOT = ".";
@@ -32,5 +30,10 @@ public class Namespace {
 
   public Path toPath() {
     return this.path;
+  }
+
+  @Override
+  public String toString() {
+    return this.value;
   }
 }

@@ -10,8 +10,12 @@
   </parent>
 
   <artifactId>compozitor-oss</artifactId>
-  <version>0.0.14-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+
+  <name>Archmix Compozitor Open Source Solution</name>
+  <description>Compozitor is a source code generation engine based on Apache Velocity and Java Annotation Processing API</description>
+  <url>https://archmix.org</url>
 
   <properties>
     <compozitorVersion>0.0.14-SNAPSHOT</compozitorVersion>
@@ -20,11 +24,6 @@
     <awsVersion>1.11.594</awsVersion>
     <compileTestingVersion>0.18</compileTestingVersion>
   </properties>
-
-  <scm>
-    <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
 
   <modules>
     <module>compozitor-engine</module>
@@ -90,4 +89,32 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <scm>
+    <connection>scm:git:git://github.com/archmix/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/archmix</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>Github issue tracker</system>
+    <url>https://github.com/archmix/${project.artifactId}/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>mrbraz</id>
+      <name>Anderson Braz</name>
+      <email>mrbraz@archmix.org</email>
+    </developer>
+  </developers>
 </project>
