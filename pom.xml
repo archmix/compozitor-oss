@@ -18,7 +18,7 @@
   <url>https://archmix.org</url>
 
   <properties>
-    <compozitorVersion>0.0.14-SNAPSHOT</compozitorVersion>
+    <compozitorVersion>0.1.0-SNAPSHOT</compozitorVersion>
     <velocityVersion>1.7</velocityVersion>
     <autoServiceVersion>1.0-rc6</autoServiceVersion>
     <awsVersion>1.11.594</awsVersion>

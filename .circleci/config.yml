@@ -1,4 +1,17 @@
-version: 2
+version: 2.1
+
+commands:
+  prepare_maven_environment:
+    steps:
+      - run:
+          name: Importing Settings from Github
+          command: |
+            curl https://raw.githubusercontent.com/archmix/infra-maven/master/settings.xml >> settings.xml
+      - run:
+          name: Importing GPG Key
+          command: |
+            echo -e "$MAVEN_GPG_KEY" | gpg --import
+
 jobs:
   build:
     docker:
@@ -11,7 +24,7 @@ jobs:
 
     steps:
       - checkout
-      - run: curl https://raw.githubusercontent.com/archmix/infra-maven/master/settings.xml >> settings.xml
+      - prepare_maven_environment
       - run: mvn -s settings.xml clean deploy
 
   release:
@@ -22,13 +35,12 @@ jobs:
 
     steps:
       - add_ssh_keys
-
       - checkout
 
-      - run: curl https://raw.githubusercontent.com/archmix/infra-maven/master/settings.xml >> settings.xml
+      - prepare_maven_environment
       - run: git config user.email "ci@archmix.org"
       - run: git config user.name "Circle CI"
-      - run: mvn -B -s settings.xml release:clean release:prepare release:perform -DignoreSnapshots=true
+      - run: mvn -P release -B -s settings.xml release:clean release:prepare release:perform -DignoreSnapshots=true
 
 workflows:
   version: 2
