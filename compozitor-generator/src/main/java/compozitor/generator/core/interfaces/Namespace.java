@@ -23,6 +23,10 @@ public class Namespace {
     return Namespace.create(path.toString().replace(SLASH, DOT));
   }
 
+  public static Namespace root(){
+    return Namespace.create("");
+  }
+
   public Namespace merge(TemplateEngine engine, TemplateContext context){
     Template namespaceTemplate = TemplateBuilder.create(engine, "Code")
         .withResourceLoader(new StringInputStream(this.value.toString()))

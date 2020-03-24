@@ -6,6 +6,7 @@ import compozitor.template.core.interfaces.TemplateBuilder;
 import compozitor.template.core.interfaces.TemplateContext;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.io.InputStream;
@@ -20,14 +21,14 @@ public class Code implements TemplateContextData<Code> {
   private InputStream content;
 
   public Code(TemplateMetadata metadata, TemplateContext context, TemplateEngine engine) {
+    context.add(metadata).add(this);
     this.metadata = metadata;
     this.context = context;
     this.engine = engine;
-    context.add(metadata).add(this);
   }
 
   public String getResourceName() {
-    String fileName = this.metadata.getFileName().toString();
+    String fileName = this.metadata.getFileName().merge(this.engine, this.context).toString();
 
     int dotIndex = fileName.indexOf(".");
     if (dotIndex > -1) {
@@ -37,12 +38,16 @@ public class Code implements TemplateContextData<Code> {
     return fileName;
   }
 
+  public Namespace getNamespace(){
+    return this.metadata.getNamespace().merge(this.engine, this.context);
+  }
+
   public void setContent(InputStream content) {
     this.content = content;
   }
 
   public GeneratedCode toGeneratedCode() {
-    Namespace namespace = this.metadata.getNamespace().merge(this.engine, this.context);
+    Namespace namespace = this.getNamespace();
     Filename filename =  this.metadata.getFileName().merge(this.engine, this.context);
 
     QualifiedName qualifiedName = QualifiedName.create(namespace, filename);

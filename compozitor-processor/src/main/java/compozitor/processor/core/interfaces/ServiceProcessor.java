@@ -35,6 +35,9 @@ public abstract class ServiceProcessor extends AnnotationProcessor {
     if (superType == null) {
       return;
     }
+
+    registerType(targetService, superType);
+
     superType.getInterfaces().forEach(targetInterface ->{
       registerType(targetService, targetInterface);
     });
