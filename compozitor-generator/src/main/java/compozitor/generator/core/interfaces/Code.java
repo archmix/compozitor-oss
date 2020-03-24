@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.io.InputStream;
 
-@RequiredArgsConstructor
 public class Code implements TemplateContextData<Code> {
   private final TemplateMetadata metadata;
 
@@ -20,8 +19,15 @@ public class Code implements TemplateContextData<Code> {
 
   private InputStream content;
 
+  public Code(TemplateMetadata metadata, TemplateContext context, TemplateEngine engine) {
+    this.metadata = metadata;
+    this.context = context;
+    this.engine = engine;
+    context.add(metadata).add(this);
+  }
+
   public String getResourceName() {
-    String fileName = this.toFileName().toString();
+    String fileName = this.metadata.getFileName().toString();
 
     int dotIndex = fileName.indexOf(".");
     if (dotIndex > -1) {
@@ -36,8 +42,8 @@ public class Code implements TemplateContextData<Code> {
   }
 
   public GeneratedCode toGeneratedCode() {
-    Namespace namespace = this.namespace();
-    Filename filename = this.toFileName();
+    Namespace namespace = this.metadata.getNamespace().merge(this.engine, this.context);
+    Filename filename =  this.metadata.getFileName().merge(this.engine, this.context);
 
     QualifiedName qualifiedName = QualifiedName.create(namespace, filename);
 
@@ -54,25 +60,8 @@ public class Code implements TemplateContextData<Code> {
     return generatedCode;
   }
 
-  private Namespace namespace() {
-    context.add(this.metadata).add(this);
-    String namespaceValue = this.getTemplate(this.metadata.getNamespace().toString()).mergeToString(context);
-    return Namespace.create(namespaceValue);
-  }
-
   @Override
   public String key() {
     return "Code";
-  }
-
-  private Filename toFileName() {
-    context.add(this.metadata).add(this);
-    String filenameValue = this.getTemplate(this.metadata.getFileName().toString()).mergeToString(context);
-    return Filename.create(filenameValue);
-  }
-
-  private Template getTemplate(String attribute) {
-    return TemplateBuilder.create(this.engine, "Code").withResourceLoader(new StringInputStream(attribute))
-      .build();
   }
 }

@@ -1,5 +1,10 @@
 package compozitor.generator.core.interfaces;
 
+import compozitor.template.core.infra.StringInputStream;
+import compozitor.template.core.interfaces.Template;
+import compozitor.template.core.interfaces.TemplateBuilder;
+import compozitor.template.core.interfaces.TemplateContext;
+import compozitor.template.core.interfaces.TemplateEngine;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
@@ -14,26 +19,28 @@ public class Namespace {
 
   private final String value;
 
-  private final Path path;
-
   public static Namespace create(Path path) {
-    return Namespace.create(path.toString().replace(SLASH, DOT), path);
+    return Namespace.create(path.toString().replace(SLASH, DOT));
   }
 
-  public static Namespace create(String value){
-    return Namespace.create(Paths.get(value.replace(DOT, SLASH)));
-  }
+  public Namespace merge(TemplateEngine engine, TemplateContext context){
+    Template namespaceTemplate = TemplateBuilder.create(engine, "Code")
+        .withResourceLoader(new StringInputStream(this.value.toString()))
+        .build();
 
-  String accept(Filename filename){
-    return new StringBuilder(this.value).append(DOT).append(filename).toString();
+    return Namespace.create(namespaceTemplate.mergeToString(context));
   }
 
   public Path toPath() {
-    return this.path;
+    return Paths.get(this.value.replace(DOT, SLASH));
   }
 
   @Override
   public String toString() {
     return this.value;
+  }
+
+  String accept(Filename filename){
+    return new StringBuilder(this.value).append(DOT).append(filename).toString();
   }
 }

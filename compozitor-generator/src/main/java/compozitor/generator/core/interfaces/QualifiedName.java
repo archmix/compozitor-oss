@@ -10,4 +10,8 @@ public class QualifiedName {
   public static QualifiedName create(Namespace namespace, Filename filename){
     return new QualifiedName(namespace.accept(filename));
   }
+
+  public String toString(){
+    return this.value;
+  }
 }
