@@ -40,7 +40,7 @@ jobs:
       - prepare_maven_environment
       - run: git config user.email "ci@archmix.org"
       - run: git config user.name "Circle CI"
-      - run: mvn -P release -B -s settings.xml release:clean release:prepare release:perform -DignoreSnapshots=true
+      - run: mvn -DskipTests -P release -B -s settings.xml release:clean release:prepare release:perform -DignoreSnapshots=true
 
 workflows:
   version: 2
