@@ -9,13 +9,19 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class FileAssertion {
   private final String content;
 
   public static FileAssertion withResourceFile(String path){
-    try (InputStream resourceFile = FileAssertion.class.getResourceAsStream(path)) {
+    String resourcePath = path;
+    if(!path.startsWith("/")){
+      resourcePath = new StringBuilder("/").append(path).toString();
+    }
+
+    try (InputStream resourceFile = FileAssertion.class.getResourceAsStream(resourcePath)) {
       String content = CharStreams.toString(new InputStreamReader(resourceFile));
       return new FileAssertion(content);
     } catch (IOException e){
