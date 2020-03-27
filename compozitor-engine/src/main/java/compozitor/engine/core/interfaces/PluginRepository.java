@@ -2,6 +2,7 @@ package compozitor.engine.core.interfaces;
 
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 import compozitor.generator.core.interfaces.TemplateRepository;
+import compozitor.processor.core.interfaces.AnnotationRepository;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.Logger;
 import compozitor.processor.core.interfaces.MethodModel;
@@ -11,6 +12,7 @@ import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 import compozitor.template.core.interfaces.TemplateEngineBuilder;
 
+import javax.annotation.processing.RoundEnvironment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -100,30 +102,33 @@ class PluginRepository {
     return templateRepository;
   }
 
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, TypeModel model) {
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, AnnotationRepository annotationRepository, TypeModel model) {
     List<T> metaModelList = new ArrayList<>();
 
     this.typeModelPlugins.forEach(plugin -> {
+      plugin.accept(context, annotationRepository);
       metaModelList.add((T) plugin.accept(context, model));
     });
 
     return metaModelList;
   }
 
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, FieldModel model) {
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, AnnotationRepository annotationRepository, FieldModel model) {
     List<T> metaModelList = new ArrayList<>();
 
     this.fieldModelPlugins.forEach(plugin -> {
+      plugin.accept(context, annotationRepository);
       metaModelList.add((T) plugin.accept(context, model));
     });
 
     return metaModelList;
   }
 
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, MethodModel model) {
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, AnnotationRepository annotationRepository, MethodModel model) {
     List<T> metaModelList = new ArrayList<>();
 
     this.methodModelPlugins.forEach(plugin -> {
+      plugin.accept(context, annotationRepository);
       metaModelList.add((T) plugin.accept(context, model));
     });
 
