@@ -17,6 +17,7 @@ public abstract class AnnotationProcessor implements Processor {
   private static final Boolean ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS = Boolean.FALSE;
   private final RunOnce runOnce;
   protected ProcessingContext context;
+  protected AnnotationRepository repository;
 
   public AnnotationProcessor() {
     this.runOnce = RunOnce.create();
@@ -34,13 +35,12 @@ public abstract class AnnotationProcessor implements Processor {
   }
 
   @Override
-  public final boolean process(Set<? extends TypeElement> annotations,
-                               RoundEnvironment roundEnvironment) {
-
+  public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     try {
       this.context.info("Running processor {0}", this.getClass().getName());
 
-      AnnotatedElements annotatedElements = this.elementsAnnotatedWith(annotations, roundEnvironment);
+      this.repository = AnnotationRepository.create(roundEnvironment);
+      AnnotatedElements annotatedElements = repository.elementsAnnotatedWith(annotations);
       if (annotatedElements.isEmpty()) {
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
       }
@@ -64,16 +64,6 @@ public abstract class AnnotationProcessor implements Processor {
     }
 
     return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
-  }
-
-  protected AnnotatedElements elementsAnnotatedWith(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
-    AnnotatedElements elements = new AnnotatedElements();
-
-    for (TypeElement annotation : annotations) {
-      elements.set(annotation, roundEnvironment.getElementsAnnotatedWith(annotation));
-    }
-
-    return elements;
   }
 
   @Override
