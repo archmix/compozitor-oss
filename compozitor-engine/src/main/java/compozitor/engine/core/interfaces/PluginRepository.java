@@ -12,7 +12,6 @@ import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 import compozitor.template.core.interfaces.TemplateEngineBuilder;
 
-import javax.annotation.processing.RoundEnvironment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +23,7 @@ class PluginRepository {
   private final Collection<TypeModelPlugin<?>> typeModelPlugins;
   private final Collection<FieldModelPlugin<?>> fieldModelPlugins;
   private final Collection<MethodModelPlugin<?>> methodModelPlugins;
+  private final Collection<RepositoryPlugin<?>> repositoryPlugins;
   private final Collection<TemplatePlugin> templatePlugins;
 
   PluginRepository() {
@@ -31,6 +31,7 @@ class PluginRepository {
     this.typeModelPlugins = new ArrayList<>();
     this.fieldModelPlugins = new ArrayList<>();
     this.methodModelPlugins = new ArrayList<>();
+    this.repositoryPlugins = new ArrayList<>();
     this.templatePlugins = new ArrayList<>();
   }
 
@@ -73,6 +74,13 @@ class PluginRepository {
       this.accept(plugin, category, (accepted) -> {
         logger.info("Loading template plugin {0}", plugin.getClass().getCanonicalName());
         this.templatePlugins.add(plugin);
+      });
+    });
+
+    ServiceLoader.load(RepositoryPlugin.class, classLoader).forEach(plugin -> {
+      this.accept(plugin, category, (accepted) -> {
+        logger.info("Loading template plugin {0}", plugin.getClass().getCanonicalName());
+        this.repositoryPlugins.add(plugin);
       });
     });
   }
@@ -130,6 +138,16 @@ class PluginRepository {
     this.methodModelPlugins.forEach(plugin -> {
       plugin.accept(context, annotationRepository);
       metaModelList.add((T) plugin.accept(context, model));
+    });
+
+    return metaModelList;
+  }
+
+  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, AnnotationRepository annotationRepository){
+    List<T> metaModelList = new ArrayList<>();
+
+    this.repositoryPlugins.forEach(plugin -> {
+      metaModelList.addAll((Collection) plugin.accept(context, annotationRepository));
     });
 
     return metaModelList;
