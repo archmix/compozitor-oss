@@ -35,9 +35,8 @@ public class MethodProcessorWithAttributes extends AnnotationProcessor {
       .get(annotation -> annotation.instanceOf(annotationType))
       .get();
 
-    Assert.assertEquals("first", annotationModel.getValue("firstName").getValue());
-    final List<AnnotationMirror> surnames = (List<AnnotationMirror>) annotationModel
-      .getValue("surnames").getValue();
+    Assert.assertEquals("first", annotationModel.value("firstName"));
+    final List<AnnotationMirror> surnames = annotationModel.annotations("surnames");
     Assert.assertTrue(surnames.isEmpty());
   }
 
