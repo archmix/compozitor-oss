@@ -6,8 +6,14 @@ import java.util.Map;
 public abstract class ServiceProcessor extends AnnotationProcessor {
   private Map<String, ServiceResourceFile> serviceFiles;
 
+  private boolean traverseAncestors = Boolean.FALSE;
+
   public ServiceProcessor() {
     this.serviceFiles = new HashMap<>();
+  }
+
+  public void traverseAncestors(){
+    this.traverseAncestors = Boolean.TRUE;
   }
 
   @Override
@@ -42,7 +48,9 @@ public abstract class ServiceProcessor extends AnnotationProcessor {
       registerType(targetService, targetInterface);
     });
 
-    this.processAncestors(targetService, superType.getSuperType());
+    if(traverseAncestors) {
+      this.processAncestors(targetService, superType.getSuperType());
+    }
   }
 
   private void registerType(TypeModel model, TypeModel targetInterface) {
