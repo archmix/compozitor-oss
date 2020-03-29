@@ -1,5 +1,6 @@
 package compozitor.processor.core.interfaces;
 
+import javax.lang.model.element.AnnotationMirror;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public abstract class ServiceProcessor extends AnnotationProcessor {
   }
 
   @Override
-  protected final void preProcess() {
+  protected final void preProcess(AnnotationRepository annotationRepository) {
     this.serviceClasses().forEach(serviceInterface -> {
       this.context.info("Registering Service file for Interface {0}", serviceInterface);
       String interfaceName = serviceInterface.getCanonicalName();

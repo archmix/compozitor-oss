@@ -23,7 +23,6 @@ class PluginRepository {
   private final Collection<TypeModelPlugin<?>> typeModelPlugins;
   private final Collection<FieldModelPlugin<?>> fieldModelPlugins;
   private final Collection<MethodModelPlugin<?>> methodModelPlugins;
-  private final Collection<RepositoryPlugin<?>> repositoryPlugins;
   private final Collection<TemplatePlugin> templatePlugins;
 
   PluginRepository() {
@@ -31,7 +30,6 @@ class PluginRepository {
     this.typeModelPlugins = new ArrayList<>();
     this.fieldModelPlugins = new ArrayList<>();
     this.methodModelPlugins = new ArrayList<>();
-    this.repositoryPlugins = new ArrayList<>();
     this.templatePlugins = new ArrayList<>();
   }
 
@@ -76,13 +74,6 @@ class PluginRepository {
         this.templatePlugins.add(plugin);
       });
     });
-
-    ServiceLoader.load(RepositoryPlugin.class, classLoader).forEach(plugin -> {
-      this.accept(plugin, category, (accepted) -> {
-        logger.info("Loading template plugin {0}", plugin.getClass().getCanonicalName());
-        this.repositoryPlugins.add(plugin);
-      });
-    });
   }
 
   private void accept(CodeGenerationCategoryPlugin plugin, CodeGenerationCategory category, Consumer<CodeGenerationCategoryPlugin> accepted) {
@@ -114,8 +105,11 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.typeModelPlugins.forEach(plugin -> {
-      plugin.accept(context, annotationRepository);
-      metaModelList.add((T) plugin.accept(context, model));
+      metaModelList.addAll((Collection) plugin.accept(context, model, annotationRepository));
+      T accepted = (T) plugin.accept(context, model);
+      if(accepted != null) {
+        metaModelList.add(accepted);
+      }
     });
 
     return metaModelList;
@@ -125,8 +119,11 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.fieldModelPlugins.forEach(plugin -> {
-      plugin.accept(context, annotationRepository);
-      metaModelList.add((T) plugin.accept(context, model));
+      metaModelList.addAll((Collection) plugin.accept(context, model, annotationRepository));
+      T accepted = (T) plugin.accept(context, model);
+      if(accepted != null) {
+        metaModelList.add(accepted);
+      }
     });
 
     return metaModelList;
@@ -136,18 +133,11 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.methodModelPlugins.forEach(plugin -> {
-      plugin.accept(context, annotationRepository);
-      metaModelList.add((T) plugin.accept(context, model));
-    });
-
-    return metaModelList;
-  }
-
-  public <T extends TemplateContextData<T>> Collection<T> getMetaModel(ProcessingContext context, AnnotationRepository annotationRepository){
-    List<T> metaModelList = new ArrayList<>();
-
-    this.repositoryPlugins.forEach(plugin -> {
-      metaModelList.addAll((Collection) plugin.accept(context, annotationRepository));
+      metaModelList.addAll((Collection) plugin.accept(context, model, annotationRepository));
+      T accepted = (T) plugin.accept(context, model);
+      if(accepted != null) {
+        metaModelList.add(accepted);
+      }
     });
 
     return metaModelList;

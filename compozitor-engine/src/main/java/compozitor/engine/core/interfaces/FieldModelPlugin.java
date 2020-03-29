@@ -5,8 +5,15 @@ import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.template.core.interfaces.TemplateContextData;
 
-public interface FieldModelPlugin<T extends TemplateContextData<T>> extends CodeGenerationCategoryPlugin {
-  T accept(ProcessingContext context, FieldModel fieldModel);
+import java.util.ArrayList;
+import java.util.Collection;
 
-  default void accept(ProcessingContext context, AnnotationRepository annotationRepository){}
+public interface FieldModelPlugin<T extends TemplateContextData<T>> extends CodeGenerationCategoryPlugin {
+  default T accept(ProcessingContext context, FieldModel fieldModel){
+    return null;
+  }
+
+  default Collection<T> accept(ProcessingContext context, FieldModel fieldModel, AnnotationRepository annotationRepository){
+    return new ArrayList<>();
+  }
 }

@@ -45,7 +45,7 @@ public abstract class AnnotationProcessor implements Processor {
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
       }
 
-      this.preProcess();
+      this.preProcess(repository);
 
       annotatedElements.forEach((annotation, elements) -> {
         elements.forEach(element -> {
@@ -119,7 +119,7 @@ public abstract class AnnotationProcessor implements Processor {
     }
   }
 
-  protected void preProcess() {
+  protected void preProcess(AnnotationRepository annotationRepository) {
     return;
   }
 

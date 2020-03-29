@@ -39,11 +39,6 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   }
 
   @Override
-  protected final void preProcess() {
-    this.metaModelRepository.add(this.pluginRepository.getMetaModel(this.context, this.repository));
-  }
-
-  @Override
   protected final void process(FieldModel fieldModel) {
     this.metaModelRepository.add(this.pluginRepository.getMetaModel(this.context, this.repository, fieldModel));
   }
