@@ -39,7 +39,7 @@ public abstract class AnnotationProcessor implements Processor {
     try {
       this.context.info("Running processor {0}", this.getClass().getName());
 
-      this.repository = AnnotationRepository.create(roundEnvironment);
+      this.repository = AnnotationRepository.create(this.context, roundEnvironment);
       AnnotatedElements annotatedElements = repository.elementsAnnotatedWith(annotations);
       if (annotatedElements.isEmpty()) {
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;

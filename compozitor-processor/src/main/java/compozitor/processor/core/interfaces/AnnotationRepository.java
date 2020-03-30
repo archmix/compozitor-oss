@@ -3,15 +3,34 @@ package compozitor.processor.core.interfaces;
 import com.google.common.collect.Sets;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE, staticName = "create")
 public class AnnotationRepository {
-  private final RoundEnvironment roundEnvironment;
+  private final ProcessingContext context;
+  private final RoundEnvironment environment;
+
+  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation> annotationClass){
+    return this.elementsAnnotatedWith(
+      this.context.getTypeElement(annotationClass.getName())
+    );
+  }
+
+  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation>... annotationClasses){
+    return this.elementsAnnotatedWith(
+      Arrays.asList(annotationClasses).stream().map(this::classToElement).collect(Collectors.toSet())
+    );
+  }
+
+  private TypeElement classToElement(Class<?> annotationClass){
+    return this.context.getTypeElement(annotationClass.getName());
+  }
 
   public <Annotation extends TypeElement> AnnotatedElements elementsAnnotatedWith(Annotation annotation) {
     return this.elementsAnnotatedWith(Sets.newHashSet(annotation));
@@ -21,7 +40,7 @@ public class AnnotationRepository {
     AnnotatedElements elements = new AnnotatedElements();
 
     for (TypeElement annotation : annotations) {
-      elements.set(annotation, this.roundEnvironment.getElementsAnnotatedWith(annotation));
+      elements.set(annotation, this.environment.getElementsAnnotatedWith(annotation));
     }
 
     return elements;
