@@ -31,6 +31,14 @@ public class JavaModel {
     return new AnnotationModel(context, annotation);
   }
 
+  public TypeModel getType(Element element) {
+    TypeModel typeModel = this.getClass(element);
+    if (typeModel == null) {
+      typeModel = this.getInterface(element);
+    }
+    return typeModel;
+  }
+
   public TypeModel getClass(Element element) {
     if (!element.getKind().equals(ElementKind.CLASS)) {
       return null;
