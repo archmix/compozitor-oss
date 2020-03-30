@@ -27,6 +27,7 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.JavaFileManager.Location;
 import javax.tools.JavaFileObject;
+import javax.xml.stream.events.Namespace;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.MessageFormat;
@@ -180,9 +181,17 @@ public class ProcessingContext implements Types, Elements, Filer, Logger {
     return this.environment.getTypeUtils().asMemberOf(containing, element);
   }
 
+  public PackageElement getPackageElement(Namespace namespace){
+    return this.getPackageElement(namespace.toString());
+  }
+
   @Override
   public PackageElement getPackageElement(CharSequence name) {
     return this.environment.getElementUtils().getPackageElement(name);
+  }
+
+  public TypeElement getTypeElement(TypeName name) {
+    return this.getTypeElement(name.toString());
   }
 
   @Override
