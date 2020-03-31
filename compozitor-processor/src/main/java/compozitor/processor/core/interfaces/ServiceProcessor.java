@@ -1,102 +1,45 @@
 package compozitor.processor.core.interfaces;
 
-import javax.lang.model.element.AnnotationMirror;
-import java.util.HashMap;
-import java.util.Map;
+import compozitor.processor.core.infra.JavaServiceProcessor;
 
-public abstract class ServiceProcessor extends AnnotationProcessor {
-  private Map<String, ServiceResourceFile> serviceFiles;
+import javax.lang.model.element.ElementKind;
 
-  private boolean traverseAncestors = Boolean.FALSE;
+public abstract class ServiceProcessor extends JavaServiceProcessor {
+  private TraversalStrategy traversalStrategy;
 
-  public ServiceProcessor() {
-    this.serviceFiles = new HashMap<>();
+  protected ServiceProcessor() {
+    traversalStrategy = TraversalStrategy.ONE;
   }
 
   public void traverseAncestors(){
-    this.traverseAncestors = Boolean.TRUE;
+    this.traversalStrategy = TraversalStrategy.ALL;
   }
 
   @Override
   protected final void preProcess(AnnotationRepository annotationRepository) {
     this.serviceClasses().forEach(serviceInterface -> {
-      this.context.info("Registering Service file for Interface {0}", serviceInterface);
+      this.context.info("Initializing processor for type {0}", serviceInterface);
       String interfaceName = serviceInterface.getCanonicalName();
       TypeModel interfaceType = this.context.getJavaModel().getType(interfaceName);
-      this.serviceFiles.put(interfaceName, new ServiceResourceFile(this.context, interfaceType));
+      this.addService(interfaceType);
     });
   }
 
   @Override
-  protected final void process(TypeModel model) {
-    this.context.info("Processing service file for type {0}", model);
-
-    model.getInterfaces().forEach(targetInterface -> {
-      registerType(model, targetInterface);
-    });
-
-    this.processAncestors(model, model.getSuperType());
-  }
-
-  private void processAncestors(TypeModel targetService, TypeModel superType){
-    if (superType == null) {
+  protected final void process(TypeModel typeModel) {
+    if(typeModel.isInterface()) {
+      this.context.error("Are you sure you want to register an interface as Java Service? It makes no sense. Review your implementation {0}", typeModel.getQualifiedName());
       return;
     }
 
-    registerType(targetService, superType);
+    this.context.info("Processing service file for type {0}", typeModel);
 
-    superType.getInterfaces().forEach(targetInterface ->{
-      registerType(targetService, targetInterface);
+    this.traversalStrategy.superClasses(typeModel).forEach(targetInterface ->{
+      registerType(typeModel, targetInterface);
     });
 
-    if(traverseAncestors) {
-      this.processAncestors(targetService, superType.getSuperType());
-    }
-  }
-
-  private void registerType(TypeModel model, TypeModel targetInterface) {
-    ServiceResourceFile resourceFile = this.resourceFile(targetInterface);
-    if (resourceFile != null) {
-      this.context.info("Registering type {0} for service interface {1}", model.getQualifiedName(),
-        targetInterface.getQualifiedName());
-      resourceFile.add(model);
-    }
-  }
-
-  private ServiceResourceFile resourceFile(TypeModel targetInterface) {
-    if (targetInterface == null) {
-      return null;
-    }
-
-    String interfaceName = targetInterface.getQualifiedName();
-    ServiceResourceFile resourceFile = this.serviceFiles.get(interfaceName);
-    if (resourceFile == null) {
-      resourceFile = this.resourceFile(targetInterface.getSuperType());
-    }
-
-    if (resourceFile != null) {
-      return resourceFile;
-    }
-
-    for (TypeModel iface : targetInterface.getInterfaces()) {
-      resourceFile = this.resourceFile(iface);
-      if (resourceFile != null) {
-        break;
-      }
-    }
-
-    return resourceFile;
-  }
-
-  @Override
-  protected final void postProcess() {
-    this.serviceFiles.values().forEach(resourceFile -> {
-      try {
-        resourceFile.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-        this.context.error(e.getMessage());
-      }
+    this.traversalStrategy.interfaces(typeModel).forEach(targetInterface ->{
+      registerType(typeModel, targetInterface);
     });
   }
 

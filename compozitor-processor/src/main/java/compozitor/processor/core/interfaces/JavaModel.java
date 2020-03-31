@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import com.google.common.base.Predicates;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 

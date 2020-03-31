@@ -30,4 +30,8 @@ public interface TypeModel {
   boolean isCollection();
 
   boolean isEnum();
+
+  boolean isInterface();
+
+  boolean isClass();
 }

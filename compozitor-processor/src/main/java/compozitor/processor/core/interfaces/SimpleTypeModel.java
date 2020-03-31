@@ -2,6 +2,7 @@ package compozitor.processor.core.interfaces;
 
 import lombok.Getter;
 
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import java.util.Objects;
 
@@ -89,5 +90,15 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
     } catch (ClassNotFoundException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  @Override
+  public boolean isClass() {
+    return ElementKind.CLASS.equals(this.element.getKind());
+  }
+
+  @Override
+  public boolean isInterface() {
+    return ElementKind.INTERFACE.equals(this.element.getKind());
   }
 }
