@@ -34,10 +34,7 @@
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.google.auto.service</groupId>
-      <artifactId>auto-service</artifactId>
-    </dependency>
+
 
     <!-- TEST -->
     <dependency>

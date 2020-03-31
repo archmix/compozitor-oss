@@ -20,9 +20,9 @@
   <properties>
     <compozitorVersion>0.1.3-SNAPSHOT</compozitorVersion>
     <velocityVersion>1.7</velocityVersion>
-    <autoServiceVersion>1.0-rc6</autoServiceVersion>
     <awsVersion>1.11.594</awsVersion>
     <compileTestingVersion>0.18</compileTestingVersion>
+    <guavaVersion>27.0.1-jre</guavaVersion>
   </properties>
 
   <modules>
@@ -78,9 +78,9 @@
 
       <!-- GOOGLE -->
       <dependency>
-        <groupId>com.google.auto.service</groupId>
-        <artifactId>auto-service</artifactId>
-        <version>${autoServiceVersion}</version>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guavaVersion}</version>
       </dependency>
       <dependency>
         <groupId>com.google.testing.compile</groupId>
