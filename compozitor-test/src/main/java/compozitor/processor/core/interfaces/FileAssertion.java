@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class FileAssertion {
+class FileAssertion {
   private final String content;
 
   public static FileAssertion withResourceFile(String path){

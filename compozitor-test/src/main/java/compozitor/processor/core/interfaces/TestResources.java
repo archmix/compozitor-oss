@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import com.google.common.base.Strings;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +15,10 @@ public class TestResources {
 
   private static String uncapitalize(final String value) {
     return new StringBuilder().append(Character.toLowerCase(value.charAt(0))).append(value.substring(1)).toString();
+  }
+
+  public final String packageClass(String className){
+    return this.testFile(className).replace("/", ".");
   }
 
   public final String testFile(String filename){
