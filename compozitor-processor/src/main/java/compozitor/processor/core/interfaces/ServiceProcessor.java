@@ -2,8 +2,6 @@ package compozitor.processor.core.interfaces;
 
 import compozitor.processor.core.infra.JavaServiceProcessor;
 
-import javax.lang.model.element.ElementKind;
-
 public abstract class ServiceProcessor extends JavaServiceProcessor {
   private TraversalStrategy traversalStrategy;
 

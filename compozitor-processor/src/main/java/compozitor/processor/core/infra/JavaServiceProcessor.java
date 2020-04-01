@@ -15,6 +15,7 @@ public abstract class JavaServiceProcessor extends AnnotationProcessor {
   }
 
   protected final void addService(TypeModel serviceInterface){
+    this.context.info("Initializing service interface {0}", serviceInterface.getQualifiedName());
     String interfaceName = serviceInterface.getQualifiedName();
     this.serviceFiles.put(interfaceName, new ServiceResourceFile(this.context, serviceInterface));
   }
