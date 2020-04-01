@@ -7,10 +7,15 @@ import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 
 @RequiredArgsConstructor(staticName = "create")
 public class FileObjectStringfy {
   private final Compilation compilation;
+
+  public String serviceFile(Class<?> serviceClass){
+    return this.resourceToString(Paths.get("META-INF/services/", serviceClass.getName()).toString());
+  }
 
   public String sourceToString(String path) {
     String resourceNotFound = String.format("Resource not found %s", path);

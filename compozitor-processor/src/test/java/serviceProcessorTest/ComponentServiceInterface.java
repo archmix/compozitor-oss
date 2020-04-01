@@ -1,0 +1,4 @@
+package serviceProcessorTest;
+
+interface ComponentServiceInterface {
+}

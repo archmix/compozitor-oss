@@ -29,7 +29,7 @@ public class FieldProcessorTest {
     Assert.assertEquals(Status.SUCCESS, compilation.status());
   }
 
-  public class FieldProcessor extends AnnotationProcessor {
+  class FieldProcessor extends AnnotationProcessor {
     @Override
     protected void process(TypeModel model) {
       Assert.fail();

@@ -30,7 +30,7 @@ public class TypeProcessorTest {
     Assert.assertEquals(Status.SUCCESS, compilation.status());
   }
 
-  public class TypeProcessor extends AnnotationProcessor {
+  class TypeProcessor extends AnnotationProcessor {
     @Override
     protected void process(TypeModel model) {
       Assert.assertNotNull(model);
