@@ -1,47 +1,64 @@
 package serviceProcessorTest;
 
 import com.google.common.collect.Sets;
-import com.google.testing.compile.Compilation;
-import com.google.testing.compile.Compilation.Status;
 import compozitor.processor.core.interfaces.CompilationBuilder;
-import compozitor.processor.core.interfaces.FileObjectStringfy;
+import compozitor.processor.core.interfaces.CompileAssertion;
 import compozitor.processor.core.interfaces.ServiceProcessor;
 import compozitor.processor.core.interfaces.TestResources;
-import methodProcessorTest.MethodProcessorTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Set;
 
 public class ServiceProcessorTest {
+  private final TestResources resources = TestResources.create(this.getClass());
+
   @Test
   public void givenServiceInterfaceWhenCompileThenGenerateServiceFile(){
-    TestResources resources = TestResources.create(this.getClass());
-
-    Compilation compilation =
+    CompileAssertion compilation =
       CompilationBuilder.create()
-        .withProcessors(new ComponentProcessor())
+        .withProcessors(new ProcessorTest())
         .withJavaSource(
-          resources.testFile("ComponentServiceTest.java")
+          resources.testFile("ServiceInterfaceTest.java")
         ).build();
 
-    String serviceFile = FileObjectStringfy.create(compilation).serviceFile(ComponentServiceInterface.class);
-    Assert.assertTrue(serviceFile.contains("serviceProcessorTest.ComponentServiceTest"));
-
-    Assert.assertEquals(Status.SUCCESS, compilation.status());
+    compilation.assertSuccess();
+    compilation.assertGeneratedFiles(3);
+    compilation.serviceFileAssertion(ServiceInterface.class)
+      .assertContains(resources.packageClass("ServiceInterfaceTest"));
+    compilation.serviceFileAssertion(ServiceClass.class).assertEmpty();
   }
 
-  public class ComponentProcessor extends ServiceProcessor {
+  @Test
+  public void givenServiceClassWhenCompileThenGenerateServiceFile(){
+    ProcessorTest componentProcessor = new ProcessorTest();
+    componentProcessor.traverseAncestors();
+
+    CompileAssertion compilation =
+      CompilationBuilder.create()
+        .withProcessors(componentProcessor)
+        .withJavaSource(
+          resources.testFile("ServiceClassTest.java")
+        ).build();
+
+    compilation.assertSuccess();
+    compilation.assertGeneratedFiles(3);
+    compilation.serviceFileAssertion(ServiceInterface.class)
+      .assertContains(resources.packageClass("ServiceClassTest"));
+    compilation.serviceFileAssertion(ServiceClass.class)
+      .assertContains(resources.packageClass("ServiceClassTest"));
+  }
+
+  public class ProcessorTest extends ServiceProcessor {
 
     @Override
     protected Iterable<Class<?>> serviceClasses() {
-      return Arrays.asList(ComponentServiceInterface.class);
+      return Arrays.asList(ServiceInterface.class, ServiceClass.class);
     }
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-      return Sets.newHashSet(ComponentTest.class.getName());
+      return Sets.newHashSet(ServiceTest.class.getName());
     }
   }
 }

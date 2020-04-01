@@ -1,4 +1,4 @@
 package serviceProcessorTest;
 
-interface ComponentServiceInterface {
+interface ServiceInterface {
 }

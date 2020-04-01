@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public enum TraversalStrategy {
-  ONE {
+  ROOT {
     @Override
     public Iterable<TypeModel> superClasses(TypeModel typeModel) {
       return Arrays.asList(typeModel.getSuperType());
@@ -16,7 +16,7 @@ public enum TraversalStrategy {
       return typeModel.getInterfaces();
     }
   },
-  ALL{
+  ANCESTORS {
     @Override
     public Iterable<TypeModel> superClasses(TypeModel typeModel) {
       Collection<TypeModel> superClasses = new ArrayList<>();
@@ -36,7 +36,7 @@ public enum TraversalStrategy {
     @Override
     public Iterable<TypeModel> interfaces(TypeModel typeModel) {
       Collection<TypeModel> interfaces = new ArrayList<>();
-      interfaces.addAll((Collection) typeModel.getInterfaces());
+      interfaces.addAll(typeModel.getInterfaces().toCollection());
       this.addInterfaces(typeModel, interfaces);
       return interfaces;
     }
@@ -46,7 +46,7 @@ public enum TraversalStrategy {
       if(superType == null){
         return;
       }
-      interfaces.addAll((Collection) superType.getInterfaces());
+      interfaces.addAll(superType.getInterfaces().toCollection());
       this.addInterfaces(superType, interfaces);
     }
   };

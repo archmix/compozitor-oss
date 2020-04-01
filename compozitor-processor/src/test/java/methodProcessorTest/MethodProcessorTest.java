@@ -5,6 +5,7 @@ import com.google.testing.compile.Compilation;
 import com.google.testing.compile.Compilation.Status;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.processor.core.interfaces.CompilationBuilder;
+import compozitor.processor.core.interfaces.CompileAssertion;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
 import compozitor.processor.core.interfaces.TestResources;
@@ -20,14 +21,15 @@ public class MethodProcessorTest {
   public void givenMethodAnnotationWhenCompileThenProcessMethod() {
     TestResources resources = TestResources.create(this.getClass());
 
-    Compilation compilation =
+    CompileAssertion compilation =
       CompilationBuilder.create()
         .withProcessors(new MethodProcessor())
         .withJavaSource(
           resources.testFile("MethodTest.java")
         ).build();
 
-    Assert.assertEquals(Status.SUCCESS, compilation.status());
+    compilation.assertSuccess();
+    compilation.assertGeneratedFiles(1);
   }
 
   class MethodProcessor extends AnnotationProcessor {

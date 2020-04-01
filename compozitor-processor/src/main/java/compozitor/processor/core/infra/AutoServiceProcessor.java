@@ -25,8 +25,14 @@ public class AutoServiceProcessor extends JavaServiceProcessor {
 
     ServiceMetadata serviceMetadata = ServiceMetadata.create(typeModel);
     serviceMetadata.targetInterfaces().forEach(targetInterface ->{
-      this.addService(targetInterface);
-      this.registerType(typeModel, targetInterface);
+      if(this.shouldInclude(targetInterface)) {
+        this.addService(targetInterface);
+        this.registerType(typeModel, targetInterface);
+      }
     });
+  }
+
+  protected boolean shouldInclude(TypeModel targetInterface){
+    return !targetInterface.getQualifiedName().startsWith("java.");
   }
 }

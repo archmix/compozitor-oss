@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 public @interface Service {
   TargetService target();
 
-  TraversalStrategy strategy() default TraversalStrategy.ONE;
+  TraversalStrategy strategy() default TraversalStrategy.ROOT;
 }

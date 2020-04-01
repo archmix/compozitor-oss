@@ -1,6 +1,8 @@
 package compozitor.processor.core.interfaces;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,10 @@ class ModelIterable<M> implements Iterable<M> {
   public ModelIterable(ListSupplier<M> modelsSupplier) {
     this.models = new ArrayList<>();
     this.supplierProxy = new LazyLoadProxy<List<M>>(modelsSupplier);
+  }
+
+  public Collection<M> toCollection(){
+    return Collections.unmodifiableCollection(this.models());
   }
 
   @Override

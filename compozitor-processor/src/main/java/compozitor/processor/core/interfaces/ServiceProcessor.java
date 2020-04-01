@@ -6,11 +6,11 @@ public abstract class ServiceProcessor extends JavaServiceProcessor {
   private TraversalStrategy traversalStrategy;
 
   protected ServiceProcessor() {
-    traversalStrategy = TraversalStrategy.ONE;
+    traversalStrategy = TraversalStrategy.ROOT;
   }
 
   public void traverseAncestors(){
-    this.traversalStrategy = TraversalStrategy.ALL;
+    this.traversalStrategy = TraversalStrategy.ANCESTORS;
   }
 
   @Override

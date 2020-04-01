@@ -1,5 +1,5 @@
 package serviceProcessorTest;
 
-@ComponentTest
-public class ServiceInterfaceTest implements ComponentServiceInterface {
+@ServiceTest
+public class ServiceInterfaceTest implements ServiceInterface {
 }
