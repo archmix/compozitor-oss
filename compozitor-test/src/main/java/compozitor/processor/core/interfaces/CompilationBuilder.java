@@ -6,26 +6,43 @@ import lombok.NoArgsConstructor;
 
 import javax.annotation.processing.Processor;
 import javax.tools.JavaFileObject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static com.google.testing.compile.Compiler.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompilationBuilder {
-  private Processor[] processors;
+  private final List<Processor> processors;
 
-  private JavaFileObject javaSource;
+  private final List<JavaFileObject> javaSource;
+
+  public CompilationBuilder() {
+    this.processors = new ArrayList<>();
+    this.javaSource = new ArrayList<>();
+  }
 
   public static CompilationBuilder create() {
     return new CompilationBuilder();
   }
 
   public CompilationBuilder withProcessors(Processor... processors) {
-    this.processors = processors;
+    Objects.requireNonNull(processors);
+    this.processors.addAll(Arrays.asList(processors));
     return this;
   }
 
   public CompilationBuilder withJavaSource(String resourceName) {
-    this.javaSource = JavaFileObjects.forResource(resourceName);
+    return this.withJavaSources(resourceName);
+  }
+
+  public CompilationBuilder withJavaSources(String... resourceName) {
+    Objects.requireNonNull(resourceName);
+    Arrays.asList(resourceName).forEach(javaSourceName ->{
+      this.javaSource.add(JavaFileObjects.forResource(javaSourceName));
+    });
+
     return this;
   }
 
