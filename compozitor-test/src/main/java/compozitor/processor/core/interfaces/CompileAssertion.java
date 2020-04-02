@@ -26,7 +26,7 @@ public class CompileAssertion {
     return this;
   }
 
-  public FailureAssertion failureAssertion(String message) {
+  public FailureAssertion failureAssertion() {
     return new FailureAssertion();
   }
 
