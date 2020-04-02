@@ -1,24 +1,56 @@
 package compozitor.processor.core.interfaces;
 
+import com.google.common.collect.ImmutableList;
 import com.google.testing.compile.Compilation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.junit.Assert;
 
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.Optional;
+
 @RequiredArgsConstructor(staticName = "create", access = AccessLevel.PACKAGE)
 public class CompileAssertion {
   private final Compilation compilation;
 
-  public void assertSuccess(){
+  public CompileAssertion assertSuccess(){
     Assert.assertEquals(Compilation.Status.SUCCESS, this.compilation.status());
+    return this;
   }
 
-  public void assertFailure(){
+  public CompileAssertion assertFailure(){
     Assert.assertEquals(Compilation.Status.FAILURE, this.compilation.status());
+    return this;
   }
 
-  public void assertGeneratedFiles(Integer expected){
+  public FailureAssertion failureAssertion(String message) {
+    return new FailureAssertion();
+  }
+
+  public CompileAssertion assertGeneratedFiles(Integer expected){
     Assert.assertEquals(expected, (Integer) this.compilation.generatedFiles().size());
+    return this;
+  }
+
+  public CompileAssertion assertGeneratedSourceFile(String filename){
+    try {
+      new GeneratedSourceAssertion(filename);
+    } catch (Exception e) {
+      Assert.fail(message("Source file {0} was not generated.", filename));
+    }
+    return this;
+  }
+
+  public CompileAssertion assertGeneratedResourceFile(String filename){
+    try {
+      new GeneratedResourceAssertion(filename);
+    } catch (Exception e) {
+      Assert.fail(message("Resource file {0} was not generated.", filename));
+    }
+    return this;
   }
 
   public ServiceFileAssertion serviceFileAssertion(Class<?> targetService) {
@@ -33,6 +65,27 @@ public class CompileAssertion {
     return new GeneratedResourceAssertion(filename);
   }
 
+  public class FailureAssertion {
+    private final ImmutableList<Diagnostic<? extends JavaFileObject>> errors;
+
+    FailureAssertion(){
+      this.errors = compilation.errors();
+    }
+
+    public FailureAssertion assertErrors(int numberOfErrors){
+      Assert.assertEquals(numberOfErrors, this.errors.size());
+      return this;
+    }
+
+    public FailureAssertion assertMessage(String message){
+      Optional<String> foundMessage = this.errors.stream().map(diagnostic -> diagnostic.getMessage(Locale.getDefault()))
+        .filter(errorMessage -> errorMessage.equals(message)).findFirst();
+
+      Assert.assertTrue(foundMessage.isPresent());
+      return this;
+    }
+  }
+
   public class GeneratedResourceAssertion {
     private final String content;
 
@@ -40,8 +93,9 @@ public class CompileAssertion {
       this.content = FileObjectStringfy.create(compilation).resourceToString(resourceFile);
     }
 
-    public void assertEquals(String resourceFile){
+    public GeneratedResourceAssertion assertEquals(String resourceFile){
       FileAssertion.withResourceFile(resourceFile).assertEquals(this.content);
+      return this;
     }
   }
 
@@ -54,12 +108,14 @@ public class CompileAssertion {
       this.content = FileObjectStringfy.create(compilation).sourceToString(sourceFile);
     }
 
-    public void assertEquals(){
+    public GeneratedSourceAssertion assertEquals(){
       this.assertEquals(this.sourceFile);
+      return this;
     }
 
-    public void assertEquals(String sourceFile){
+    public GeneratedSourceAssertion assertEquals(String sourceFile){
       FileAssertion.withResourceFile(sourceFile).assertEquals(this.content);
+      return this;
     }
   }
 
@@ -70,14 +126,23 @@ public class CompileAssertion {
       this.content = FileObjectStringfy.create(compilation).serviceFile(targetService);
     }
 
-    public void assertEmpty(){
+    public ServiceFileAssertion assertEmpty(){
       this.assertEquals("");
+      return this;
     }
 
-    public void assertEquals(String serviceName) { Assert.assertTrue(this.content.equals(serviceName));}
+    public ServiceFileAssertion assertEquals(String serviceName) {
+      Assert.assertTrue(this.content.equals(serviceName));
+      return this;
+    }
 
-    public void assertContains(String serviceName){
+    public ServiceFileAssertion assertContains(String serviceName){
       Assert.assertTrue(this.content.contains(serviceName));
+      return this;
     }
+  }
+
+  private String message(String format, Object... args){
+    return MessageFormat.format(format, args);
   }
 }
