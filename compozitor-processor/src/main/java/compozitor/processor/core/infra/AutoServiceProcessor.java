@@ -8,7 +8,7 @@ import compozitor.processor.core.interfaces.TypeModel;
 
 import java.util.Set;
 
-@AutoService(Processor.class)
+@AutoService(javax.annotation.processing.Processor.class)
 public class AutoServiceProcessor extends JavaServiceProcessor {
 
   @Override

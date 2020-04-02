@@ -1,4 +1,4 @@
-package compozitor.engine.core.interfaces;
+package processorEngineTest;
 
 import compozitor.processor.core.interfaces.TypeModel;
 import compozitor.template.core.interfaces.TemplateContextData;

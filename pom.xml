@@ -61,11 +61,6 @@
         <groupId>org.archmix</groupId>
         <version>${compozitorVersion}</version>
       </dependency>
-      <dependency>
-        <artifactId>compozitor-test</artifactId>
-        <groupId>org.archmix</groupId>
-        <version>${compozitorVersion}</version>
-      </dependency>
 
       <!-- VELOCITY -->
       <dependency>

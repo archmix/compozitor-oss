@@ -15,6 +15,10 @@ import java.util.Set;
 
 @Processor
 public class PluginsServiceProcessor extends ServiceProcessor {
+  public PluginsServiceProcessor() {
+    this.traverseAncestors();
+  }
+
   @Override
   protected Iterable<Class<?>> serviceClasses() {
     return Arrays.asList(FieldModelPlugin.class, MethodModelPlugin.class, TemplateEnginePlugin.class, TemplatePlugin.class, TypeModelPlugin.class);

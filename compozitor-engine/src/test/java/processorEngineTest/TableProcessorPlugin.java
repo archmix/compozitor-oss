@@ -1,5 +1,9 @@
-package compozitor.engine.core.interfaces;
+package processorEngineTest;
 
+import compozitor.engine.core.interfaces.ProcessorPlugin;
+import compozitor.engine.core.interfaces.TemplateEnginePlugin;
+import compozitor.engine.core.interfaces.TemplatePlugin;
+import compozitor.engine.core.interfaces.TypeModelPlugin;
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 import compozitor.generator.core.interfaces.Filename;
 import compozitor.generator.core.interfaces.Namespace;
@@ -21,7 +25,7 @@ public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, Tem
   @Override
   public void accept(TemplateEngine engine, TemplateRepository templateRepository) {
     TemplateMetadata templateMetadata = templateRepository.addRegularTemplate();
-    templateMetadata.setNamespace(Namespace.create("compozitor.engine.core.infra"));
+    templateMetadata.setNamespace(Namespace.create("processorEngineTest"));
     templateMetadata.setTemplate(engine.getTemplate("processorEngineTest/InsertCommand.tf"));
     templateMetadata.setFileName(Filename.create("${Table.Name}InsertCommand"));
   }

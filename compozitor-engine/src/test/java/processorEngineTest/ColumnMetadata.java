@@ -1,10 +1,9 @@
-package compozitor.engine.core.interfaces;
+package processorEngineTest;
 
 import compozitor.processor.core.interfaces.FieldModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)

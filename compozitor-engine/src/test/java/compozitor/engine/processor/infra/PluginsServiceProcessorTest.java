@@ -1,31 +1,25 @@
 package compozitor.engine.processor.infra;
 
-import com.google.testing.compile.Compilation;
-import com.google.testing.compile.Compilation.Status;
+import compozitor.engine.core.interfaces.TypeModelPlugin;
 import compozitor.processor.core.interfaces.CompilationBuilder;
-import compozitor.processor.core.interfaces.FileAssertion;
-import compozitor.processor.core.interfaces.FileObjectStringfy;
-import org.junit.Assert;
+import compozitor.processor.core.interfaces.CompileAssertion;
+import compozitor.processor.core.interfaces.TestResources;
 import org.junit.Test;
 
 public class PluginsServiceProcessorTest {
+  final TestResources resources = TestResources.create(this.getClass());
+
   @Test
-  public void givenAnnotatedPluginWhenProcessThenGenerateServiceFile(){
-    Compilation compilation = CompilationBuilder.create().withJavaSource("pluginsServiceProcessorTest/PluginsServiceRegistration.java")
-        .withProcessors(processor()).build();
+  public void givenAnnotatedPluginWhenProcessThenGenerateServiceFile() {
+    CompileAssertion compilation = CompilationBuilder.create()
+      .withProcessors(new PluginsServiceProcessor())
+      .withJavaSource(
+        resources.testFile("PluginsServiceRegistration.java")
+      ).build();
 
-    FileObjectStringfy files = FileObjectStringfy.create(compilation);
-
-    compilation.generatedFiles().forEach(file -> {
-      if(file.getName().contains("TypeModelPlugin")){
-        FileAssertion.withResourceFile("/pluginsServiceProcessorTest/compozitor.engine.core.interfaces.TypeModelPlugin").assertEquals(file);
-      }
-    });
-
-    Assert.assertEquals(Status.SUCCESS, compilation.status());
-  }
-
-  private PluginsServiceProcessor processor(){
-    return new PluginsServiceProcessor();
+    compilation.assertSuccess();
+    compilation.assertGeneratedFiles(6);
+    compilation.serviceFileAssertion(TypeModelPlugin.class)
+      .assertContains(resources.packageClass("PluginsServiceRegistration"));
   }
 }

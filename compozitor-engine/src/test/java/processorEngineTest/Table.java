@@ -1,4 +1,4 @@
-package compozitor.engine.core.interfaces;
+package processorEngineTest;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

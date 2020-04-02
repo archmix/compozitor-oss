@@ -23,7 +23,7 @@ public abstract class JavaServiceProcessor extends AnnotationProcessor {
   protected final void registerType(TypeModel model, TypeModel targetInterface) {
     ServiceResourceFile resourceFile = this.resourceFile(targetInterface);
     if (resourceFile != null) {
-      this.context.info("Registering type {0} for service interface {1}", model.getQualifiedName(),
+      this.context.info("Adding {0} in service file {1}", model.getQualifiedName(),
         targetInterface.getQualifiedName());
       resourceFile.add(model);
     }

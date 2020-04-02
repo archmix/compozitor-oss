@@ -46,10 +46,16 @@ public class CompileAssertion {
   }
 
   public class GeneratedSourceAssertion {
+    private final String sourceFile;
     private final String content;
 
     public GeneratedSourceAssertion(String sourceFile) {
+      this.sourceFile = sourceFile;
       this.content = FileObjectStringfy.create(compilation).sourceToString(sourceFile);
+    }
+
+    public void assertEquals(){
+      this.assertEquals(this.sourceFile);
     }
 
     public void assertEquals(String sourceFile){

@@ -7,8 +7,8 @@ public class ${Code.ResourceName} {
     this.command = "#insertSQL($Table)";
   }
 
-  public static ${Code.ResourceName} create(TransactionContext context){
-    return new ${Code.ResourceName}(context);
+  public static ${Code.ResourceName} create(){
+    return new ${Code.ResourceName}();
   }
 
   public String command(){

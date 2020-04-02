@@ -1,4 +1,4 @@
-package compozitor.engine.core.interfaces;
+package processorEngineTest;
 
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 
