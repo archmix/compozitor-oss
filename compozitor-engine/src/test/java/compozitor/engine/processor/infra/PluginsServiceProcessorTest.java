@@ -18,7 +18,7 @@ public class PluginsServiceProcessorTest {
       ).build();
 
     compilation.assertSuccess();
-    compilation.assertGeneratedFiles(6);
+    compilation.assertGeneratedFiles(2);
     compilation.serviceFileAssertion(TypeModelPlugin.class)
       .assertContains(resources.packageClass("PluginsServiceRegistration"));
   }

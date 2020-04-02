@@ -25,8 +25,6 @@ public class ServiceResourceFile implements AutoCloseable {
 
   private final SortedSet<String> services;
 
-  private final BufferedWriter serviceFile;
-
   private final ProcessingContext context;
 
   public ServiceResourceFile(ProcessingContext context, TypeModel providerInterface) {
@@ -35,7 +33,10 @@ public class ServiceResourceFile implements AutoCloseable {
       String.format(RESOURCE_FILE_URI_PATTERN, providerInterface.getQualifiedName());
     this.services = Sets.newTreeSet();
     this.context = context;
-    this.serviceFile = new BufferedWriter(new OutputStreamWriter(this.openFile()));
+  }
+
+  public String providerInterface(){
+    return this.providerInterface.getQualifiedName();
   }
 
   private OutputStream openFile() {
@@ -45,7 +46,7 @@ public class ServiceResourceFile implements AutoCloseable {
       this.loadServiceFile(serviceFile.openInputStream());
       return serviceFile.openOutputStream();
     } catch (IOException e) {
-      context.info("Services file does not exist {0}. I will create a new one.",
+      context.info("Services file does not exist {0}. Creating it.",
         this.resourceFileUri);
     }
 
@@ -89,19 +90,24 @@ public class ServiceResourceFile implements AutoCloseable {
   }
 
   private void write(String serviceName) {
-    try {
-      this.services.add(serviceName);
-      this.serviceFile.write(serviceName);
-      this.serviceFile.newLine();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    this.services.add(serviceName);
   }
 
   @Override
   public void close() throws Exception {
-    this.serviceFile.flush();
-    this.serviceFile.close();
+    if(this.services.isEmpty()){
+      return;
+    }
+
+    try (final BufferedWriter serviceFile = new BufferedWriter(new OutputStreamWriter(this.openFile()))) {
+      this.context.info("Creating serviceFile");
+      for(String serviceName : this.services){
+        serviceFile.write(serviceName);
+        serviceFile.newLine();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void loadServiceFile(InputStream input) throws IOException {

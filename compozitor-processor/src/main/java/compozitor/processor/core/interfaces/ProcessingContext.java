@@ -37,20 +37,22 @@ import java.util.Map;
 public class ProcessingContext implements Types, Elements, Filer, Logger {
   private final ProcessingEnvironment environment;
   private final Messager logger;
+  private final Class<?> targetProcessor;
   @Getter
   private final JavaModel javaModel;
   @Getter
   private final JavaTypes javaTypes;
 
-  public ProcessingContext(final ProcessingEnvironment environment, final Messager logger) {
+  private ProcessingContext(final ProcessingEnvironment environment, final Messager logger, Class<?> targetProcessor) {
     this.environment = environment;
     this.logger = logger;
+    this.targetProcessor = targetProcessor;
     this.javaModel = JavaModel.create(this);
     this.javaTypes = JavaTypes.create(this, javaModel);
   }
 
-  public static ProcessingContext create(ProcessingEnvironment environment) {
-    return new ProcessingContext(environment, environment.getMessager());
+  public static ProcessingContext create(ProcessingEnvironment environment, Class<?> targetProcessor) {
+    return new ProcessingContext(environment, environment.getMessager(), targetProcessor);
   }
 
   public void info(String message, Object... args) {
@@ -81,8 +83,8 @@ public class ProcessingContext implements Types, Elements, Filer, Logger {
 
   private String createMessage(String message, Object... args) {
     String logMessage = MessageFormat.format(message, args);
-    System.out.println(logMessage);
-    return logMessage;
+    String targetLogMessage = MessageFormat.format("[{0}] {1}", this.targetProcessor.getSimpleName(), logMessage);
+    return targetLogMessage;
   }
 
   @Override

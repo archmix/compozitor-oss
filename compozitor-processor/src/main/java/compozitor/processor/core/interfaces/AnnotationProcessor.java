@@ -25,7 +25,7 @@ public abstract class AnnotationProcessor implements Processor {
 
   @Override
   public synchronized final void init(ProcessingEnvironment environment) {
-    this.context = ProcessingContext.create(environment);
+    this.context = ProcessingContext.create(environment, this.getClass());
     this.context.info("Initializing processor {0}", this.getClass().getCanonicalName());
     this.init(context);
   }

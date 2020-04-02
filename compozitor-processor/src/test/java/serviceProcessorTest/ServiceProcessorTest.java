@@ -23,10 +23,9 @@ public class ServiceProcessorTest {
         ).build();
 
     compilation.assertSuccess();
-    compilation.assertGeneratedFiles(3);
+    compilation.assertGeneratedFiles(2);
     compilation.serviceFileAssertion(ServiceInterface.class)
       .assertContains(resources.packageClass("ServiceInterfaceTest"));
-    compilation.serviceFileAssertion(ServiceClass.class).assertEmpty();
   }
 
   @Test
