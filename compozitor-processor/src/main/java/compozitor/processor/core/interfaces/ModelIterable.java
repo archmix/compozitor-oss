@@ -41,9 +41,6 @@ class ModelIterable<M> implements Iterable<M> {
   }
 
   private List<M> models() {
-    this.supplierProxy.run(models -> {
-      this.models.addAll(models.get());
-    });
-    return this.models;
+    return this.supplierProxy.execute();
   }
 }

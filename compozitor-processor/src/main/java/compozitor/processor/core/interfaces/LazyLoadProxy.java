@@ -6,18 +6,22 @@ import java.util.function.Supplier;
 public class LazyLoadProxy<T> {
   private State state;
 
-  private Supplier<T> supplier;
+  private final Supplier<T> supplier;
+
+  private T value;
 
   public LazyLoadProxy(Supplier<T> supplier) {
     this.state = State.INITIAL;
     this.supplier = supplier;
   }
 
-  public synchronized void run(Consumer<Supplier<T>> consumer) {
+  public synchronized T execute() {
     if (State.INITIAL.equals(this.state)) {
-      consumer.accept(this.supplier);
+      this.value = this.supplier.get();
       this.state = State.RAN;
     }
+
+    return this.value;
   }
 
   enum State {

@@ -25,6 +25,10 @@ public interface TypeModel {
 
   Element getElement();
 
+  <T> Class<T> asClass();
+
+  boolean instanceOf(Class<?> targetClass);
+
   boolean instanceOf(TypeModel type);
 
   boolean isCollection();

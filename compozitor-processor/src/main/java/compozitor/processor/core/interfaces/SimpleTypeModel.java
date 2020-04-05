@@ -69,6 +69,21 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   }
 
   @Override
+  public <T> Class<T> asClass() {
+    try {
+      return (Class<T>) Class.forName(this.qualifiedName);
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public boolean instanceOf(Class<?> targetClass){
+    TypeModel typeModel = this.context.getJavaModel().getType(targetClass.getName());
+    return this.instanceOf(typeModel);
+  }
+
+  @Override
   public boolean instanceOf(TypeModel type) {
     boolean instance = super.instanceOf(type);
 
