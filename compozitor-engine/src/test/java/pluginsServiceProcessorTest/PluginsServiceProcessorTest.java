@@ -1,6 +1,7 @@
-package compozitor.engine.processor.infra;
+package pluginsServiceProcessorTest;
 
 import compozitor.engine.core.interfaces.TypeModelPlugin;
+import compozitor.engine.processor.infra.PluginsServiceProcessor;
 import compozitor.processor.core.interfaces.CompilationBuilder;
 import compozitor.processor.core.interfaces.CompileAssertion;
 import compozitor.processor.core.interfaces.TestResources;

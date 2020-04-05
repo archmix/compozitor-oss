@@ -12,11 +12,11 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public interface TypeModelPlugin<T extends TemplateContextData<T>> extends CodeGenerationCategoryPlugin {
-  default T accept(ProcessingContext context, TypeModel typeModel){
+  default T accept(ProcessingContext context, TypeModel typeModel, AnnotationRepository annotationRepository){
     return null;
   }
 
-  default Collection<T> accept(ProcessingContext context, TypeModel typeModel, AnnotationRepository annotationRepository){
+  default Collection<T> collect(ProcessingContext context, TypeModel typeModel, AnnotationRepository annotationRepository){
     return new ArrayList<>();
   }
 }

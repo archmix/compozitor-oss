@@ -1,4 +1,4 @@
-package compozitor.engine.processor.infra;
+package pluginsServiceProcessorTest;
 
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 

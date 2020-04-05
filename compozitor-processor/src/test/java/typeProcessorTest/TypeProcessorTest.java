@@ -1,8 +1,6 @@
 package typeProcessorTest;
 
 import com.google.common.collect.Sets;
-import com.google.testing.compile.Compilation;
-import com.google.testing.compile.Compilation.Status;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.processor.core.interfaces.CompilationBuilder;
 import compozitor.processor.core.interfaces.CompileAssertion;
@@ -13,7 +11,6 @@ import compozitor.processor.core.interfaces.TypeModel;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class TypeProcessorTest {

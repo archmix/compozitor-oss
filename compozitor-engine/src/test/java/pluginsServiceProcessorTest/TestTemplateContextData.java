@@ -1,4 +1,4 @@
-package compozitor.engine.processor.infra;
+package pluginsServiceProcessorTest;
 
 import compozitor.template.core.interfaces.TemplateContextData;
 

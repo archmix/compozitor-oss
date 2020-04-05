@@ -9,6 +9,8 @@ import compozitor.generator.core.interfaces.Filename;
 import compozitor.generator.core.interfaces.Namespace;
 import compozitor.generator.core.interfaces.TemplateMetadata;
 import compozitor.generator.core.interfaces.TemplateRepository;
+import compozitor.processor.core.interfaces.AnnotationProcessor;
+import compozitor.processor.core.interfaces.AnnotationRepository;
 import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.TypeModel;
 import compozitor.template.core.interfaces.TemplateEngine;
@@ -31,7 +33,7 @@ public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, Tem
   }
 
   @Override
-  public TableMetadata accept(ProcessingContext context, TypeModel typeModel) {
+  public TableMetadata accept(ProcessingContext context, TypeModel typeModel, AnnotationRepository annotationRepository) {
     return TableMetadata.create(typeModel);
   }
 
