@@ -105,8 +105,10 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.typeModelPlugins.forEach(plugin -> {
-      metaModelList.addAll((Collection) plugin.collect(context, model, annotationRepository));
-      T accepted = (T) plugin.accept(context, model, annotationRepository);
+      plugin.accept(context, annotationRepository);
+
+      metaModelList.addAll((Collection) plugin.collect(context, model));
+      T accepted = (T) plugin.accept(context, model);
       if(accepted != null) {
         metaModelList.add(accepted);
       }
@@ -119,8 +121,10 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.fieldModelPlugins.forEach(plugin -> {
-      metaModelList.addAll((Collection) plugin.collect(context, model, annotationRepository));
-      T accepted = (T) plugin.accept(context, model, annotationRepository);
+      plugin.accept(context, annotationRepository);
+
+      metaModelList.addAll((Collection) plugin.collect(context, model));
+      T accepted = (T) plugin.accept(context, model);
       if(accepted != null) {
         metaModelList.add(accepted);
       }
@@ -133,8 +137,10 @@ class PluginRepository {
     List<T> metaModelList = new ArrayList<>();
 
     this.methodModelPlugins.forEach(plugin -> {
-      metaModelList.addAll((Collection) plugin.collect(context, model, annotationRepository));
-      T accepted = (T) plugin.accept(context, model, annotationRepository);
+      plugin.accept(context, annotationRepository);
+
+      metaModelList.addAll((Collection) plugin.collect(context, model));
+      T accepted = (T) plugin.accept(context, model);
       if(accepted != null) {
         metaModelList.add(accepted);
       }

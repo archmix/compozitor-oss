@@ -33,7 +33,7 @@ public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, Tem
   }
 
   @Override
-  public TableMetadata accept(ProcessingContext context, TypeModel typeModel, AnnotationRepository annotationRepository) {
+  public TableMetadata accept(ProcessingContext context, TypeModel typeModel) {
     return TableMetadata.create(typeModel);
   }
 

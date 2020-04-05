@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public interface FieldModelPlugin<T extends TemplateContextData<T>> extends CodeGenerationCategoryPlugin {
-  default T accept(ProcessingContext context, FieldModel fieldModel, AnnotationRepository annotationRepository){
+  default void accept(ProcessingContext context,  AnnotationRepository annotationRepository){}
+
+  default T accept(ProcessingContext context, FieldModel fieldModel){
     return null;
   }
 
-  default Collection<T> collect(ProcessingContext context, FieldModel fieldModel, AnnotationRepository annotationRepository){
+  default Collection<T> collect(ProcessingContext context, FieldModel fieldModel){
     return new ArrayList<>();
   }
 }
