@@ -18,4 +18,6 @@ public interface FieldModelPlugin<T extends TemplateContextData<T>> extends Code
   default Collection<T> collect(ProcessingContext context, FieldModel fieldModel){
     return new ArrayList<>();
   }
+
+  default void release(ProcessingContext context){}
 }

@@ -31,7 +31,7 @@ public abstract class AnnotationProcessor implements Processor {
   }
 
   protected void init(ProcessingContext context) {
-    //hook method
+    return;
   }
 
   @Override
@@ -42,6 +42,8 @@ public abstract class AnnotationProcessor implements Processor {
       this.repository = AnnotationRepository.create(this.context, roundEnvironment);
       AnnotatedElements annotatedElements = repository.elementsAnnotatedWith(annotations);
       if (annotatedElements.isEmpty()) {
+        context.info("Releasing resources for this processor.");
+        this.releaseResources();
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
       }
 
@@ -64,6 +66,10 @@ public abstract class AnnotationProcessor implements Processor {
     }
 
     return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
+  }
+
+  protected void releaseResources(){
+    return;
   }
 
   @Override

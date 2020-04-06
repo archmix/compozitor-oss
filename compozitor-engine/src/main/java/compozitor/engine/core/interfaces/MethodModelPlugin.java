@@ -18,4 +18,6 @@ public interface MethodModelPlugin<T extends TemplateContextData<T>> extends Cod
   default Collection<T> collect(ProcessingContext context, MethodModel methodModel){
     return new ArrayList<>();
   }
+
+  default void release(ProcessingContext context){}
 }

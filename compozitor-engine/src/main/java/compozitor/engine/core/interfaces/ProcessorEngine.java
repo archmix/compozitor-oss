@@ -20,6 +20,7 @@ import javax.tools.StandardLocation;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.util.ServiceLoader;
 
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final PluginRepository pluginRepository;
@@ -65,6 +66,11 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
     CodeGenerationCategoryEngine<T> engine = CodeGenerationCategoryEngine.create();
     engine.generate(templateEngine, engineContext, code -> this.write(code));
+  }
+
+  @Override
+  protected void releaseResources() {
+    this.pluginRepository.releaseResources(this.context);
   }
 
   private void write(GeneratedCode code) {

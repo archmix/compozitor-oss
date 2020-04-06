@@ -18,4 +18,6 @@ public interface TypeModelPlugin<T extends TemplateContextData<T>> extends CodeG
   default Collection<T> collect(ProcessingContext context, TypeModel typeModel){
     return new ArrayList<>();
   }
+
+  default void release(ProcessingContext context){}
 }

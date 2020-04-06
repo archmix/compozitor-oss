@@ -148,4 +148,18 @@ class PluginRepository {
 
     return metaModelList;
   }
+
+  public void releaseResources(ProcessingContext context){
+    this.typeModelPlugins.forEach(plugin -> {
+      plugin.release(context);
+    });
+
+    this.fieldModelPlugins.forEach(plugin -> {
+      plugin.release(context);
+    });
+
+    this.methodModelPlugins.forEach(plugin -> {
+      plugin.release(context);
+    });
+  }
 }
