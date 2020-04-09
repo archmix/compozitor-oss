@@ -85,7 +85,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
         writer.write(sourceCode);
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      context.warning("Was not possible to write generated code with message {0}", e.getMessage());
     }
   }
 
