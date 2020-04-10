@@ -34,7 +34,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-public class ProcessingContext implements Types, Elements, Filer, Logger {
+public class ProcessingContext implements Types, Elements, Logger {
   private final ProcessingEnvironment environment;
   private final Messager logger;
   private final Class<?> targetProcessor;
@@ -42,6 +42,8 @@ public class ProcessingContext implements Types, Elements, Filer, Logger {
   private final JavaModel javaModel;
   @Getter
   private final JavaTypes javaTypes;
+  @Getter
+  private final JavaFiles javaFiles;
 
   private ProcessingContext(final ProcessingEnvironment environment, final Messager logger, Class<?> targetProcessor) {
     this.environment = environment;
@@ -49,6 +51,7 @@ public class ProcessingContext implements Types, Elements, Filer, Logger {
     this.targetProcessor = targetProcessor;
     this.javaModel = JavaModel.create(this);
     this.javaTypes = JavaTypes.create(this, javaModel);
+    this.javaFiles = JavaFiles.create(this.environment.getFiler());
   }
 
   public static ProcessingContext create(ProcessingEnvironment environment, Class<?> targetProcessor) {
@@ -266,30 +269,5 @@ public class ProcessingContext implements Types, Elements, Filer, Logger {
   @Override
   public boolean isFunctionalInterface(TypeElement type) {
     return this.environment.getElementUtils().isFunctionalInterface(type);
-  }
-
-  @Override
-  public JavaFileObject createSourceFile(CharSequence name, Element... originatingElements)
-    throws IOException {
-    return this.environment.getFiler().createSourceFile(name, originatingElements);
-  }
-
-  @Override
-  public JavaFileObject createClassFile(CharSequence name, Element... originatingElements)
-    throws IOException {
-    return this.environment.getFiler().createClassFile(name, originatingElements);
-  }
-
-  @Override
-  public FileObject createResource(Location location, CharSequence pkg, CharSequence relativeName,
-                                   Element... originatingElements) throws IOException {
-    return this.environment.getFiler().createResource(location, pkg, relativeName,
-      originatingElements);
-  }
-
-  @Override
-  public FileObject getResource(Location location, CharSequence pkg, CharSequence relativeName)
-    throws IOException {
-    return this.environment.getFiler().getResource(location, pkg, relativeName);
   }
 }

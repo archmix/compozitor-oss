@@ -37,13 +37,20 @@ public abstract class AnnotationProcessor implements Processor {
   @Override
   public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     try {
+      if(roundEnvironment.processingOver()){
+        this.context.info("Generating resources for {0}", this.getClass().getName());
+        this.postProcess();
+
+        context.info("Releasing resources for this processor.");
+        this.releaseResources();
+        return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
+      }
+
       this.context.info("Running processor {0}", this.getClass().getName());
 
       this.repository = AnnotationRepository.create(this.context, roundEnvironment);
       AnnotatedElements annotatedElements = repository.elementsAnnotatedWith(annotations);
       if (annotatedElements.isEmpty()) {
-        context.info("Releasing resources for this processor.");
-        this.releaseResources();
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
       }
 
@@ -53,12 +60,6 @@ public abstract class AnnotationProcessor implements Processor {
         elements.forEach(element -> {
           this.process(element);
         });
-
-      });
-
-      this.runOnce.run(() -> {
-        this.context.info("Generating resources for {0}", this.getClass().getName());
-        this.postProcess();
       });
     } catch (RuntimeException ex) {
       ex.printStackTrace();

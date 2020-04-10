@@ -11,13 +11,15 @@ public class ProcessorEngineTest {
   @Test
   public void givenCodeGenerationCategoryWhenProcessThenSourceCodeGenerated() {
     CompileAssertion compilation = CompilationBuilder.create()
-        .withJavaSource(resources.testFile("City.java"))
-        .withProcessors(new TableProcessor())
-        .build();
+      .withProcessors(new TableProcessor())
+      .withJavaSource(
+        resources.testFile("City.java")
+      ).build();
 
-    compilation.assertSuccess();
-    compilation.assertGeneratedFiles(3);
-    compilation.generatedSourceAssertion(resources.testFile("CityInsertCommand.java"))
-      .assertEquals(resources.testFile("InsertCommand.java"));
+    compilation
+      .assertSuccess()
+      .assertGeneratedFiles(3)
+      .generatedSourceAssertion(resources.testFile("CityInsertCommand.java"))
+        .assertEquals(resources.testFile("InsertCommand.java"));
   }
 }

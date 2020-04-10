@@ -8,19 +8,24 @@ import compozitor.generator.core.interfaces.GeneratedCode;
 import compozitor.generator.core.interfaces.MetaModelRepository;
 import compozitor.generator.core.interfaces.TemplateRepository;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
+import compozitor.processor.core.interfaces.JavaFileName;
 import compozitor.processor.core.interfaces.FieldModel;
+import compozitor.processor.core.interfaces.JavaResource;
+import compozitor.processor.core.interfaces.JavaResources;
 import compozitor.processor.core.interfaces.MethodModel;
+import compozitor.processor.core.interfaces.PackageName;
 import compozitor.processor.core.interfaces.ProcessingContext;
+import compozitor.processor.core.interfaces.ResourceName;
 import compozitor.processor.core.interfaces.TypeModel;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 
 import javax.tools.FileObject;
-import javax.tools.StandardLocation;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
-import java.util.ServiceLoader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final PluginRepository pluginRepository;
@@ -91,10 +96,16 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   private FileObject createFile(GeneratedCode code) throws IOException {
     if (code.getResource()) {
-      return this.context.createResource(StandardLocation.SOURCE_OUTPUT, code.getNamespace().toString(), code.getFileName().toString());
+      Path path = Paths.get(code.getNamespace().toPath().toString(), code.getFileName().toString());
+      ResourceName resourceName = ResourceName.create(path.toString());
+      JavaResource javaResource = JavaResources.create(resourceName);
+      return this.context.getJavaFiles().resourceFile(javaResource);
     }
 
-    return this.context.createSourceFile(code.getQualifiedName().toString());
+    PackageName packageName = PackageName.create(code.getNamespace().toString());
+    JavaFileName javaFileName = JavaFileName.create(code.getFileName().toString());
+    JavaResource javaResource = JavaResources.create(packageName, javaFileName);
+    return this.context.getJavaFiles().sourceFile(javaResource);
   }
 
   public final void listen(SourceCodeListener generatorListener) {
