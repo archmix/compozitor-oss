@@ -15,13 +15,8 @@ import java.util.Set;
 
 public abstract class AnnotationProcessor implements Processor {
   private static final Boolean ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS = Boolean.FALSE;
-  private final RunOnce runOnce;
   protected ProcessingContext context;
   protected AnnotationRepository repository;
-
-  public AnnotationProcessor() {
-    this.runOnce = RunOnce.create();
-  }
 
   @Override
   public synchronized final void init(ProcessingEnvironment environment) {
@@ -38,11 +33,8 @@ public abstract class AnnotationProcessor implements Processor {
   public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     try {
       if(roundEnvironment.processingOver()){
-        this.context.info("Generating resources for {0}", this.getClass().getName());
-        this.postProcess();
-
         context.info("Releasing resources for this processor.");
-        this.releaseResources();
+        this.processOver();
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
       }
 
@@ -61,16 +53,15 @@ public abstract class AnnotationProcessor implements Processor {
           this.process(element);
         });
       });
+
+      this.context.info("Generating resources for {0}", this.getClass().getName());
+      this.postProcess();
     } catch (RuntimeException ex) {
       ex.printStackTrace();
       this.context.error(ex.getMessage());
     }
 
     return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
-  }
-
-  protected void releaseResources(){
-    return;
   }
 
   @Override
@@ -143,6 +134,10 @@ public abstract class AnnotationProcessor implements Processor {
   }
 
   protected void postProcess() {
+    return;
+  }
+
+  protected void processOver() {
     return;
   }
 }

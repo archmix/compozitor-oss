@@ -71,10 +71,12 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
     CodeGenerationCategoryEngine<T> engine = CodeGenerationCategoryEngine.create();
     engine.generate(templateEngine, engineContext, code -> this.write(code));
+
+    this.metaModelRepository.clear();
   }
 
   @Override
-  protected void releaseResources() {
+  protected void processOver() {
     this.pluginRepository.releaseResources(this.context);
   }
 

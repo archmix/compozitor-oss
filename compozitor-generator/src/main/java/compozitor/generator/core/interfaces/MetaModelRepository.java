@@ -33,4 +33,8 @@ public class MetaModelRepository<T extends TemplateContextData<T>> implements It
   public Stream<T> stream() {
     return this.dataList.stream();
   }
+
+  public void clear(){
+    this.dataList.clear();
+  }
 }
