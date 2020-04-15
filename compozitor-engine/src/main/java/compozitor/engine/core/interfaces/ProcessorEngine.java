@@ -34,7 +34,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   public ProcessorEngine() {
     this.pluginRepository = PluginRepository.create();
-    this.metaModelRepository = new MetaModelRepository<T>();
+    this.metaModelRepository = MetaModelRepository.<T>create();
   }
 
   @Override

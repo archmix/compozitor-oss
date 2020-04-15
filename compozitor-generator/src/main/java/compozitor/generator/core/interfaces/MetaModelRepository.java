@@ -13,8 +13,12 @@ import java.util.stream.Stream;
 public class MetaModelRepository<T extends TemplateContextData<T>> implements Iterable<T> {
   private final Set<T> dataList;
 
-  public MetaModelRepository() {
+  private MetaModelRepository() {
     this.dataList = new HashSet<>();
+  }
+
+  public static MetaModelRepository create(){
+    return new MetaModelRepository();
   }
 
   public void add(T data) {
