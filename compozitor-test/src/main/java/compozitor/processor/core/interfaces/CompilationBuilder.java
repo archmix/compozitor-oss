@@ -1,5 +1,6 @@
 package compozitor.processor.core.interfaces;
 
+import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.tools.JavaFileObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.google.testing.compile.Compiler.*;
@@ -47,8 +49,10 @@ public class CompilationBuilder {
   }
 
   public CompileAssertion build() {
-    return CompileAssertion.create(
-      javac().withProcessors(this.processors).compile(this.javaSource)
-    );
+    final Compilation compilation = javac().withProcessors(this.processors).compile(this.javaSource);
+    compilation.diagnostics().forEach(System.out::println);
+    compilation.errors().forEach(System.out::println);
+
+    return CompileAssertion.create(compilation);
   }
 }
