@@ -8,6 +8,7 @@ public class JavaFileNameTest {
   @Test
   public void givenAClassNameWhenCreateThenRemoveIllegalChars(){
     assertClassName("Test Class", "TestClass");
+    assertClassName("Acentuação é normalizada", "Acentuacaoenormalizada");
   }
 
   private void assertClassName(String classNameToBeCreated, String expectedClassName){
