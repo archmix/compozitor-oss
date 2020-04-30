@@ -14,13 +14,13 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class MacrosLoader {
-  private JoinableClassLoader classLoader;
+  private CompositeClassLoader classLoader;
 
-  MacrosLoader(JoinableClassLoader classLoader) {
+  MacrosLoader(CompositeClassLoader classLoader) {
     this.classLoader = classLoader;
   }
 
-  public static MacrosLoader create(JoinableClassLoader classLoader) {
+  public static MacrosLoader create(CompositeClassLoader classLoader) {
     return new MacrosLoader(classLoader);
   }
 

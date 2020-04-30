@@ -7,42 +7,55 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-public class JoinableClassLoader extends ClassLoader {
+public class CompositeClassLoader extends ClassLoader {
   private final Set<ClassLoader> classLoaders;
 
-  public JoinableClassLoader() {
+  public CompositeClassLoader() {
     this.classLoaders = new HashSet<>();
     this.classLoaders.add(Thread.currentThread().getContextClassLoader());
-    this.classLoaders.add(this.getClass().getClassLoader());
   }
 
-  public static JoinableClassLoader create() {
-    return new JoinableClassLoader();
+  public static CompositeClassLoader create() {
+    return new CompositeClassLoader();
   }
 
-  public JoinableClassLoader join(ClassLoader classLoader) {
+  public CompositeClassLoader join(ClassLoader classLoader) {
+    if(classLoader.equals(this)){
+      return this;
+    }
     this.classLoaders.add(classLoader);
     return this;
   }
 
   @Override
   public Class<?> loadClass(String name) throws ClassNotFoundException {
-    Class<?> clazz = null;
+    Optional<Class<?>> clazz = Classes.find(name);
+    if (clazz.isPresent()) {
+      return clazz.get();
+    }
+
+    this.join(Thread.currentThread().getContextClassLoader());
+    this.join(this.getClass().getClassLoader());
 
     for (ClassLoader classLoader : this.classLoaders) {
-      try {
-        clazz = classLoader.loadClass(name);
-      } catch (ClassNotFoundException e) {
+      Optional<Class<?>> foundClass = loadClass(classLoader, name);
+      if(foundClass.isPresent()){
+        return foundClass.get();
       }
     }
 
-    if (clazz == null) {
-      throw new ClassNotFoundException("Class not found:" + name);
-    }
+    throw new ClassNotFoundException("Class not found:" + name);
+  }
 
-    return clazz;
+  private Optional<Class<?>> loadClass(ClassLoader classLoader, String name) {
+    try {
+      return Optional.of(classLoader.loadClass(name));
+    } catch (ClassNotFoundException e) {
+      return Optional.empty();
+    }
   }
 
   @Override

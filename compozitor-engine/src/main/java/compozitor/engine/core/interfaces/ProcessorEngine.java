@@ -17,6 +17,7 @@ import compozitor.processor.core.interfaces.PackageName;
 import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.ResourceName;
 import compozitor.processor.core.interfaces.TypeModel;
+import compozitor.template.core.infra.CompositeClassLoader;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 
@@ -30,16 +31,19 @@ import java.nio.file.Paths;
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final PluginRepository pluginRepository;
   private final MetaModelRepository<T> metaModelRepository;
+  private final CompositeClassLoader classLoader;
   private SourceCodeListener generatorListener;
 
   public ProcessorEngine() {
     this.pluginRepository = PluginRepository.create();
     this.metaModelRepository = MetaModelRepository.<T>create();
+    this.classLoader = CompositeClassLoader.create().join(this.getClass().getClassLoader());
   }
 
   @Override
   protected void init(ProcessingContext context) {
-    this.pluginRepository.load(this.getClassLoader(), this.category(), context);
+    this.joinClassLoader(this.classLoader);
+    this.pluginRepository.load(this.classLoader, this.category(), context);
     this.generatorListener = ((sourceCode) -> {
     });
   }
@@ -114,8 +118,8 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     this.generatorListener = generatorListener;
   }
 
-  protected ClassLoader getClassLoader(){
-    return this.getClass().getClassLoader();
+  protected void joinClassLoader(CompositeClassLoader classLoader){
+    return;
   }
 
   protected abstract CodeGenerationCategory category();

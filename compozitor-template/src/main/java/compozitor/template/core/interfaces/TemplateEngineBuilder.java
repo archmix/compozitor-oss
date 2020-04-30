@@ -1,6 +1,6 @@
 package compozitor.template.core.interfaces;
 
-import compozitor.template.core.infra.JoinableClassLoader;
+import compozitor.template.core.infra.CompositeClassLoader;
 import compozitor.template.core.infra.MacrosLoader;
 import compozitor.template.core.infra.ResourceUri;
 import compozitor.template.core.infra.S3Resource;
@@ -32,11 +32,11 @@ public class TemplateEngineBuilder {
 
   private final Set<String> macros = new HashSet<>();
 
-  private final JoinableClassLoader classLoader;
+  private final CompositeClassLoader classLoader;
 
   private TemplateEngineBuilder() {
     this.target = new RuntimeInstance();
-    this.classLoader = JoinableClassLoader.create().join(this.getClass().getClassLoader());
+    this.classLoader = CompositeClassLoader.create().join(this.getClass().getClassLoader());
     this.init();
   }
 
@@ -49,8 +49,7 @@ public class TemplateEngineBuilder {
     this.target.addProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, "true");
     this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE, "true");
     this.target.addProperty(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
-    this.target.addProperty(RuntimeConstants.EVENTHANDLER_INCLUDE,
-      IncludeRelativePath.class.getName());
+    this.target.addProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, IncludeRelativePath.class.getName());
     this.target.addProperty("runtime.log.logsystem.log4j.logger", "root");
 
     this.addDirectives(Capitalize.class, LowerCase.class, Render.class, TrimAll.class,
