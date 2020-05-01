@@ -7,6 +7,7 @@ import javax.lang.model.type.TypeMirror;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AnnotationModel extends Model<AnnotationMirror> {
 
@@ -14,12 +15,18 @@ public class AnnotationModel extends Model<AnnotationMirror> {
     super(context, annotation);
   }
 
-  public AnnotationMirror annotation(String key){
-    return this.value(key);
+  public AnnotationModel annotation(String key){
+    AnnotationMirror mirror = this.value(key);
+    return this.getAnnotation(mirror);
   }
 
-  public List<AnnotationMirror> annotations(String key){
-    return (List) this.values(key);
+  public List<AnnotationModel> annotations(String key){
+    List<AnnotationMirror> mirrors = this.values(key);
+    return mirrors.stream().map(this::getAnnotation).collect(Collectors.toList());
+  }
+
+  private AnnotationModel getAnnotation(AnnotationMirror mirror){
+    return this.context.getJavaModel().getAnnotation(mirror);
   }
 
   public String enumValue(String key) {
@@ -30,12 +37,18 @@ public class AnnotationModel extends Model<AnnotationMirror> {
     return this.values(key, true);
   }
 
-  public TypeMirror typeValue(String key){
-    return this.value(key);
+  public TypeModel typeValue(String key){
+    TypeMirror mirror = this.value(key);
+    return this.getTypeModel(mirror);
   }
 
-  public List<TypeMirror> typeValues(String key){
-    return this.values(key);
+  public List<TypeModel> typeValues(String key){
+    List<TypeMirror> mirrors = this.values(key);
+    return mirrors.stream().map(this::getTypeModel).collect(Collectors.toList());
+  }
+
+  private TypeModel getTypeModel(TypeMirror typeMirror){
+    return this.context.getJavaModel().getType(typeMirror);
   }
 
   public <T> T value(String key){
@@ -102,6 +115,11 @@ public class AnnotationModel extends Model<AnnotationMirror> {
     }
 
     return super.equals(obj);
+  }
+
+  public boolean instanceOf(Class<?> targetClass){
+    TypeModel typeModel = this.context.getJavaModel().getType(targetClass.getName());
+    return this.instanceOf(typeModel);
   }
 
   public boolean instanceOf(AnnotationModel annotation) {
