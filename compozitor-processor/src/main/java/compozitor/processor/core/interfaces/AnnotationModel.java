@@ -3,7 +3,9 @@ package compozitor.processor.core.interfaces;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -115,11 +117,6 @@ public class AnnotationModel extends Model<AnnotationMirror> {
     }
 
     return super.equals(obj);
-  }
-
-  public boolean instanceOf(Class<?> targetClass){
-    TypeModel typeModel = this.context.getJavaModel().getType(targetClass.getName());
-    return this.instanceOf(typeModel);
   }
 
   public boolean instanceOf(AnnotationModel annotation) {
