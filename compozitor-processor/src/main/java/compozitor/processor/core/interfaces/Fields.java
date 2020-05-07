@@ -19,8 +19,8 @@ public class Fields extends ModelIterable<FieldModel> {
     return fieldModel -> fieldModel.getConstant();
   }
 
-  public static Predicate<FieldModel> regular() {
-    return fieldModel -> !fieldModel.getConstant();
+  public static Predicate<FieldModel> field() {
+    return fieldModel -> true;
   }
 
   public Optional<FieldModel> get(String name) {
