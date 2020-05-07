@@ -125,7 +125,9 @@ public class JavaModel {
 
     Methods methods = new Methods(ElementFilter.methodsIn(type.getEnclosedElements()), this);
 
-    Fields fields = new Fields(ElementFilter.fieldsIn(type.getEnclosedElements()), this);
+    Fields fields = new Fields(ElementFilter.fieldsIn(type.getEnclosedElements()), Fields.regular(), this);
+
+    Fields constants = new Fields(ElementFilter.fieldsIn(type.getEnclosedElements()), Fields.constant(), this);
 
     TypeParameters parameters = new TypeParameters(typeParameters, this);
 
@@ -136,7 +138,7 @@ public class JavaModel {
     }
 
     SimpleTypeModel simpleType = new SimpleTypeModel(this.context, type, packageModel, annotations, modifiers, superType,
-      interfaces, fields, methods, parameters);
+      interfaces, fields, constants, methods, parameters);
 
     this.typeCache.put(typeName, simpleType);
 

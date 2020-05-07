@@ -31,13 +31,16 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   private final Fields fields;
 
   @Getter
+  private final Fields constants;
+
+  @Getter
   private final Methods methods;
 
   @Getter
   private final TypeParameters parameters;
 
   SimpleTypeModel(ProcessingContext context, TypeElement element, PackageModel packageModel, Annotations annotations, Modifiers modifiers,
-                  TypeModel superType, Interfaces interfaces, Fields fields, Methods methods, TypeParameters parameters) {
+                  TypeModel superType, Interfaces interfaces, Fields fields, Fields constants, Methods methods, TypeParameters parameters) {
     super(context, element);
     this.packageModel = packageModel;
     this.annotations = annotations;
@@ -47,6 +50,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
     this.superType = superType;
     this.interfaces = interfaces;
     this.fields = fields;
+    this.constants = constants;
     this.methods = methods;
     this.parameters = parameters;
   }

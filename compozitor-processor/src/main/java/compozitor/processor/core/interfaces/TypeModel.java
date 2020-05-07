@@ -19,6 +19,8 @@ public interface TypeModel {
 
   Fields getFields();
 
+  Fields getConstants();
+
   Methods getMethods();
 
   PackageModel getPackage();
