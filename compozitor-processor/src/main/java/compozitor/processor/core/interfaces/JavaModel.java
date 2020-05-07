@@ -27,14 +27,24 @@ public class JavaModel {
 
   private final Map<String, TypeModel> typeCache = new HashMap<>();
 
+  public TypeModel getEnum(Element element){
+    if(element.getKind() != ElementKind.ENUM){
+      return null;
+    }
+    return this.getType((TypeElement) element);
+  }
+
   public AnnotationModel getAnnotation(AnnotationMirror annotation) {
-    return new AnnotationModel(context, annotation);
+    return AnnotationModel.create(context, annotation);
   }
 
   public TypeModel getType(Element element) {
     TypeModel typeModel = this.getClass(element);
     if (typeModel == null) {
       typeModel = this.getInterface(element);
+    }
+    if(typeModel == null){
+      typeModel = this.getEnum(element);
     }
     return typeModel;
   }

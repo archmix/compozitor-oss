@@ -13,8 +13,12 @@ import java.util.stream.Collectors;
 
 public class AnnotationModel extends Model<AnnotationMirror> {
 
-  AnnotationModel(ProcessingContext context, AnnotationMirror annotation) {
+  private AnnotationModel(ProcessingContext context, AnnotationMirror annotation) {
     super(context, annotation);
+  }
+
+  static AnnotationModel create(ProcessingContext context, AnnotationMirror annotation){
+    return new AnnotationModel(context, annotation);
   }
 
   public AnnotationModel annotation(String key){

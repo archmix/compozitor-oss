@@ -88,18 +88,23 @@ public abstract class AnnotationProcessor implements Processor {
   private final void process(Element element) {
     JavaModel javaModel = this.context.getJavaModel();
 
-    if (element.getKind().equals(ElementKind.CLASS)) {
+    if (element.getKind() == ElementKind.CLASS) {
       TypeModel model = javaModel.getClass(element);
       this.context.info("Processing class {0}", model.getQualifiedName());
       this.process(model);
       return;
     }
 
-    if (element.getKind().equals(ElementKind.INTERFACE)) {
+    if (element.getKind() == ElementKind.INTERFACE) {
       TypeModel model = javaModel.getInterface(element);
       this.context.info("Processing interface {0}", model.getQualifiedName());
       this.process(model);
       return;
+    }
+
+    if(element.getKind() == ElementKind.ENUM){
+      TypeModel model = javaModel.getEnum(element);
+      this.context.info("Processing enum {0}", model.getQualifiedName());
     }
 
     if (element.getKind().equals(ElementKind.FIELD)) {

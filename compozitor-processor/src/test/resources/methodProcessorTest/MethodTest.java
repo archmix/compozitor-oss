@@ -1,7 +1,9 @@
 package methodProcessorTest;
 
+import annotations.MethodAnnotation;
+
 public class MethodTest {
-  @MethodAnnotationTest
+  @MethodAnnotation
   public void doSomething(String value) {
 
   }

@@ -1,6 +1,8 @@
 package fieldProcessorTest;
 
+import annotations.FieldAnnotation;
+
 public class FieldTest {
-  @FieldAnnotationTest
+  @FieldAnnotation
   private long code;
 }

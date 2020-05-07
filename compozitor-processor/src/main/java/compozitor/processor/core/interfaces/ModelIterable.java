@@ -23,6 +23,10 @@ class ModelIterable<M> implements Iterable<M> {
     return Collections.unmodifiableCollection(this.models());
   }
 
+  public Integer size(){
+    return this.models().size();
+  }
+
   @Override
   public Iterator<M> iterator() {
     return this.models().iterator();

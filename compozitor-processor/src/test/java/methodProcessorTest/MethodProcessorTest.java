@@ -1,5 +1,7 @@
 package methodProcessorTest;
 
+import annotations.MethodAnnotation;
+import annotations.MethodProcessor;
 import com.google.common.collect.Sets;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.Compilation.Status;
@@ -30,27 +32,5 @@ public class MethodProcessorTest {
 
     compilation.assertSuccess();
     compilation.assertGeneratedFiles(1);
-  }
-
-  class MethodProcessor extends AnnotationProcessor {
-    @Override
-    protected void process(TypeModel model) {
-      Assert.fail();
-    }
-
-    @Override
-    protected void process(FieldModel model) {
-      Assert.fail();
-    }
-
-    @Override
-    protected void process(MethodModel model) {
-      Assert.assertNotNull(model);
-    }
-
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-      return Sets.newHashSet("methodProcessorTest.MethodAnnotation");
-    }
   }
 }

@@ -96,24 +96,16 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
 
   @Override
   public boolean isEnum() {
-    if (Objects.isNull(superType)) {
-      return false;
-    }
-
-    try {
-      return Class.forName(superType.getQualifiedName()) == java.lang.Enum.class;
-    } catch (ClassNotFoundException e) {
-      throw new IllegalStateException(e);
-    }
+    return ElementKind.ENUM == this.element.getKind();
   }
 
   @Override
   public boolean isClass() {
-    return ElementKind.CLASS.equals(this.element.getKind());
+    return ElementKind.CLASS == this.element.getKind();
   }
 
   @Override
   public boolean isInterface() {
-    return ElementKind.INTERFACE.equals(this.element.getKind());
+    return ElementKind.INTERFACE == this.element.getKind();
   }
 }

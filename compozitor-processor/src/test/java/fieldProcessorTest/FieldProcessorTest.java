@@ -1,5 +1,6 @@
 package fieldProcessorTest;
 
+import annotations.FieldProcessor;
 import com.google.common.collect.Sets;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.Compilation.Status;
@@ -29,27 +30,5 @@ public class FieldProcessorTest {
 
     compilation.assertSuccess();
     compilation.assertGeneratedFiles(1);
-  }
-
-  class FieldProcessor extends AnnotationProcessor {
-    @Override
-    protected void process(TypeModel model) {
-      Assert.fail();
-    }
-
-    @Override
-    protected void process(MethodModel model) {
-      Assert.fail();
-    }
-
-    @Override
-    protected void process(FieldModel model) {
-      Assert.assertNotNull(model);
-    }
-
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-      return Sets.newHashSet("fieldProcessorTest.FieldAnnotationTest");
-    }
   }
 }
