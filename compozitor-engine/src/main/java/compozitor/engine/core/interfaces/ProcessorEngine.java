@@ -8,8 +8,8 @@ import compozitor.generator.core.interfaces.GeneratedCode;
 import compozitor.generator.core.interfaces.MetaModelRepository;
 import compozitor.generator.core.interfaces.TemplateRepository;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
-import compozitor.processor.core.interfaces.JavaFileName;
 import compozitor.processor.core.interfaces.FieldModel;
+import compozitor.processor.core.interfaces.JavaFileName;
 import compozitor.processor.core.interfaces.JavaResource;
 import compozitor.processor.core.interfaces.JavaResources;
 import compozitor.processor.core.interfaces.MethodModel;
@@ -64,7 +64,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   }
 
   @Override
-  protected void postProcess() {
+  protected final void postProcess() {
     CodeGenerationCategoryContext<T> engineContext = CodeGenerationCategoryContext.create();
     engineContext.add(this.category(), this.metaModelRepository);
 
@@ -76,7 +76,12 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     CodeGenerationCategoryEngine<T> engine = CodeGenerationCategoryEngine.create();
     engine.generate(templateEngine, engineContext, code -> this.write(code));
 
+    this.postGeneration(this.metaModelRepository);
     this.metaModelRepository.clear();
+  }
+
+  protected void postGeneration(MetaModelRepository<T> repository) {
+    return;
   }
 
   @Override
@@ -118,7 +123,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
     this.generatorListener = generatorListener;
   }
 
-  protected void joinClassLoader(CompositeClassLoader classLoader){
+  protected void joinClassLoader(CompositeClassLoader classLoader) {
     return;
   }
 
