@@ -2,11 +2,9 @@ package compozitor.generator.core.interfaces;
 
 import compozitor.template.core.interfaces.TemplateContextData;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -17,7 +15,7 @@ public class MetaModelRepository<T extends TemplateContextData<T>> implements It
     this.dataList = new HashSet<>();
   }
 
-  public static MetaModelRepository create(){
+  public static MetaModelRepository create() {
     return new MetaModelRepository();
   }
 
@@ -38,7 +36,7 @@ public class MetaModelRepository<T extends TemplateContextData<T>> implements It
     return this.dataList.stream();
   }
 
-  public void clear(){
+  public void clear() {
     this.dataList.clear();
   }
 }

@@ -6,11 +6,11 @@ public enum ComplexEnum {
 
   private Integer value;
 
-  private ComplexEnum(Integer value){
+  private ComplexEnum(Integer value) {
     this.value = value;
   }
 
-  public Integer value(){
+  public Integer value() {
     return this.value;
   }
 }

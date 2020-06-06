@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class ColumnMetadata {
   private final String name;
 
-  public static ColumnMetadata create(FieldModel model){
+  public static ColumnMetadata create(FieldModel model) {
     return new ColumnMetadata(model.getName());
   }
 }

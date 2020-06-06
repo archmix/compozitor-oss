@@ -103,7 +103,7 @@ public class ServiceResourceFile implements AutoCloseable {
     InputStream inputStream = null;
     try {
       inputStream = serviceFile.openInputStream();
-    } catch(Exception e) {
+    } catch (Exception e) {
       return;
     }
 
@@ -111,7 +111,7 @@ public class ServiceResourceFile implements AutoCloseable {
       this.services.addAll(
         CharStreams.readLines(new InputStreamReader(inputStream))
       );
-    } catch(IOException e){
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

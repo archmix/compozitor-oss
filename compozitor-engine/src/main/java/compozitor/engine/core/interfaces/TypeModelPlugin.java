@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public interface TypeModelPlugin<T extends TemplateContextData<T>> extends CodeGenerationCategoryPlugin {
-  default void accept(ProcessingContext context, AnnotationRepository annotationRepository){}
+  default void accept(ProcessingContext context, AnnotationRepository annotationRepository) {
+  }
 
-  default T accept(ProcessingContext context, TypeModel typeModel){
+  default T accept(ProcessingContext context, TypeModel typeModel) {
     return null;
   }
 
-  default Collection<T> collect(ProcessingContext context, TypeModel typeModel){
+  default Collection<T> collect(ProcessingContext context, TypeModel typeModel) {
     return new ArrayList<>();
   }
 
-  default void release(ProcessingContext context){}
+  default void release(ProcessingContext context) {
+  }
 }

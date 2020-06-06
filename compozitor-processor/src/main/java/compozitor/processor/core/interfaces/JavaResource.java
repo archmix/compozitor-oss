@@ -10,7 +10,7 @@ public final class JavaResource {
 
   private final Name name;
 
-  public String toString(){
+  public String toString() {
     return packageName.accept(this.name);
   }
 }

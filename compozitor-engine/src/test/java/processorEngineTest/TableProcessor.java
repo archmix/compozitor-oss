@@ -3,10 +3,6 @@ package processorEngineTest;
 import com.google.common.collect.Sets;
 import compozitor.engine.core.interfaces.ProcessorEngine;
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
-import compozitor.processor.core.interfaces.Processor;
-import processorEngineTest.Table;
-import processorEngineTest.TableCategory;
-import processorEngineTest.TableMetadata;
 
 import java.util.Set;
 

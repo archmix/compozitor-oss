@@ -2,7 +2,6 @@ package compozitor.processor.core.interfaces;
 
 import lombok.Getter;
 
-import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -24,11 +23,7 @@ import javax.lang.model.type.WildcardType;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic.Kind;
-import javax.tools.FileObject;
-import javax.tools.JavaFileManager.Location;
-import javax.tools.JavaFileObject;
 import javax.xml.stream.events.Namespace;
-import java.io.IOException;
 import java.io.Writer;
 import java.text.MessageFormat;
 import java.util.List;
@@ -186,7 +181,7 @@ public class ProcessingContext implements Types, Elements, Logger {
     return this.environment.getTypeUtils().asMemberOf(containing, element);
   }
 
-  public PackageElement getPackageElement(Namespace namespace){
+  public PackageElement getPackageElement(Namespace namespace) {
     return this.getPackageElement(namespace.toString());
   }
 

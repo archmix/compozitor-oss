@@ -14,7 +14,7 @@ public class ServiceProcessorTest {
   private final TestResources resources = TestResources.create(this.getClass());
 
   @Test
-  public void givenServiceInterfaceWhenCompileThenGenerateServiceFile(){
+  public void givenServiceInterfaceWhenCompileThenGenerateServiceFile() {
     CompileAssertion compilation =
       CompilationBuilder.create()
         .withProcessors(new ProcessorTest())
@@ -29,7 +29,7 @@ public class ServiceProcessorTest {
   }
 
   @Test
-  public void givenServiceClassWhenCompileThenGenerateServiceFile(){
+  public void givenServiceClassWhenCompileThenGenerateServiceFile() {
     ProcessorTest componentProcessor = new ProcessorTest();
     componentProcessor.traverseAncestors();
 

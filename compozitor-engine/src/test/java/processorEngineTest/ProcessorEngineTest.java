@@ -20,6 +20,6 @@ public class ProcessorEngineTest {
       .assertSuccess()
       .assertGeneratedFiles(3)
       .generatedSourceAssertion(resources.testFile("CityInsertCommand.java"))
-        .assertEquals(resources.testFile("InsertCommand.java"));
+      .assertEquals(resources.testFile("InsertCommand.java"));
   }
 }

@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 public class QualifiedName {
   private final String value;
 
-  public static QualifiedName create(Namespace namespace, Filename filename){
+  public static QualifiedName create(Namespace namespace, Filename filename) {
     return new QualifiedName(namespace.accept(filename));
   }
 
-  public String toString(){
+  public String toString() {
     return this.value;
   }
 }

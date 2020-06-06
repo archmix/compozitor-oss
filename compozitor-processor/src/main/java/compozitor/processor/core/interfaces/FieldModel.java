@@ -33,7 +33,7 @@ public class FieldModel extends Model<VariableElement> {
     this.constant = this.modifiers.isStatic() && this.modifiers.isFinal();
   }
 
-  public <T> T getConstantValue(){
+  public <T> T getConstantValue() {
     return (T) this.constantValue;
   }
 

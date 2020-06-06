@@ -8,12 +8,12 @@ import compozitor.template.core.interfaces.TemplateEngine;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
-@EqualsAndHashCode(of="value")
+@EqualsAndHashCode(of = "value")
 @RequiredArgsConstructor(staticName = "create")
 public class Filename {
   private final String value;
 
-  public String value(){
+  public String value() {
     return this.value;
   }
 
@@ -22,7 +22,7 @@ public class Filename {
     return this.value;
   }
 
-  public Filename merge(TemplateEngine engine, TemplateContext context){
+  public Filename merge(TemplateEngine engine, TemplateContext context) {
     Template filenameTemplate = TemplateBuilder.create(engine, "Code")
       .withResourceLoader(new StringInputStream(this.value.toString()))
       .build();

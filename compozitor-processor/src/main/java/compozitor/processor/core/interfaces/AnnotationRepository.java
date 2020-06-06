@@ -16,19 +16,19 @@ public class AnnotationRepository {
   private final ProcessingContext context;
   private final RoundEnvironment environment;
 
-  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation> annotationClass){
+  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation> annotationClass) {
     return this.elementsAnnotatedWith(
       this.context.getTypeElement(annotationClass.getName())
     );
   }
 
-  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation>... annotationClasses){
+  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation>... annotationClasses) {
     return this.elementsAnnotatedWith(
       Arrays.asList(annotationClasses).stream().map(this::classToElement).collect(Collectors.toSet())
     );
   }
 
-  private TypeElement classToElement(Class<?> annotationClass){
+  private TypeElement classToElement(Class<?> annotationClass) {
     return this.context.getTypeElement(annotationClass.getName());
   }
 

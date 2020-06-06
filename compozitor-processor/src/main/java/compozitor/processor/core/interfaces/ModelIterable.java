@@ -19,11 +19,11 @@ class ModelIterable<M> implements Iterable<M> {
     this.supplierProxy = new LazyLoadProxy<List<M>>(modelsSupplier);
   }
 
-  public Collection<M> toCollection(){
+  public Collection<M> toCollection() {
     return Collections.unmodifiableCollection(this.models());
   }
 
-  public Integer size(){
+  public Integer size() {
     return this.models().size();
   }
 

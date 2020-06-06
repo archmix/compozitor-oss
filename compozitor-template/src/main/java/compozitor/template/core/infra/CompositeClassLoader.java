@@ -23,7 +23,7 @@ public class CompositeClassLoader extends ClassLoader {
   }
 
   public CompositeClassLoader join(ClassLoader classLoader) {
-    if(classLoader.equals(this)){
+    if (classLoader.equals(this)) {
       return this;
     }
     this.classLoaders.add(classLoader);
@@ -42,7 +42,7 @@ public class CompositeClassLoader extends ClassLoader {
 
     for (ClassLoader classLoader : this.classLoaders) {
       Optional<Class<?>> foundClass = loadClass(classLoader, name);
-      if(foundClass.isPresent()){
+      if (foundClass.isPresent()) {
         return foundClass.get();
       }
     }

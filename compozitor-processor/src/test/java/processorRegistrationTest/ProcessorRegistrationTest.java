@@ -10,7 +10,7 @@ import javax.annotation.processing.Processor;
 
 public class ProcessorRegistrationTest {
   @Test
-  public void givenProcessorAnnotationWhenCompileThenGenerateServiceFile(){
+  public void givenProcessorAnnotationWhenCompileThenGenerateServiceFile() {
     TestResources resources = TestResources.create(this.getClass());
 
     CompileAssertion compilation =

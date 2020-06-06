@@ -1,7 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import javax.tools.Diagnostic;
-
 public interface Logger {
   void info(String message, Object... args);
 

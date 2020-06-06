@@ -9,31 +9,30 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class FileAssertion {
   private final String content;
 
-  public static FileAssertion withResourceFile(String path){
+  public static FileAssertion withResourceFile(String path) {
     String resourcePath = path;
-    if(!path.startsWith("/")){
+    if (!path.startsWith("/")) {
       resourcePath = new StringBuilder("/").append(path).toString();
     }
 
     try (InputStream resourceFile = FileAssertion.class.getResourceAsStream(resourcePath)) {
       String content = CharStreams.toString(new InputStreamReader(resourceFile));
       return new FileAssertion(content);
-    } catch (IOException e){
+    } catch (IOException e) {
       throw new RuntimeException("Resource file not found at " + path);
     }
   }
 
-  public void assertEquals(JavaFileObject javaFile){
+  public void assertEquals(JavaFileObject javaFile) {
     Assert.assertEquals(this.content, FileObjectStringfy.toString(javaFile));
   }
 
-  public void assertEquals(String content){
+  public void assertEquals(String content) {
     Assert.assertEquals(this.content, content);
   }
 }

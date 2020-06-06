@@ -16,7 +16,7 @@ public class JavaFiles {
       FileObject resourceFile = filer.getResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
       resourceFile.openInputStream().close();
       return resourceFile;
-    } catch (IOException e){
+    } catch (IOException e) {
       return this.createResource(javaResource);
     }
   }
@@ -24,12 +24,12 @@ public class JavaFiles {
   public FileObject sourceFile(JavaResource javaResource) {
     try {
       return filer.createSourceFile(javaResource.toString());
-    } catch (IOException e){
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  private FileObject createResource(JavaResource javaResource){
+  private FileObject createResource(JavaResource javaResource) {
     try {
       return filer.createResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
     } catch (IOException e) {

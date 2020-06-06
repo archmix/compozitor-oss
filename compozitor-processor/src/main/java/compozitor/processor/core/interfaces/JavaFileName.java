@@ -9,10 +9,10 @@ import java.text.Normalizer;
 public class JavaFileName implements Name {
   private final String value;
 
-  public static JavaFileName create(String value){
+  public static JavaFileName create(String value) {
     String name = value.replace(".java", "");
     name = Normalizer.normalize(name, Normalizer.Form.NFD);
-    name = name.replaceAll("[^a-zA-Z0-9]+","");
+    name = name.replaceAll("[^a-zA-Z0-9]+", "");
     return new JavaFileName(name);
   }
 
@@ -21,11 +21,11 @@ public class JavaFileName implements Name {
     return this.value;
   }
 
-  public String toQualifiedName(PackageName packageName){
+  public String toQualifiedName(PackageName packageName) {
     return packageName.accept(this);
   }
 
-  public String toString(){
+  public String toString() {
     return this.value;
   }
 }

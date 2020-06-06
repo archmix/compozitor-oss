@@ -16,7 +16,7 @@ public class ServiceMetadata {
 
   private final TraversalStrategy strategy;
 
-  public static ServiceMetadata create(TypeModel typeModel){
+  public static ServiceMetadata create(TypeModel typeModel) {
     AnnotationModel serviceAnnotation = typeModel.getAnnotations().getBy(Service.class).get();
 
     TargetService target = TargetService.valueOf(serviceAnnotation.enumValue("target"));
@@ -26,8 +26,8 @@ public class ServiceMetadata {
     return ServiceMetadata.create(typeModel, target, strategy);
   }
 
-  public Iterable<TypeModel> targetInterfaces(){
-    if(TargetService.INTERFACE.equals(this.target)){
+  public Iterable<TypeModel> targetInterfaces() {
+    if (TargetService.INTERFACE.equals(this.target)) {
       return strategy.interfaces(this.targetType);
     }
 

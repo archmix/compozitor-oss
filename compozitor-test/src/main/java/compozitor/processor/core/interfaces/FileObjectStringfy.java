@@ -13,7 +13,17 @@ import java.nio.file.Paths;
 class FileObjectStringfy {
   private final Compilation compilation;
 
-  public String serviceFile(Class<?> serviceClass){
+  public static String toString(FileObject javaFile) {
+    try (InputStream input = javaFile.openInputStream()) {
+      byte[] available = new byte[input.available()];
+      input.read(available);
+      return new String(available);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public String serviceFile(Class<?> serviceClass) {
     return this.resourceToString(Paths.get("META-INF/services/", serviceClass.getName()).toString());
   }
 
@@ -29,15 +39,5 @@ class FileObjectStringfy {
     FileObject generatedFile = compilation.generatedFile(StandardLocation.CLASS_OUTPUT, path)
       .orElseThrow(() -> new RuntimeException(resourceNotFound));
     return this.toString(generatedFile);
-  }
-
-  public static String toString(FileObject javaFile) {
-    try (InputStream input = javaFile.openInputStream()) {
-      byte[] available = new byte[input.available()];
-      input.read(available);
-      return new String(available);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 }

@@ -1,13 +1,10 @@
 package compozitor.processor.core.interfaces;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class LazyLoadProxy<T> {
-  private State state;
-
   private final Supplier<T> supplier;
-
+  private State state;
   private T value;
 
   public LazyLoadProxy(Supplier<T> supplier) {

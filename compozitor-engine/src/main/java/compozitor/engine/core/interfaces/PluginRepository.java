@@ -109,7 +109,7 @@ class PluginRepository {
 
       metaModelList.addAll((Collection) plugin.collect(context, model));
       T accepted = (T) plugin.accept(context, model);
-      if(accepted != null) {
+      if (accepted != null) {
         metaModelList.add(accepted);
       }
     });
@@ -125,7 +125,7 @@ class PluginRepository {
 
       metaModelList.addAll((Collection) plugin.collect(context, model));
       T accepted = (T) plugin.accept(context, model);
-      if(accepted != null) {
+      if (accepted != null) {
         metaModelList.add(accepted);
       }
     });
@@ -141,7 +141,7 @@ class PluginRepository {
 
       metaModelList.addAll((Collection) plugin.collect(context, model));
       T accepted = (T) plugin.accept(context, model);
-      if(accepted != null) {
+      if (accepted != null) {
         metaModelList.add(accepted);
       }
     });
@@ -149,7 +149,7 @@ class PluginRepository {
     return metaModelList;
   }
 
-  public void releaseResources(ProcessingContext context){
+  public void releaseResources(ProcessingContext context) {
     this.typeModelPlugins.forEach(plugin -> {
       plugin.release(context);
     });

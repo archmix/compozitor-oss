@@ -24,9 +24,9 @@ public enum TraversalStrategy {
       return superClasses;
     }
 
-    private void addSuperClass(TypeModel typeModel, Collection<TypeModel> superClasses){
+    private void addSuperClass(TypeModel typeModel, Collection<TypeModel> superClasses) {
       TypeModel superType = typeModel.getSuperType();
-      if(superType == null){
+      if (superType == null) {
         return;
       }
       superClasses.add(superType);
@@ -42,9 +42,9 @@ public enum TraversalStrategy {
       return interfaces;
     }
 
-    private void addInterfaces(TypeModel typeModel, Collection<TypeModel> interfaces){
+    private void addInterfaces(TypeModel typeModel, Collection<TypeModel> interfaces) {
       TypeModel superType = typeModel.getSuperType();
-      if(superType == null){
+      if (superType == null) {
         return;
       }
       shouldAddSuperTypeAsInterface(superType, interfaces);
@@ -52,12 +52,12 @@ public enum TraversalStrategy {
       this.addInterfaces(superType, interfaces);
     }
 
-    private void shouldAddSuperTypeAsInterface(TypeModel typeModel, Collection<TypeModel> interfaces){
-      if(!typeModel.isInterface()){
+    private void shouldAddSuperTypeAsInterface(TypeModel typeModel, Collection<TypeModel> interfaces) {
+      if (!typeModel.isInterface()) {
         return;
       }
       TypeModel superType = typeModel.getSuperType();
-      if(superType != null){
+      if (superType != null) {
         interfaces.add(superType);
       }
     }

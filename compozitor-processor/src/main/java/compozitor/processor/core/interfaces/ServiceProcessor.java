@@ -9,7 +9,7 @@ public abstract class ServiceProcessor extends JavaServiceProcessor {
     traversalStrategy = TraversalStrategy.ROOT;
   }
 
-  public void traverseAncestors(){
+  public void traverseAncestors() {
     this.traversalStrategy = TraversalStrategy.ANCESTORS;
   }
 
@@ -25,18 +25,18 @@ public abstract class ServiceProcessor extends JavaServiceProcessor {
 
   @Override
   protected final void process(TypeModel typeModel) {
-    if(typeModel.isInterface()) {
+    if (typeModel.isInterface()) {
       this.context.error("Are you sure you want to register an interface as Java Service? It makes no sense. Review your implementation {0}", typeModel.getQualifiedName());
       return;
     }
 
     this.context.info("Processing service file for type {0}", typeModel);
 
-    this.traversalStrategy.superClasses(typeModel).forEach(targetInterface ->{
+    this.traversalStrategy.superClasses(typeModel).forEach(targetInterface -> {
       registerType(typeModel, targetInterface);
     });
 
-    this.traversalStrategy.interfaces(typeModel).forEach(targetInterface ->{
+    this.traversalStrategy.interfaces(typeModel).forEach(targetInterface -> {
       registerType(typeModel, targetInterface);
     });
   }

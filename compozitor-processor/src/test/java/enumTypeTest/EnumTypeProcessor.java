@@ -1,7 +1,6 @@
 package enumTypeTest;
 
 import annotations.TypeProcessor;
-import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.TypeModel;
 import org.junit.Assert;
 

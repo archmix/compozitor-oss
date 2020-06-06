@@ -2,8 +2,6 @@ package processorEngineTest;
 
 import compozitor.template.core.interfaces.LineDirective;
 import compozitor.template.core.interfaces.TemplateEngine;
-import processorEngineTest.ColumnMetadata;
-import processorEngineTest.TableMetadata;
 
 import java.util.List;
 import java.util.stream.Collector;

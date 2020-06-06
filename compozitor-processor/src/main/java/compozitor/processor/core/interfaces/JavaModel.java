@@ -27,8 +27,8 @@ public class JavaModel {
 
   private final Map<String, TypeModel> typeCache = new HashMap<>();
 
-  public TypeModel getEnum(Element element){
-    if(element.getKind() != ElementKind.ENUM){
+  public TypeModel getEnum(Element element) {
+    if (element.getKind() != ElementKind.ENUM) {
       return null;
     }
     return this.getType((TypeElement) element);
@@ -43,7 +43,7 @@ public class JavaModel {
     if (typeModel == null) {
       typeModel = this.getInterface(element);
     }
-    if(typeModel == null){
+    if (typeModel == null) {
       typeModel = this.getEnum(element);
     }
     return typeModel;

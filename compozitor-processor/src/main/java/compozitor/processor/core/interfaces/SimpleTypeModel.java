@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
-import java.util.Objects;
 
 public class SimpleTypeModel extends AssignableModel<TypeElement> implements TypeModel {
   private final PackageModel packageModel;
@@ -82,7 +81,7 @@ public class SimpleTypeModel extends AssignableModel<TypeElement> implements Typ
   }
 
   @Override
-  public boolean instanceOf(Class<?> targetClass){
+  public boolean instanceOf(Class<?> targetClass) {
     TypeModel typeModel = this.context.getJavaModel().getType(targetClass.getName());
     return this.instanceOf(typeModel);
   }

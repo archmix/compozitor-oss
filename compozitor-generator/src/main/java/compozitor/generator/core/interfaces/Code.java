@@ -1,13 +1,8 @@
 package compozitor.generator.core.interfaces;
 
-import compozitor.template.core.infra.StringInputStream;
-import compozitor.template.core.interfaces.Template;
-import compozitor.template.core.interfaces.TemplateBuilder;
 import compozitor.template.core.interfaces.TemplateContext;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.io.InputStream;
 
@@ -38,7 +33,7 @@ public class Code implements TemplateContextData<Code> {
     return fileName;
   }
 
-  public Namespace getNamespace(){
+  public Namespace getNamespace() {
     return this.metadata.getNamespace().merge(this.engine, this.context);
   }
 
@@ -48,7 +43,7 @@ public class Code implements TemplateContextData<Code> {
 
   public GeneratedCode toGeneratedCode() {
     Namespace namespace = this.getNamespace();
-    Filename filename =  this.metadata.getFileName().merge(this.engine, this.context);
+    Filename filename = this.metadata.getFileName().merge(this.engine, this.context);
 
     QualifiedName qualifiedName = QualifiedName.create(namespace, filename);
 

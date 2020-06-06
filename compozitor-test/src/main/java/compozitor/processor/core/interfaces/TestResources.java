@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public class TestResources {
   private final String testPath;
 
-  public static TestResources create(Class<?> testClass){
+  public static TestResources create(Class<?> testClass) {
     return create(uncapitalize(testClass.getSimpleName()));
   }
 
@@ -17,11 +17,11 @@ public class TestResources {
     return new StringBuilder().append(Character.toLowerCase(value.charAt(0))).append(value.substring(1)).toString();
   }
 
-  public final String packageClass(String className){
+  public final String packageClass(String className) {
     return this.testFile(className).replace("/", ".");
   }
 
-  public final String testFile(String filename){
+  public final String testFile(String filename) {
     return Paths.get(this.testPath, filename).toString();
   }
 }

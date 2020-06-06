@@ -10,15 +10,15 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Annotations extends ModelIterable<AnnotationModel> {
-  private final JavaModel  javaModel;
+  private final JavaModel javaModel;
 
   Annotations(List<? extends AnnotationMirror> annotations, JavaModel javaModel) {
     super(new AnnotationsSupplier(annotations, javaModel));
     this.javaModel = javaModel;
   }
 
-  public Optional<AnnotationModel> getBy(TypeModel typeModel){
-    return this.get(predicateOf(typeModel.getQualifiedName())) ;
+  public Optional<AnnotationModel> getBy(TypeModel typeModel) {
+    return this.get(predicateOf(typeModel.getQualifiedName()));
   }
 
   public Optional<AnnotationModel> getBy(Class<?> typeClass) {

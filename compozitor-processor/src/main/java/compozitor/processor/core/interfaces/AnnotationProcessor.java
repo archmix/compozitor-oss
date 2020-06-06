@@ -32,7 +32,7 @@ public abstract class AnnotationProcessor implements Processor {
   @Override
   public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     try {
-      if(roundEnvironment.processingOver()){
+      if (roundEnvironment.processingOver()) {
         context.info("Releasing resources for this processor.");
         this.processOver();
         return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
@@ -102,7 +102,7 @@ public abstract class AnnotationProcessor implements Processor {
       return;
     }
 
-    if(element.getKind() == ElementKind.ENUM){
+    if (element.getKind() == ElementKind.ENUM) {
       TypeModel model = javaModel.getEnum(element);
       this.context.info("Processing enum {0}", model.getQualifiedName());
     }

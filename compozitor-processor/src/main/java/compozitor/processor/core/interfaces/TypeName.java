@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 public class TypeName {
   private final String value;
 
-  public String toString(){
+  public String toString() {
     return this.value;
   }
 }

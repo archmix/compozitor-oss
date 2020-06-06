@@ -15,7 +15,7 @@ public class TableMetadata implements TemplateContextData<TableMetadata> {
 
   private final List<ColumnMetadata> columns;
 
-  public static TableMetadata create(TypeModel model){
+  public static TableMetadata create(TypeModel model) {
     List<ColumnMetadata> columns = new ArrayList<>();
     model.getFields().forEach(field -> columns.add(ColumnMetadata.create(field)));
 

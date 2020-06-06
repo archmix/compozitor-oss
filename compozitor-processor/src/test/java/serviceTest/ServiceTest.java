@@ -11,7 +11,7 @@ public class ServiceTest {
   private final TestResources resources = TestResources.create(this.getClass());
 
   @Test
-  public void givenServiceAnnotationWithTargetInterfaceWhenCompileThenGenerateServiceFile(){
+  public void givenServiceAnnotationWithTargetInterfaceWhenCompileThenGenerateServiceFile() {
     CompileAssertion compilation =
       CompilationBuilder.create()
         .withProcessors(new AutoServiceProcessor())
@@ -26,7 +26,7 @@ public class ServiceTest {
   }
 
   @Test
-  public void givenServiceAnnotationWithTargetSuperClassWhenCompileThenGenerateServiceFile(){
+  public void givenServiceAnnotationWithTargetSuperClassWhenCompileThenGenerateServiceFile() {
     CompileAssertion compilation =
       CompilationBuilder.create()
         .withProcessors(new AutoServiceProcessor())
@@ -41,7 +41,7 @@ public class ServiceTest {
   }
 
   @Test
-  public void givenServiceAnnotationWithTargetSuperClassAndJavaAncestorsWhenCompileThenGenerateServiceFile(){
+  public void givenServiceAnnotationWithTargetSuperClassAndJavaAncestorsWhenCompileThenGenerateServiceFile() {
     CompileAssertion compilation =
       CompilationBuilder.create()
         .withProcessors(new AutoServiceProcessor())
@@ -54,7 +54,7 @@ public class ServiceTest {
   }
 
   @Test
-  public void givenServiceAnnotationWithTargetSuperClassAndAncestorsWhenCompileThenGenerateServiceFile(){
+  public void givenServiceAnnotationWithTargetSuperClassAndAncestorsWhenCompileThenGenerateServiceFile() {
     CompileAssertion compilation =
       CompilationBuilder.create()
         .withProcessors(new AutoServiceProcessor())

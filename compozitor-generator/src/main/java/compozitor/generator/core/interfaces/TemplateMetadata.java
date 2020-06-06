@@ -5,8 +5,6 @@ import compozitor.template.core.interfaces.TemplateContextData;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.net.FileNameMap;
-
 @Getter
 public class TemplateMetadata implements TemplateContextData<TemplateMetadata> {
   @Setter

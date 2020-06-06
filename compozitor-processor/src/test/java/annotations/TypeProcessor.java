@@ -10,23 +10,23 @@ import org.junit.Assert;
 import java.util.Set;
 
 public class TypeProcessor extends AnnotationProcessor {
-    @Override
-    protected void process(TypeModel model) {
-      Assert.assertNotNull(model);
-    }
-
-    @Override
-    protected final void process(FieldModel model) {
-      Assert.fail();
-    }
-
-    @Override
-    protected final void process(MethodModel model) {
-      Assert.fail();
-    }
-
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-      return Sets.newHashSet(TypeAnnotation.class.getName());
-    }
+  @Override
+  protected void process(TypeModel model) {
+    Assert.assertNotNull(model);
   }
+
+  @Override
+  protected final void process(FieldModel model) {
+    Assert.fail();
+  }
+
+  @Override
+  protected final void process(MethodModel model) {
+    Assert.fail();
+  }
+
+  @Override
+  public Set<String> getSupportedAnnotationTypes() {
+    return Sets.newHashSet(TypeAnnotation.class.getName());
+  }
+}

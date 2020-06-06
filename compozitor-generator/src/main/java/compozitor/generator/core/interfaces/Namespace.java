@@ -28,14 +28,14 @@ public class Namespace {
     return create(path.toString());
   }
 
-  public static Namespace root(){
+  public static Namespace root() {
     return create("");
   }
 
-  public Namespace merge(TemplateEngine engine, TemplateContext context){
+  public Namespace merge(TemplateEngine engine, TemplateContext context) {
     Template namespaceTemplate = TemplateBuilder.create(engine, "Code")
-        .withResourceLoader(new StringInputStream(this.value.toString()))
-        .build();
+      .withResourceLoader(new StringInputStream(this.value.toString()))
+      .build();
 
     return Namespace.create(namespaceTemplate.mergeToString(context));
   }
@@ -49,7 +49,7 @@ public class Namespace {
     return this.value;
   }
 
-  String accept(Filename filename){
+  String accept(Filename filename) {
     return new StringBuilder(this.value).append(DOT).append(filename).toString();
   }
 }

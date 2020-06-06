@@ -3,7 +3,7 @@ package pluginsServiceProcessorTest;
 import compozitor.template.core.interfaces.TemplateContextData;
 
 public class TestTemplateContextData implements TemplateContextData<TestTemplateContextData> {
-  public String hello(){
+  public String hello() {
     return "Hello";
   }
 

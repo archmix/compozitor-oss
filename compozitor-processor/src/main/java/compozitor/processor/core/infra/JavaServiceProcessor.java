@@ -17,9 +17,9 @@ public abstract class JavaServiceProcessor extends AnnotationProcessor {
     this.serviceFiles = new HashMap<>();
   }
 
-  protected final void addService(TypeModel serviceInterface){
+  protected final void addService(TypeModel serviceInterface) {
     String interfaceName = serviceInterface.getQualifiedName();
-    if(this.serviceFiles.containsKey(interfaceName)){
+    if (this.serviceFiles.containsKey(interfaceName)) {
       return;
     }
     this.serviceFiles.put(interfaceName, new ServiceResourceFile(this.context, serviceInterface));
@@ -42,7 +42,7 @@ public abstract class JavaServiceProcessor extends AnnotationProcessor {
     for (TypeModel targetService : this.retrieveAncestors(targetInterface)) {
       String interfaceName = targetService.getQualifiedName();
       ServiceResourceFile resourceFile = this.serviceFiles.get(interfaceName);
-      if(resourceFile != null){
+      if (resourceFile != null) {
         return resourceFile;
       }
     }
@@ -50,7 +50,7 @@ public abstract class JavaServiceProcessor extends AnnotationProcessor {
     return null;
   }
 
-  private Iterable<TypeModel> retrieveAncestors(TypeModel targetInterface){
+  private Iterable<TypeModel> retrieveAncestors(TypeModel targetInterface) {
     Collection<TypeModel> ancestors = new ArrayList<>();
     ancestors.add(targetInterface);
 

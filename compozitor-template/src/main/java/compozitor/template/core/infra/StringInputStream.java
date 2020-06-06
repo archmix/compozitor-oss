@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class StringInputStream extends ByteArrayInputStream {
-  public StringInputStream(String value){
+  public StringInputStream(String value) {
     this(value, StandardCharsets.UTF_8);
   }
 
