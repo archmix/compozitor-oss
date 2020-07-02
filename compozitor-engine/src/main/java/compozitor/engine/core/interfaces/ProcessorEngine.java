@@ -17,7 +17,7 @@ import compozitor.processor.core.interfaces.PackageName;
 import compozitor.processor.core.interfaces.ProcessingContext;
 import compozitor.processor.core.interfaces.ResourceName;
 import compozitor.processor.core.interfaces.TypeModel;
-import compozitor.template.core.infra.CompositeClassLoader;
+import toolbox.classloader.interfaces.CompositeClassLoader;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
 

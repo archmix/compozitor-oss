@@ -1,6 +1,6 @@
 package compozitor.template.core.interfaces;
 
-import compozitor.template.core.infra.StringInputStream;
+import toolbox.resources.interfaces.StringInputStream;
 
 import java.io.InputStream;
 import java.io.StringWriter;

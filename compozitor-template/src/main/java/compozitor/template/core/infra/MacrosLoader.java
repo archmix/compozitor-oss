@@ -1,5 +1,8 @@
 package compozitor.template.core.infra;
 
+import toolbox.classloader.interfaces.CompositeClassLoader;
+import toolbox.resources.interfaces.ResourcePath;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +48,7 @@ public class MacrosLoader {
 
           String resource = null;
           while ((resource = reader.readLine()) != null) {
-            String resourceFile = new ResourceUri(path.toString(), resource).toString();
+            String resourceFile = ResourcePath.create(path.toString(), resource).toString();
             resources.add(resourceFile);
           }
         }

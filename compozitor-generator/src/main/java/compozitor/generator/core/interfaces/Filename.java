@@ -1,6 +1,6 @@
 package compozitor.generator.core.interfaces;
 
-import compozitor.template.core.infra.StringInputStream;
+import toolbox.resources.interfaces.StringInputStream;
 import compozitor.template.core.interfaces.Template;
 import compozitor.template.core.interfaces.TemplateBuilder;
 import compozitor.template.core.interfaces.TemplateContext;

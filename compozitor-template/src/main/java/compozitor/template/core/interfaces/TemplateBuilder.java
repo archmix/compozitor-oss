@@ -1,6 +1,6 @@
 package compozitor.template.core.interfaces;
 
-import compozitor.template.core.infra.StringInputStream;
+import toolbox.resources.interfaces.StringInputStream;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;

@@ -1,8 +1,7 @@
 package compozitor.template.core.interfaces;
 
-import compozitor.template.core.infra.CompositeClassLoader;
+import toolbox.classloader.interfaces.CompositeClassLoader;
 import compozitor.template.core.infra.MacrosLoader;
-import compozitor.template.core.infra.ResourceUri;
 import compozitor.template.core.infra.S3Resource;
 import compozitor.template.core.infra.S3ResourceLoader;
 import org.apache.velocity.app.event.implement.IncludeRelativePath;
@@ -12,6 +11,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
+import toolbox.resources.interfaces.ResourcePath;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -110,7 +110,7 @@ public class TemplateEngineBuilder {
   }
 
   public TemplateEngineBuilder addMacros(Path path, String... files) {
-    Arrays.asList(files).forEach(file -> this.macros.add(new ResourceUri(path.toString(), file).toString()));
+    Arrays.asList(files).forEach(file -> this.macros.add(ResourcePath.create(path.toString(), file).toString()));
     return this.setMacros();
   }
 
