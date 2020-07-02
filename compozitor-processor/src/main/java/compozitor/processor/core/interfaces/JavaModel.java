@@ -99,6 +99,9 @@ public class JavaModel {
     if (type.getKind().equals(TypeKind.VOID)) {
       element = this.context.getTypeElement("java.lang.Void");
     }
+    if (type.getKind().equals(TypeKind.TYPEVAR)) {
+      element = this.context.getTypeElement("java.lang.Object");
+    }
 
     return this.getType((TypeElement) element, typeParameters);
   }

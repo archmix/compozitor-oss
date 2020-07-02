@@ -22,4 +22,17 @@ public class ProcessorEngineTest {
       .generatedSourceAssertion(resources.testFile("CityInsertCommand.java"))
       .assertEquals(resources.testFile("InsertCommand.java"));
   }
+
+  @Test
+  public void givenTypeAnnotationWithSymbolWhenCompileThenProcessType(){
+    CompileAssertion compilation =
+      CompilationBuilder.create()
+        .withProcessors(new TableProcessor())
+        .withJavaSource(resources.testFile("Message.java"))
+        .build();
+
+    compilation
+      .assertSuccess()
+      .assertGeneratedFiles(3);
+  }
 }

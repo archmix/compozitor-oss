@@ -39,4 +39,5 @@ public class TableProcessorPlugin implements TypeModelPlugin<TableMetadata>, Tem
   public CodeGenerationCategory category() {
     return TableCategory.INSTANCE;
   }
+
 }

@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>compozitor-oss</artifactId>
-  <version>0.1.12-SNAPSHOT</version>
+  <version>0.1.13-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Archmix Compozitor Open Source Solution</name>
@@ -21,7 +21,7 @@
   <url>https://archmix.org</url>
 
   <properties>
-    <compozitorVersion>0.1.12-SNAPSHOT</compozitorVersion>
+    <compozitorVersion>0.1.13-SNAPSHOT</compozitorVersion>
     <toolboxVersion>0.0.2-SNAPSHOT</toolboxVersion>
     <velocityVersion>1.7</velocityVersion>
     <awsVersion>1.11.594</awsVersion>
