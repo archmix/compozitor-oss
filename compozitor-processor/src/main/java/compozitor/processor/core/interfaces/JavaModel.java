@@ -73,6 +73,14 @@ public class JavaModel {
     return this.getType(mirror);
   }
 
+  public TypeModel getType(TypeName typeName) {
+    return this.getType(typeName.value());
+  }
+
+  public TypeModel getType(Class typeClass) {
+    return this.getType(typeClass.getName());
+  }
+
   public TypeModel getType(String name) {
     TypeElement element = this.context.getTypeElement(name);
     return this.getType(element);

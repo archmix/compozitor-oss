@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import javax.lang.model.element.AnnotationMirror;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,23 +19,20 @@ public class Annotations extends ModelIterable<AnnotationModel> {
   }
 
   public Optional<AnnotationModel> getBy(TypeModel typeModel) {
-    return this.get(predicateOf(typeModel.getQualifiedName()));
+    return this.get(predicateOf(typeModel));
   }
 
-  public Optional<AnnotationModel> getBy(Class<?> typeClass) {
-    return this.get(predicateOf(typeClass.getName()));
+  public Optional<AnnotationModel> getBy(Class<? extends Annotation> typeClass) {
+    TypeModel typeModel = this.javaModel.getType(typeClass);
+    return this.get(predicateOf(typeModel));
   }
 
   public Optional<AnnotationModel> getBy(TypeName typeName) {
-    return this.get(predicateOf(typeName.toString()));
+    TypeModel typeModel = this.javaModel.getType(typeName);
+    return this.get(predicateOf(typeModel));
   }
 
-  public Optional<AnnotationModel> getBy(String typeName) {
-    return this.get(predicateOf(typeName.toString()));
-  }
-
-  private Predicate<AnnotationModel> predicateOf(String type) {
-    TypeModel typeModel = javaModel.getType(type);
+  private Predicate<AnnotationModel> predicateOf(TypeModel typeModel) {
     return (annotation) -> annotation.equals(typeModel);
   }
 
