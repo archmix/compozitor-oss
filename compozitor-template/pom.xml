@@ -20,7 +20,7 @@
     </dependency>
     <dependency>
       <groupId>org.archmix</groupId>
-      <artifactId>toolbox</artifactId>
+      <artifactId>toolbox-java</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
