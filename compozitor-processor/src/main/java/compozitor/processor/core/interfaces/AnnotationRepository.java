@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -16,10 +17,9 @@ public class AnnotationRepository {
   private final ProcessingContext context;
   private final RoundEnvironment environment;
 
-  public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation> annotationClass) {
-    return this.elementsAnnotatedWith(
-      this.context.getTypeElement(annotationClass.getName())
-    );
+  public Set<? extends Element> elementsAnnotatedWith(Class<? extends Annotation> annotationClass) {
+    TypeElement annotation = this.context.getTypeElement(annotationClass.getName());
+    return this.environment.getElementsAnnotatedWith(annotation);
   }
 
   public AnnotatedElements elementsAnnotatedWith(Class<? extends Annotation>... annotationClasses) {

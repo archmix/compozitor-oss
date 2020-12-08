@@ -16,7 +16,7 @@ public class AnnotatedElements {
     this.elements = new HashMap<>();
   }
 
-  public void set(TypeElement annotation, Set<? extends Element> elements) {
+  void set(TypeElement annotation, Set<? extends Element> elements) {
     if (elements == null || elements.isEmpty()) {
       return;
     }
