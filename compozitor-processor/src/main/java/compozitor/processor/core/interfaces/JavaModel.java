@@ -193,6 +193,15 @@ public class JavaModel {
     return new FieldModel(this.context, element, annotations, modifiers, type);
   }
 
+  public EnumConstantModel getEnumConstant(Element element) {
+    if (element.getKind() != ElementKind.ENUM_CONSTANT) {
+      return null;
+    }
+
+    Annotations annotations = new Annotations(element.getAnnotationMirrors(), this);
+    return new EnumConstantModel(this.context, (VariableElement) element, annotations);
+  }
+
   public MethodModel getMethod(Element element) {
     if (!element.getKind().equals(ElementKind.METHOD)) {
       return null;

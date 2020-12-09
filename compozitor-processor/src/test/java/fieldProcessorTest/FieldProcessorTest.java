@@ -1,6 +1,6 @@
 package fieldProcessorTest;
 
-import annotations.FieldProcessor;
+import processor.FieldProcessor;
 import compozitor.processor.core.interfaces.CompilationBuilder;
 import compozitor.processor.core.interfaces.CompileAssertion;
 import compozitor.processor.core.interfaces.TestResources;

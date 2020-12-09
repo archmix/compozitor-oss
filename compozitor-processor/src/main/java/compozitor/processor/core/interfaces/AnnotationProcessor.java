@@ -107,17 +107,24 @@ public abstract class AnnotationProcessor implements Processor {
       this.context.info("Processing enum {0}", model.getQualifiedName());
     }
 
-    if (element.getKind().equals(ElementKind.FIELD)) {
+    if (element.getKind() == ElementKind.FIELD) {
       this.context.info("Processing field {0} from class {1}", element.getSimpleName(), element.getEnclosingElement().getSimpleName());
       FieldModel model = javaModel.getField(element);
       this.process(model);
       return;
     }
 
-    if (element.getKind().equals(ElementKind.METHOD)) {
+    if (element.getKind() == ElementKind.METHOD) {
       this.context.info("Processing method {0} from class {1}", element.getSimpleName(), element.getEnclosingElement().getSimpleName());
       MethodModel model = javaModel.getMethod(element);
       this.process(model);
+      return;
+    }
+
+    if (element.getKind() == ElementKind.ENUM_CONSTANT) {
+      EnumConstantModel model = javaModel.getEnumConstant(element);
+      this.process(model);
+      this.context.info("Processing enum constant {0}", model);
       return;
     }
   }
@@ -135,6 +142,10 @@ public abstract class AnnotationProcessor implements Processor {
   }
 
   protected void process(MethodModel methodModel) {
+    return;
+  }
+
+  protected void process(EnumConstantModel enumConstant) {
     return;
   }
 

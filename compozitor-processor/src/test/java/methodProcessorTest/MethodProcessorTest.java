@@ -1,6 +1,6 @@
 package methodProcessorTest;
 
-import annotations.MethodProcessor;
+import processor.MethodProcessor;
 import compozitor.processor.core.interfaces.CompilationBuilder;
 import compozitor.processor.core.interfaces.CompileAssertion;
 import compozitor.processor.core.interfaces.TestResources;

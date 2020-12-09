@@ -1,7 +1,9 @@
-package annotations;
+package processor;
 
+import annotations.TypeAnnotation;
 import com.google.common.collect.Sets;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
+import compozitor.processor.core.interfaces.EnumConstantModel;
 import compozitor.processor.core.interfaces.FieldModel;
 import compozitor.processor.core.interfaces.MethodModel;
 import compozitor.processor.core.interfaces.TypeModel;
@@ -22,6 +24,11 @@ public class TypeProcessor extends AnnotationProcessor {
 
   @Override
   protected final void process(MethodModel model) {
+    Assert.fail();
+  }
+
+  @Override
+  protected void process(EnumConstantModel enumConstant) {
     Assert.fail();
   }
 

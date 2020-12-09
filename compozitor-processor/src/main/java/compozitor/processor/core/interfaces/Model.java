@@ -9,6 +9,10 @@ class Model<E> {
     this.element = element;
   }
 
+  public E getElement() {
+    return this.element;
+  }
+
   @Override
   public String toString() {
     return this.element.toString();
