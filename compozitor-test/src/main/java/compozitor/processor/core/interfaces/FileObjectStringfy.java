@@ -24,7 +24,7 @@ class FileObjectStringfy {
   }
 
   public String serviceFile(Class<?> serviceClass) {
-    return this.resourceToString(Paths.get("META-INF/services/", serviceClass.getName()).toString());
+    return this.resourceToString(new StringBuilder("META-INF/services/").append(serviceClass.getName()).toString()).toString();
   }
 
   public String sourceToString(String path) {

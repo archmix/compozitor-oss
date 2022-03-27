@@ -22,6 +22,6 @@ public class TestResources {
   }
 
   public final String testFile(String filename) {
-    return Paths.get(this.testPath, filename).toString();
+    return new StringBuilder(this.testPath).append("/").append(filename).toString();
   }
 }

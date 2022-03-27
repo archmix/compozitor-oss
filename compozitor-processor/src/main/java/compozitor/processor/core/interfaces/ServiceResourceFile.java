@@ -26,7 +26,7 @@ public class ServiceResourceFile implements AutoCloseable {
 
   public ServiceResourceFile(ProcessingContext context, TypeModel providerInterface) {
     this.providerInterface = providerInterface;
-    this.serviceFile = JavaResources.create(ResourceName.create(String.format(RESOURCE_FILE_URI_PATTERN, providerInterface.getQualifiedName())));
+    this.serviceFile = JavaResources.create(Resource.ResourceName.create(String.format(RESOURCE_FILE_URI_PATTERN, providerInterface.getQualifiedName())));
     this.services = Sets.newTreeSet();
     this.context = context;
   }

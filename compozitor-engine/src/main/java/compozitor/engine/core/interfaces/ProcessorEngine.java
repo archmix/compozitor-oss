@@ -7,16 +7,7 @@ import compozitor.generator.core.interfaces.CodeGenerationCategoryEngine;
 import compozitor.generator.core.interfaces.GeneratedCode;
 import compozitor.generator.core.interfaces.MetaModelRepository;
 import compozitor.generator.core.interfaces.TemplateRepository;
-import compozitor.processor.core.interfaces.AnnotationProcessor;
-import compozitor.processor.core.interfaces.FieldModel;
-import compozitor.processor.core.interfaces.JavaFileName;
-import compozitor.processor.core.interfaces.JavaResource;
-import compozitor.processor.core.interfaces.JavaResources;
-import compozitor.processor.core.interfaces.MethodModel;
-import compozitor.processor.core.interfaces.PackageName;
-import compozitor.processor.core.interfaces.ProcessingContext;
-import compozitor.processor.core.interfaces.ResourceName;
-import compozitor.processor.core.interfaces.TypeModel;
+import compozitor.processor.core.interfaces.*;
 import toolbox.classloader.interfaces.CompositeClassLoader;
 import compozitor.template.core.interfaces.TemplateContextData;
 import compozitor.template.core.interfaces.TemplateEngine;
@@ -108,7 +99,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
   private FileObject createFile(GeneratedCode code) throws IOException {
     if (code.getResource()) {
       Path path = Paths.get(code.getNamespace().toPath().toString(), code.getFileName().toString());
-      ResourceName resourceName = ResourceName.create(path.toString());
+      Resource.ResourceName resourceName = Resource.ResourceName.create(path.toString());
       JavaResource javaResource = JavaResources.create(resourceName);
       return this.context.getJavaFiles().resourceFile(javaResource);
     }

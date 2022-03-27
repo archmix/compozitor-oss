@@ -6,6 +6,7 @@ import javax.annotation.processing.Filer;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 @RequiredArgsConstructor(staticName = "create")
 public class JavaFiles {
@@ -13,11 +14,10 @@ public class JavaFiles {
 
   public FileObject resourceFile(JavaResource javaResource) {
     try {
-      FileObject resourceFile = filer.getResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
-      resourceFile.openInputStream().close();
+      FileObject resourceFile = this.createResource(javaResource);
       return resourceFile;
     } catch (IOException e) {
-      return this.createResource(javaResource);
+      return this.getResource(javaResource);
     }
   }
 
@@ -29,9 +29,13 @@ public class JavaFiles {
     }
   }
 
-  private FileObject createResource(JavaResource javaResource) {
-    try {
+  private FileObject createResource(JavaResource javaResource) throws IOException {
       return filer.createResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
+  }
+
+  private FileObject getResource(JavaResource javaResource) {
+    try {
+      return filer.getResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
