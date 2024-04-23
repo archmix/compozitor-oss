@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.archmix</groupId>
     <artifactId>java-parent</artifactId>
-    <version>1.8.1</version>
+    <version>1.11.0</version>
     <relativePath />
   </parent>
 
@@ -21,11 +21,11 @@
 
   <properties>
     <compozitorVersion>0.1.18-SNAPSHOT</compozitorVersion>
-    <toolboxVersion>0.0.3</toolboxVersion>
+    <toolboxVersion>0.0.5</toolboxVersion>
     <velocityVersion>1.7</velocityVersion>
-    <awsVersion>1.11.594</awsVersion>
-    <compileTestingVersion>0.18</compileTestingVersion>
-    <guavaVersion>27.0.1-jre</guavaVersion>
+    <awsVersion>1.12.705</awsVersion>
+    <compileTestingVersion>0.21.0</compileTestingVersion>
+    <guavaVersion>33.1.0-jre</guavaVersion>
   </properties>
 
   <modules>
