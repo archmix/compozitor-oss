@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>compozitor-oss</artifactId>
-  <version>0.1.18</version>
+  <version>0.1.19-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Archmix Compozitor Open Source Solution</name>
@@ -20,7 +20,7 @@
   <url>https://archmix.org</url>
 
   <properties>
-    <compozitorVersion>0.1.18</compozitorVersion>
+    <compozitorVersion>0.1.19-SNAPSHOT</compozitorVersion>
     <toolboxVersion>0.0.5</toolboxVersion>
     <velocityVersion>1.7</velocityVersion>
     <awsVersion>1.12.705</awsVersion>
@@ -105,7 +105,7 @@
   <scm>
     <connection>scm:git:git://github.com/archmix/${project.artifactId}.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
-    <tag>v0.1.18</tag>
+    <tag>v0.1.3</tag>
     <url>https://github.com/archmix</url>
   </scm>
 
