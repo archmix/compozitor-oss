@@ -1,6 +1,5 @@
 package compozitor.engine.processor.infra;
 
-import com.google.common.collect.Sets;
 import compozitor.engine.core.interfaces.FieldModelPlugin;
 import compozitor.engine.core.interfaces.MethodModelPlugin;
 import compozitor.engine.core.interfaces.ProcessorPlugin;
@@ -26,6 +25,6 @@ public class PluginsServiceProcessor extends ServiceProcessor {
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return Sets.newHashSet(ProcessorPlugin.class.getName());
+    return Set.of(ProcessorPlugin.class.getName());
   }
 }

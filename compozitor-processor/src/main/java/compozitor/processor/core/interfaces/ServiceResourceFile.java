@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import com.google.common.collect.Sets;
 import com.google.common.io.CharStreams;
 
 import javax.tools.Diagnostic.Kind;
@@ -11,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class ServiceResourceFile {
   private static final String RESOURCE_FILE_URI_PATTERN = "META-INF/services/%s";
@@ -26,7 +26,7 @@ public class ServiceResourceFile {
   public ServiceResourceFile(ProcessingContext context, TypeModel providerInterface) {
     this.providerInterface = providerInterface;
     this.serviceFile = JavaResources.create(Resource.ResourceName.create(String.format(RESOURCE_FILE_URI_PATTERN, providerInterface.getQualifiedName())));
-    this.services = Sets.newTreeSet();
+    this.services = new TreeSet<>();
     this.context = context;
   }
 

@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.archmix</groupId>
     <artifactId>java-parent</artifactId>
-    <version>1.11.0</version>
+    <version>1.11.1</version>
     <relativePath />
   </parent>
 
@@ -14,18 +14,18 @@
   <packaging>pom</packaging>
 
   <name>Archmix Compozitor Open Source Solution</name>
-  <description>Compozitor is a source code generation engine based on Apache Velocity and Java Annotation Processing
-    API
+  <description>
+    Compozitor is a source code generation engine based on Apache Velocity and Java Annotation Processing API
   </description>
   <url>https://archmix.org</url>
 
   <properties>
     <compozitorVersion>0.1.19-SNAPSHOT</compozitorVersion>
-    <toolboxVersion>0.0.5</toolboxVersion>
+    <toolboxVersion>0.0.6</toolboxVersion>
     <velocityVersion>1.7</velocityVersion>
-    <awsVersion>1.12.705</awsVersion>
-    <compileTestingVersion>0.21.0</compileTestingVersion>
-    <guavaVersion>33.1.0-jre</guavaVersion>
+    <awsVersion>1.12.792</awsVersion>
+    <autoServiceVersion>1.1.1</autoServiceVersion>
+    <compileTestingVersion>0.23.0</compileTestingVersion>
   </properties>
 
   <modules>
@@ -90,14 +90,15 @@
 
       <!-- GOOGLE -->
       <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${guavaVersion}</version>
-      </dependency>
-      <dependency>
         <groupId>com.google.testing.compile</groupId>
         <artifactId>compile-testing</artifactId>
         <version>${compileTestingVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
+        <version>${autoServiceVersion}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -105,28 +106,12 @@
   <scm>
     <connection>scm:git:git://github.com/archmix/${project.artifactId}.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
-    <tag>v0.1.3</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/archmix</url>
   </scm>
-
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
 
   <issueManagement>
     <system>Github issue tracker</system>
     <url>https://github.com/archmix/${project.artifactId}/issues</url>
   </issueManagement>
-
-  <developers>
-    <developer>
-      <id>mrbraz</id>
-      <name>Anderson Braz</name>
-      <email>mrbraz@archmix.org</email>
-    </developer>
-  </developers>
 </project>

@@ -1,10 +1,9 @@
 package compozitor.processor.core.interfaces;
 
-import com.google.common.collect.Sets;
-
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -25,7 +24,7 @@ public class AnnotatedElements {
 
   public Set<? extends Element> get(TypeElement annotation) {
     if (!elements.containsKey(annotation)) {
-      return Sets.newHashSet();
+      return new HashSet<>();
     }
     return this.elements.get(annotation);
   }

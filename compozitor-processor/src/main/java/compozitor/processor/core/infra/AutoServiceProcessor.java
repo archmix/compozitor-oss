@@ -1,7 +1,6 @@
 package compozitor.processor.core.infra;
 
 import com.google.auto.service.AutoService;
-import com.google.common.collect.Sets;
 import compozitor.processor.core.interfaces.Service;
 import compozitor.processor.core.interfaces.TypeModel;
 
@@ -12,7 +11,7 @@ public class AutoServiceProcessor extends JavaServiceProcessor {
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return Sets.newHashSet(Service.class.getName());
+    return Set.of(Service.class.getName());
   }
 
   @Override

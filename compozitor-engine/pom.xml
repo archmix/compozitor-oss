@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>compozitor-engine</artifactId>
-  <packaging>jar</packaging>
+  <name>Compozitor Code Generation Engine</name>
 
   <dependencies>
     <dependency>

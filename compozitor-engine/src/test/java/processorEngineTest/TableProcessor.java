@@ -1,6 +1,5 @@
 package processorEngineTest;
 
-import com.google.common.collect.Sets;
 import compozitor.engine.core.interfaces.ProcessorEngine;
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 
@@ -14,6 +13,6 @@ public class TableProcessor extends ProcessorEngine<TableMetadata> {
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return Sets.newHashSet(Table.class.getName());
+    return Set.of(Table.class.getName());
   }
 }

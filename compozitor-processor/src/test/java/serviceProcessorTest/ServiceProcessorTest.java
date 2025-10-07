@@ -1,6 +1,5 @@
 package serviceProcessorTest;
 
-import com.google.common.collect.Sets;
 import compozitor.processor.core.interfaces.CompilationBuilder;
 import compozitor.processor.core.interfaces.CompileAssertion;
 import compozitor.processor.core.interfaces.ServiceProcessor;
@@ -57,7 +56,7 @@ public class ServiceProcessorTest {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-      return Sets.newHashSet(ServiceTest.class.getName());
+      return Set.of(ServiceTest.class.getName());
     }
   }
 }

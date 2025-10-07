@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>compozitor-generator</artifactId>
-  <packaging>jar</packaging>
+  <name>Compozitor Code Generator API</name>
 
   <dependencies>
     <dependency>
@@ -27,11 +27,6 @@
     </dependency>
 
     <!-- TEST -->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

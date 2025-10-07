@@ -1,6 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import com.google.common.collect.Sets;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +32,7 @@ public class AnnotationRepository {
   }
 
   public <Annotation extends TypeElement> AnnotatedElements elementsAnnotatedWith(Annotation annotation) {
-    return this.elementsAnnotatedWith(Sets.newHashSet(annotation));
+    return this.elementsAnnotatedWith(Set.of(annotation));
   }
 
   public AnnotatedElements elementsAnnotatedWith(Set<? extends TypeElement> annotations) {

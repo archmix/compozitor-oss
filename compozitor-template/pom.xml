@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>compozitor-template</artifactId>
-  <packaging>jar</packaging>
+  <name>Compozitor Template Engine</name>
 
   <dependencies>
     <dependency>

@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>compozitor-test</artifactId>
-  <packaging>jar</packaging>
+  <name>Compozitor Test Utilities</name>
 
   <dependencies>
     <dependency>

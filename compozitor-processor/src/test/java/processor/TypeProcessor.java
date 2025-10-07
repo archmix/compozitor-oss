@@ -1,7 +1,6 @@
 package processor;
 
 import annotations.TypeAnnotation;
-import com.google.common.collect.Sets;
 import compozitor.processor.core.interfaces.AnnotationProcessor;
 import compozitor.processor.core.interfaces.EnumConstantModel;
 import compozitor.processor.core.interfaces.FieldModel;
@@ -34,6 +33,6 @@ public class TypeProcessor extends AnnotationProcessor {
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return Sets.newHashSet(TypeAnnotation.class.getName());
+    return Set.of(TypeAnnotation.class.getName());
   }
 }

@@ -1,7 +1,5 @@
 package codeGenerationTest;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
 import compozitor.generator.core.interfaces.CodeGenerationCategoryContext;
 import compozitor.generator.core.interfaces.CodeGenerationCategoryEngine;
 import compozitor.generator.core.interfaces.Filename;
@@ -15,7 +13,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class CodeGenerationTest {
   @Test
@@ -36,14 +36,13 @@ public class CodeGenerationTest {
     context.add(DictionaryCategory.INSTANCE, repository);
 
     CodeGenerationCategoryEngine.<Dictionary>create().generate(templateEngine, context, code -> {
-      String content = toString(code);
-      Assert.assertEquals(expectedMessage, content);
+      Assert.assertEquals(expectedMessage, toString(code));
     });
   }
 
-  private String toString(GeneratedCode code) {
+  private static String toString(GeneratedCode code) {
     try {
-      return CharStreams.toString(new InputStreamReader(code.getContent(), Charsets.UTF_8));
+      return new String(code.getContent().readAllBytes(), StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
