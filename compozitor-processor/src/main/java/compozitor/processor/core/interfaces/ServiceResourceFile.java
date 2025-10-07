@@ -7,13 +7,12 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.SortedSet;
 
-public class ServiceResourceFile implements AutoCloseable {
+public class ServiceResourceFile {
   private static final String RESOURCE_FILE_URI_PATTERN = "META-INF/services/%s";
 
   private final TypeModel providerInterface;
@@ -31,20 +30,26 @@ public class ServiceResourceFile implements AutoCloseable {
     this.context = context;
   }
 
-  public String providerInterface() {
-    return this.providerInterface.getQualifiedName();
+  public void preload() {
+    if (this.services.isEmpty()) {
+      return;
+    }
+
+    try {
+      this.context.info("Preloading service file {0}", this.serviceFile);
+
+      FileObject serviceFile = context.getJavaFiles().getResource(this.serviceFile);
+      var inputStream = serviceFile.openInputStream();
+      this.services.addAll(
+        CharStreams.readLines(new InputStreamReader(inputStream))
+      );
+    } catch (IOException e) {
+      context.info("File {0} not found, creating it.", this.serviceFile);
+    }
   }
 
-  private OutputStream openFile() {
-    try {
-
-      FileObject serviceFile = context.getJavaFiles().resourceFile(this.serviceFile);
-      this.loadServiceFile(serviceFile);
-      return serviceFile.openOutputStream();
-    } catch (IOException e) {
-      context.error("Error on opening stream to service file {0} with message {1}.", this.serviceFile, e.getMessage());
-      throw new RuntimeException(e);
-    }
+  public String providerInterface() {
+    return this.providerInterface.getQualifiedName();
   }
 
   public void add(TypeModel service) {
@@ -63,7 +68,7 @@ public class ServiceResourceFile implements AutoCloseable {
     if (this.services.contains(serviceName)) {
       return;
     }
-    this.write(serviceName);
+    this.services.add(serviceName);
   }
 
   private boolean shouldRegister(TypeModel service) {
@@ -78,40 +83,29 @@ public class ServiceResourceFile implements AutoCloseable {
     return instance;
   }
 
-  private void write(String serviceName) {
-    this.services.add(serviceName);
-  }
-
-  @Override
-  public void close() throws Exception {
+  public void close() {
     if (this.services.isEmpty()) {
       return;
     }
 
     try (final BufferedWriter serviceFile = new BufferedWriter(new OutputStreamWriter(this.openFile()))) {
-      this.context.info("Creating serviceFile");
+      this.context.info("Writing content to files");
       for (String serviceName : this.services) {
         serviceFile.write(serviceName);
         serviceFile.newLine();
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      this.context.error(e.getMessage());
     }
   }
 
-  private void loadServiceFile(FileObject serviceFile) {
-    InputStream inputStream = null;
+  private OutputStream openFile() {
     try {
-      inputStream = serviceFile.openInputStream();
-    } catch (Exception e) {
-      return;
-    }
-
-    try {
-      this.services.addAll(
-        CharStreams.readLines(new InputStreamReader(inputStream))
-      );
+      FileObject serviceFile = context.getJavaFiles().createResource(this.serviceFile);
+      context.info("Opening stream to service file {0}", this.serviceFile);
+      return serviceFile.openOutputStream();
     } catch (IOException e) {
+      context.error("Error on opening stream to service file {0} with message {1}.", this.serviceFile, e.getMessage());
       throw new RuntimeException(e);
     }
   }

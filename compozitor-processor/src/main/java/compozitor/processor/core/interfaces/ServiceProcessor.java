@@ -25,8 +25,9 @@ public abstract class ServiceProcessor extends JavaServiceProcessor {
 
   @Override
   protected final void process(TypeModel typeModel) {
-    if (typeModel.isInterface()) {
-      this.context.error("Are you sure you want to register an interface as Java Service? It makes no sense. Review your implementation {0}", typeModel.getQualifiedName());
+    if (typeModel.isInterface() || typeModel.getModifiers().isAbstract()) {
+      this.context.error("Are you sure you want to register an interface as Java Service? It makes no sense. Review your implementation {0}",
+        typeModel.getQualifiedName());
       return;
     }
 

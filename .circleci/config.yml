@@ -1,18 +1,19 @@
 version: 2.1
 
 orbs:
-  maven: archmix/maven@2.1.3
+  maven: archmix/maven@2
 
 workflows:
   version: 2
   build-deploy:
     jobs:
       - maven/build:
+          name: build
           context: Archmix
       - maven/release:
           context: Archmix
           requires:
-            - maven/build
+            - build
           filters:
             branches:
               only: master

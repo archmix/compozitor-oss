@@ -14,10 +14,13 @@ public class JavaFiles {
 
   public FileObject resourceFile(JavaResource javaResource) {
     try {
-      FileObject resourceFile = this.createResource(javaResource);
-      return resourceFile;
+      return this.createResource(javaResource);
     } catch (IOException e) {
-      return this.getResource(javaResource);
+      try {
+        return this.getResource(javaResource);
+      } catch (IOException e2) {
+        throw new RuntimeException(e2);
+      }
     }
   }
 
@@ -29,15 +32,11 @@ public class JavaFiles {
     }
   }
 
-  private FileObject createResource(JavaResource javaResource) throws IOException {
+  FileObject createResource(JavaResource javaResource) throws IOException {
       return filer.createResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
   }
 
-  private FileObject getResource(JavaResource javaResource) {
-    try {
-      return filer.getResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  FileObject getResource(JavaResource javaResource) throws IOException {
+    return filer.getResource(StandardLocation.CLASS_OUTPUT, javaResource.getPackageName().toString(), javaResource.getName().toString());
   }
 }

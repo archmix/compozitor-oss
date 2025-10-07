@@ -55,21 +55,19 @@ public abstract class JavaServiceProcessor extends AnnotationProcessor {
     ancestors.add(targetInterface);
 
     TraversalStrategy strategy = TraversalStrategy.ANCESTORS;
-    ancestors.addAll((Collection) strategy.superClasses(targetInterface));
-    ancestors.addAll((Collection) strategy.interfaces(targetInterface));
+    ancestors.addAll((Collection<? extends TypeModel>) strategy.superClasses(targetInterface));
+    ancestors.addAll((Collection<? extends TypeModel>) strategy.interfaces(targetInterface));
 
     return ancestors;
   }
 
   @Override
   protected final void postProcess() {
-    this.serviceFiles.values().forEach(resourceFile -> {
-      try {
-        resourceFile.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-        this.context.error(e.getMessage());
-      }
-    });
+    this.serviceFiles.values().forEach(ServiceResourceFile::preload);
+  }
+
+  @Override
+  protected final void processOver() {
+    this.serviceFiles.values().forEach(ServiceResourceFile::close);
   }
 }

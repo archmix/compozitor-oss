@@ -57,7 +57,6 @@ public abstract class AnnotationProcessor implements Processor {
       this.context.info("Generating resources for {0}", this.getClass().getName());
       this.postProcess();
     } catch (RuntimeException ex) {
-      ex.printStackTrace();
       this.context.error(ex.getMessage());
     }
 
