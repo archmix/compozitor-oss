@@ -1,6 +1,5 @@
 package compozitor.engine.core.interfaces;
 
-import com.google.common.io.CharStreams;
 import compozitor.generator.core.interfaces.CodeGenerationCategory;
 import compozitor.generator.core.interfaces.CodeGenerationCategoryContext;
 import compozitor.generator.core.interfaces.CodeGenerationCategoryEngine;
@@ -18,6 +17,8 @@ import java.io.InputStreamReader;
 import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import static java.nio.charset.StandardCharsets.*;
 
 public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends AnnotationProcessor {
   private final PluginRepository pluginRepository;
@@ -82,7 +83,7 @@ public abstract class ProcessorEngine<T extends TemplateContextData<T>> extends 
 
   private void write(GeneratedCode code) {
     try {
-      String sourceCode = CharStreams.toString(new InputStreamReader(code.getContent()));
+      String sourceCode = new String(code.getContent().readAllBytes(), UTF_8);
       this.generatorListener.accept(sourceCode);
 
       FileObject sourceFile = this.createFile(code);

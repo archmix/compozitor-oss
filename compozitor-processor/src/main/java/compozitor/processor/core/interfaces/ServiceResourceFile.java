@@ -1,7 +1,5 @@
 package compozitor.processor.core.interfaces;
 
-import com.google.common.io.CharStreams;
-
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import java.io.BufferedWriter;
@@ -11,6 +9,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import static java.nio.charset.StandardCharsets.*;
 
 public class ServiceResourceFile {
   private static final String RESOURCE_FILE_URI_PATTERN = "META-INF/services/%s";
@@ -40,9 +40,7 @@ public class ServiceResourceFile {
 
       FileObject serviceFile = context.getJavaFiles().getResource(this.serviceFile);
       var inputStream = serviceFile.openInputStream();
-      this.services.addAll(
-        CharStreams.readLines(new InputStreamReader(inputStream))
-      );
+      this.services.add(new String(inputStream.readAllBytes(), UTF_8));
     } catch (IOException e) {
       context.info("File {0} not found, creating it.", this.serviceFile);
     }
